@@ -1476,7 +1476,7 @@ def main():
             with social_col1:
                 st.markdown(f'''
                 <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-                   style="display: block; padding: 0.75rem; background: #1877F2; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Facebook
                 </a>
@@ -1485,7 +1485,7 @@ def main():
             with social_col2:
                 st.markdown(f'''
                 <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Twitter
                 </a>
@@ -1494,7 +1494,7 @@ def main():
             with social_col3:
                 st.markdown(f'''
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #0A66C2; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    LinkedIn
                 </a>
@@ -1503,7 +1503,7 @@ def main():
             with social_col4:
                 st.markdown(f'''
                 <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #E60023; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Pinterest
                 </a>
@@ -1800,7 +1800,7 @@ def main():
             with social_col1:
                 st.markdown(f'''
                 <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-                   style="display: block; padding: 0.75rem; background: #1877F2; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Facebook
                 </a>
@@ -1809,7 +1809,7 @@ def main():
             with social_col2:
                 st.markdown(f'''
                 <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Twitter
                 </a>
@@ -1818,7 +1818,7 @@ def main():
             with social_col3:
                 st.markdown(f'''
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #0A66C2; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    LinkedIn
                 </a>
@@ -1827,7 +1827,7 @@ def main():
             with social_col4:
                 st.markdown(f'''
                 <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #E60023; color: #000000 !important; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Pinterest
                 </a>
