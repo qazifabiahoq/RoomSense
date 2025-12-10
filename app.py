@@ -390,26 +390,34 @@ st.markdown("""
     
     /* Buttons */
     .stButton > button {
-        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 1rem 3rem;
-        font-size: 1.1rem;
-        font-weight: 700;
-        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 1rem 3rem !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        font-family: 'Inter', sans-serif !important;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 16px rgba(14,165,233,0.3);
+        box-shadow: 0 4px 16px rgba(14,165,233,0.3) !important;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         width: 100%;
+        height: 60px !important;
     }
     
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(14,165,233,0.4);
-        background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+        box-shadow: 0 6px 24px rgba(14,165,233,0.4) !important;
+        background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%) !important;
+    }
+    
+    /* Ensure all buttons in action section are same */
+    .actions-section .stButton > button {
+        height: 60px !important;
+        padding: 1rem !important;
+        font-size: 1rem !important;
     }
     
     /* Insight box */
@@ -1126,7 +1134,6 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
             
             # Generate Recommendations
-            st.markdown("---")
             recommendations = generate_workspace_recommendations(analysis, work_type)
             
             st.markdown(f"""
@@ -1181,7 +1188,6 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
             
             # Visual Inspiration Section
-            st.markdown("---")
             st.markdown("""
             <div class="inspiration-section">
                 <h3 class="inspiration-title">Get Inspired</h3>
@@ -1212,31 +1218,23 @@ def main():
             """, unsafe_allow_html=True)
             
             # Next Steps Action Section
-            st.markdown("---")
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload"):
+                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload", type="primary"):
                     st.rerun()
             
             with col2:
-                st.markdown("""
-                <a href="#" onclick="if(navigator.share){navigator.share({title:'RoomSense',text:'Check out my room layout!',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href);alert('Link copied to clipboard!')}" 
-                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
-                   ⤴ Share Your Plan
-                </a>
-                """, unsafe_allow_html=True)
+                if st.button("⤴ Share Your Plan", use_container_width=True, key="share_upload", type="primary"):
+                    st.write("Copy this link to share:")
+                    st.code(f"https://yourapp.streamlit.app")
             
             with col3:
-                st.markdown("""
-                <a href="#" onclick="window.print(); return false;" 
-                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
-                   ⎙ Save as PDF
-                </a>
-                """, unsafe_allow_html=True)
+                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_upload", type="primary"):
+                    st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
             st.markdown('</div>', unsafe_allow_html=True)
     
@@ -1392,7 +1390,6 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
             
             # Generate Recommendations
-            st.markdown("---")
             recommendations = generate_workspace_recommendations(analysis, work_type)
             
             st.markdown(f"""
@@ -1447,7 +1444,6 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
             
             # Visual Inspiration Section
-            st.markdown("---")
             st.markdown("""
             <div class="inspiration-section">
                 <h3 class="inspiration-title">Get Inspired</h3>
@@ -1478,31 +1474,23 @@ def main():
             """, unsafe_allow_html=True)
             
             # Next Steps Action Section
-            st.markdown("---")
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera"):
+                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera", type="primary"):
                     st.rerun()
             
             with col2:
-                st.markdown("""
-                <a href="#" onclick="if(navigator.share){navigator.share({title:'RoomSense',text:'Check out my room layout!',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href);alert('Link copied to clipboard!')}" 
-                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
-                   ⤴ Share Your Plan
-                </a>
-                """, unsafe_allow_html=True)
+                if st.button("⤴ Share Your Plan", use_container_width=True, key="share_camera", type="primary"):
+                    st.write("Copy this link to share:")
+                    st.code(f"https://yourapp.streamlit.app")
             
             with col3:
-                st.markdown("""
-                <a href="#" onclick="window.print(); return false;" 
-                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
-                   ⎙ Save as PDF
-                </a>
-                """, unsafe_allow_html=True)
+                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_camera", type="primary"):
+                    st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
             st.markdown('</div>', unsafe_allow_html=True)
     
