@@ -54,7 +54,7 @@ st.markdown("""
         }
         
         .camera-section, .analysis-card, .recommendation-section {
-        background: #000000 !important;
+        background: white !important;
             padding: 1.5rem;
         }
         
@@ -302,7 +302,7 @@ st.markdown("""
     
     /* Recommendation section */
     .recommendation-section {
-        background: #000000 !important;
+        background: white !important;
         background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
         border-radius: 20px;
         padding: 2.5rem;
@@ -314,7 +314,7 @@ st.markdown("""
     }
     
     .recommendation-section * {
-        color: white !important;
+        color: #000000 !important;
     }
     
     .recommendation-section h2,
@@ -322,7 +322,7 @@ st.markdown("""
     .recommendation-section div,
     .recommendation-section span,
     .recommendation-section strong {
-        color: white !important;
+        color: #000000 !important;
     }
     
     .recommendation-section::before {
@@ -1374,7 +1374,7 @@ def main():
             recommendations = generate_workspace_recommendations(analysis, work_type)
             
             st.markdown(f"""
-            <div class="recommendation-section" style="background: #000000 !important; color: white !important;">
+            <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
                 <h2 style="color: white; font-family: 'Noto Serif', serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
@@ -1386,18 +1386,18 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item" style="background: rgba(40,40,40,0.98) !important; color: white !important;">
-                    <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: white !important;">
+                <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
+                    <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
+                    <div class="rec-description" style="color: #000000 !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
                         <strong style="color: white;">Recommended Furniture:</strong>
-                        {''.join([f'<div style="color: white !important; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.25);">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
-                        <strong style="color: white !important; font-weight: 600;">Key Considerations:</strong><br>
+                        <strong style="color: #000000 !important; font-weight: 600;">Key Considerations:</strong><br>
                         {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
@@ -1682,14 +1682,6 @@ def main():
                 st.markdown(objects_html, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("### Color Palette")
-                if analysis.color_palette:
-                    palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
-                    for color in analysis.color_palette:
-                        palette_html += f'<div style="width: 60px; height: 60px; min-width: 60px; background: {color}; border-radius: 12px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>'
-                    palette_html += '</div>'
-                    st.markdown(palette_html, unsafe_allow_html=True)
-                
                 st.markdown("### Confidence Score")
                 st.markdown(f"""
                 <div class="confidence-bar">
@@ -1706,7 +1698,7 @@ def main():
             recommendations = generate_workspace_recommendations(analysis, work_type)
             
             st.markdown(f"""
-            <div class="recommendation-section" style="background: #000000 !important; color: white !important;">
+            <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
                 <h2 style="color: white; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
@@ -1718,18 +1710,18 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item" style="background: rgba(40,40,40,0.98) !important; color: white !important;">
-                    <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: white !important;">
+                <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
+                    <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
+                    <div class="rec-description" style="color: #000000 !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
                         <strong style="color: white;">Recommended Furniture:</strong>
-                        {''.join([f'<div style="color: white !important; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.25);">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
-                        <strong style="color: white !important; font-weight: 600;">Key Considerations:</strong><br>
+                        <strong style="color: #000000 !important; font-weight: 600;">Key Considerations:</strong><br>
                         {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
@@ -1916,7 +1908,7 @@ def main():
             
             # Display recommendations (same format as above)
             st.markdown(f"""
-            <div class="recommendation-section" style="background: #000000 !important; color: white !important;">
+            <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
                 <h2 style="color: white; font-family: 'Noto Serif', serif;">
                     Recommendations for {work_type}
                 </h2>
@@ -1924,14 +1916,14 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item" style="background: rgba(40,40,40,0.98) !important; color: white !important;">
-                    <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: white !important;">
+                <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
+                    <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
+                    <div class="rec-description" style="color: #000000 !important;">
                         <strong>Location:</strong> {rec.location}<br>
                         <strong>Lighting:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
-                        {''.join([f'<div style="color: white !important; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.25);">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
