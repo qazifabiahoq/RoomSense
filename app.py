@@ -25,7 +25,7 @@ st.markdown("""
     
     /* Main app background */
     .stApp {
-        background: #fafbfc;
+        background: #ffffff;
     }
     
     /* Mobile responsive */
@@ -75,14 +75,56 @@ st.markdown("""
         }
     }
     
-    /* Hide default elements */
+    /* Main header */
+    .main-header {
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        padding: 2.5rem 3rem;
+        border-radius: 0 0 24px 24px;
+        margin: -6rem -5rem 2rem -5rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 1;
+    }
+    
+    /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
+    /* Remove empty container spacing */
+    .element-container:has(> .stMarkdown > div:empty) {
+        display: none;
+    }
+    
+    /* Hide empty blocks */
+    [data-testid="stHorizontalBlock"]:empty {
+        display: none !important;
+    }
+    
+    /* Remove default Streamlit spacing blocks */
+    .block-container > div:empty {
+        display: none !important;
+    }
+    
+    /* Hide empty divs */
+    div:empty {
+        display: none !important;
+    }
+    
     /* Main header with RoomSense branding */
     .main-header {
-        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
         padding: 2.5rem 3rem;
         border-radius: 0 0 24px 24px;
         margin: -6rem -5rem 2rem -5rem;
@@ -128,7 +170,7 @@ st.markdown("""
     
     .ai-badge {
         display: inline-block;
-        background: rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.15);
         backdrop-filter: blur(10px);
         color: white;
         padding: 0.5rem 1.2rem;
@@ -144,31 +186,31 @@ st.markdown("""
     /* Typography */
     h1, h2, h3 {
         font-family: 'Space Grotesk', sans-serif;
-        color: #1e293b;
+        color: #000000;
     }
     
     p, div, span, label {
         font-family: 'Inter', sans-serif;
-        color: #475569;
+        color: #333333;
     }
     
     /* Sidebar styling */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-        border-right: 1px solid #e2e8f0;
+        background: #f5f5f5;
+        border-right: 1px solid #e0e0e0;
     }
     
     [data-testid="stSidebar"] .stMarkdown {
-        color: #1e293b;
+        color: #000000;
     }
     
     [data-testid="stSidebar"] label {
-        color: #1e293b !important;
+        color: #000000 !important;
         font-weight: 500;
     }
     
     [data-testid="stSidebar"] h3 {
-        color: #0ea5e9 !important;
+        color: #000000 !important;
         font-weight: 600;
         margin-top: 1.5rem;
     }
@@ -179,18 +221,18 @@ st.markdown("""
         border-radius: 20px;
         padding: 2.5rem;
         margin: 2rem 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-        border: 2px solid #e0f2fe;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border: 2px solid #e0e0e0;
     }
     
     /* Analysis card */
     .analysis-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+        background: #ffffff;
         border-radius: 20px;
         padding: 2.5rem;
         margin: 1.5rem 0;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        border-left: 5px solid #0ea5e9;
+        border-left: 5px solid #000000;
         position: relative;
     }
     
@@ -199,8 +241,8 @@ st.markdown("""
         background: white;
         border-radius: 16px;
         padding: 1.5rem 1rem;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-        border-top: 3px solid #06b6d4;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        border-top: 3px solid #000000;
         transition: all 0.3s ease;
         height: 140px;
         display: flex;
@@ -212,18 +254,18 @@ st.markdown("""
     
     .metric-box:hover {
         transform: translateY(-4px);
-        box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+        box-shadow: 0 6px 24px rgba(0,0,0,0.12);
     }
     
     .metric-icon {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
-        color: #0ea5e9;
+        color: #000000;
     }
     
     .metric-label {
         font-size: 0.65rem;
-        color: #64748b;
+        color: #666666;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         margin-bottom: 0.5rem;
@@ -233,7 +275,7 @@ st.markdown("""
     .metric-value {
         font-size: 1.4rem;
         font-weight: 700;
-        color: #0f172a;
+        color: #000000;
         font-family: 'Space Grotesk', sans-serif;
         line-height: 1.3;
         word-wrap: break-word;
@@ -243,18 +285,18 @@ st.markdown("""
     
     .metric-unit {
         font-size: 0.85rem;
-        color: #94a3b8;
+        color: #666666;
         font-weight: 400;
     }
     
     /* Recommendation section */
     .recommendation-section {
-        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
         border-radius: 20px;
         padding: 2.5rem;
         margin: 2rem 0;
         color: white !important;
-        box-shadow: 0 8px 32px rgba(14,165,233,0.25);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         position: relative;
         overflow: hidden;
     }
@@ -278,12 +320,12 @@ st.markdown("""
         right: -100px;
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         border-radius: 50%;
     }
     
     .rec-item {
-        background: rgba(15,23,42,0.4);
+        background: rgba(255,255,255,0.08);
         backdrop-filter: blur(10px);
         border-radius: 16px;
         padding: 1.75rem;
@@ -293,7 +335,7 @@ st.markdown("""
     }
     
     .rec-item:hover {
-        background: rgba(15,23,42,0.5);
+        background: rgba(255,255,255,0.12);
         transform: translateX(8px);
     }
     
@@ -319,14 +361,14 @@ st.markdown("""
     /* Zone tags */
     .zone-tag {
         display: inline-block;
-        background: #0ea5e9;
+        background: #000000;
         color: white;
         padding: 0.4rem 1rem;
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 600;
         margin: 0.3rem 0.3rem 0.3rem 0;
-        box-shadow: 0 2px 8px rgba(14,165,233,0.3);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     
     /* Furniture list */
@@ -380,7 +422,7 @@ st.markdown("""
     
     /* Confidence bar */
     .confidence-bar {
-        background: #e0f2fe;
+        background: #e0e0e0;
         height: 10px;
         border-radius: 6px;
         overflow: hidden;
@@ -389,14 +431,14 @@ st.markdown("""
     
     .confidence-fill {
         height: 100%;
-        background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 100%);
+        background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
         border-radius: 6px;
         transition: width 1s ease;
     }
     
     /* Buttons */
     .stButton > button {
-        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%) !important;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
         color: white !important;
         border: none !important;
         border-radius: 12px !important;
@@ -416,7 +458,7 @@ st.markdown("""
     .stButton > button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 24px rgba(14,165,233,0.4) !important;
-        background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%) !important;
+        background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%) !important;
     }
     
     /* Ensure all buttons in action section are same */
@@ -432,14 +474,14 @@ st.markdown("""
         border-radius: 16px;
         padding: 2rem;
         margin: 1.5rem 0;
-        border: 2px solid #e0f2fe;
+        border: 2px solid #e0e0e0;
         box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
     
     .insight-title {
         font-size: 1.2rem;
         font-weight: 700;
-        color: #0f172a;
+        color: #000000;
         margin-bottom: 1rem;
         font-family: 'Space Grotesk', sans-serif;
     }
@@ -450,13 +492,13 @@ st.markdown("""
         border-radius: 20px;
         padding: 2.5rem;
         margin: 2rem 0;
-        border: 2px solid #e0f2fe;
+        border: 2px solid #e0e0e0;
     }
     
     .inspiration-title {
         font-size: 1.6rem;
         font-weight: 700;
-        color: #0f172a;
+        color: #000000;
         margin-bottom: 1.5rem;
         font-family: 'Space Grotesk', sans-serif;
         text-align: center;
@@ -486,19 +528,19 @@ st.markdown("""
     .inspiration-image {
         width: 100%;
         height: 200px;
-        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 3rem;
-        color: #0ea5e9;
+        color: #000000;
     }
     
     .inspiration-label {
         padding: 1rem;
         text-align: center;
         font-weight: 600;
-        color: #475569;
+        color: #333333;
     }
     
     /* Action buttons section */
@@ -508,13 +550,13 @@ st.markdown("""
         padding: 2.5rem;
         margin: 2rem 0;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        border-top: 4px solid #0ea5e9;
+        border-top: 4px solid #000000;
     }
     
     .actions-title {
         font-size: 1.6rem;
         font-weight: 700;
-        color: #0f172a;
+        color: #000000;
         margin-bottom: 1.5rem;
         font-family: 'Space Grotesk', sans-serif;
         text-align: center;
@@ -529,19 +571,19 @@ st.markdown("""
     
     .action-btn {
         background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-        border: 2px solid #e0f2fe;
+        border: 2px solid #e0e0e0;
         border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
-        color: #0f172a;
+        color: #000000;
     }
     
     .action-btn:hover {
-        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-        border-color: #0ea5e9;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        border-color: #000000;
         transform: translateY(-2px);
         box-shadow: 0 4px 16px rgba(14,165,233,0.3);
     }
@@ -557,14 +599,14 @@ st.markdown("""
     .action-icon {
         font-size: 2rem;
         margin-bottom: 0.5rem;
-        color: #0ea5e9;
+        color: #000000;
         transition: color 0.3s ease;
     }
     
     .action-label {
         font-weight: 600;
         font-size: 1rem;
-        color: #0f172a;
+        color: #000000;
         transition: color 0.3s ease;
     }
     
@@ -574,7 +616,7 @@ st.markdown("""
         border-radius: 16px;
         padding: 4rem 2rem;
         text-align: center;
-        color: #64748b;
+        color: #666666;
         margin: 2rem 0;
         border: 2px dashed #cbd5e1;
     }
@@ -600,13 +642,13 @@ st.markdown("""
     .stTextInput > div > div > input:focus,
     .stSelectbox > div > div > select:focus,
     .stNumberInput > div > div > input:focus {
-        border-color: #0ea5e9;
+        border-color: #000000;
         box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
     }
     
     /* Progress bar */
     .stProgress > div > div > div > div {
-        background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 100%);
+        background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
     }
     
     /* Select box text */
@@ -935,6 +977,47 @@ def generate_workspace_recommendations(analysis: RoomAnalysis, work_type: str) -
     return recommendations
 
 
+
+def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
+    """Generate detailed, room-specific insights"""
+    insights = []
+    
+    # Size-based insights
+    if analysis.dimensions['area'] < 10:
+        insights.append("**Maximize Vertical Space:** In compact rooms, use tall shelving units and wall-mounted storage. Consider fold-down desks or Murphy beds for multi-functional spaces.")
+    elif analysis.dimensions['area'] < 15:
+        insights.append("**Smart Storage Solutions:** Perfect size for organized single-purpose space. Use under-bed storage, floating shelves, and corner units to maximize every square meter.")
+    elif analysis.dimensions['area'] < 25:
+        insights.append("**Balanced Layout:** Create distinct functional zones using area rugs, furniture placement, or room dividers to define different activity areas.")
+    elif analysis.dimensions['area'] < 40:
+        insights.append("**Multi-Zone Design:** Your generous space allows separate work, relaxation, and storage zones. Use lighting to define each zone's purpose.")
+    else:
+        insights.append("**Open Plan Advantage:** Create distinct rooms within the room using furniture as dividers, sliding panels, or gallery walls to separate areas.")
+    
+    # Lighting insights
+    if 'Natural' in analysis.lighting or 'Excellent' in analysis.lighting:
+        insights.append("**Natural Light Optimization:** Position work areas perpendicular to windows to avoid glare. Add sheer curtains to diffuse harsh sunlight.")
+    elif 'Good' in analysis.lighting:
+        insights.append("**Enhance Existing Light:** Add task lamps at work surfaces. Use warm white (2700-3000K) for ambient and cool white (4000-5000K) for work areas.")
+    else:
+        insights.append("**Lighting Upgrade:** Add multiple light sources at different heights. Aim for 300-500 lumens per square meter for workspaces.")
+    
+    # Ceiling height
+    if analysis.dimensions['height'] > 2.8:
+        insights.append("**High Ceiling Benefits:** Install tall storage up to 2.4m. Add pendant lights or hanging plants to draw eyes upward.")
+    elif analysis.dimensions['height'] < 2.4:
+        insights.append("**Low Ceiling Strategy:** Use horizontal lines in decor. Mount shelves and artwork lower to create visual balance.")
+    
+    # Room type specific
+    if 'Bedroom' in analysis.room_type:
+        insights.append("**Bedroom Optimization:** Keep bed as focal point. Ensure 60cm walking space on each side. Add bedside storage and blackout curtains.")
+    elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
+        insights.append("**Workspace Ergonomics:** Position desk facing wall/window. Keep monitor at arm's length, top of screen at eye level.")
+    elif 'Living' in analysis.room_type:
+        insights.append("**Living Space Flow:** Arrange seating in U or L shape. Leave 45-60cm between coffee table and seating for easy movement.")
+    
+    return insights
+
 def main():
     """Main application"""
     
@@ -955,6 +1038,15 @@ def main():
         """)
     
     # Main content - move selectors to top
+    
+    # Hero Image Section
+    st.markdown("""
+    <div style="margin: -1rem 0 2rem 0;">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=400&fit=crop&q=80" 
+             alt="Professional Interior Design" 
+             style="width: 100%; height: 300px; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
+    </div>
+    """, unsafe_allow_html=True)
     
     # Configuration at top of main page
     col1, col2 = st.columns([1, 1])
@@ -1175,15 +1267,7 @@ def main():
             st.markdown('<div class="insight-box">', unsafe_allow_html=True)
             st.markdown("### Smart Insights")
             
-            insights = []
-            if analysis.dimensions['area'] < 12:
-                insights.append("**Compact Space Tip:** Use vertical storage and wall-mounted solutions to maximize floor space")
-            if analysis.dimensions['area'] > 25:
-                insights.append("**Spacious Room Advantage:** Consider creating distinct zones for different activities")
-            if 'Natural' in analysis.lighting:
-                insights.append("**Excellent Natural Light:** Position primary work area to leverage daylight hours")
-            if analysis.dimensions['height'] > 2.8:
-                insights.append("**High Ceilings Detected:** Great opportunity for tall storage units or hanging displays")
+            insights = generate_detailed_insights(analysis)
             
             for insight in insights:
                 st.markdown(insight)
@@ -1199,11 +1283,7 @@ def main():
             
             with col1:
                 if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload", type="primary"):
-                    # Clear all session state
-                    for key in list(st.session_state.keys()):
-                        del st.session_state[key]
-                    # Add JavaScript to scroll to top and refresh
-                    st.markdown('<script>window.parent.location.href = window.parent.location.href;</script>', unsafe_allow_html=True)
+                    st.session_state.clear()
                     st.rerun()
             
             with col2:
@@ -1212,7 +1292,7 @@ def main():
             
             # Social Media Share Section
             st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
-            st.markdown('<p style="font-weight: 600; color: #64748b; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
+            st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
             
             share_text = f"Check out my {analysis.room_type} design from RoomSense!"
             share_url = "https://roomsense.streamlit.app"
@@ -1388,20 +1468,17 @@ def main():
                 st.markdown(objects_html, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("### Color Palette")
-                if analysis.color_palette:
-                    palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
-                    for color in analysis.color_palette:
-                        palette_html += f'<div style="width: 60px; height: 60px; min-width: 60px; background: {color}; border-radius: 12px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>'
-                    palette_html += '</div>'
-                    st.markdown(palette_html, unsafe_allow_html=True)
+                st.markdown("### Room Preview")
+                st.image("https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=250&fit=crop&q=80", 
+                         caption="Professional Design Example", 
+                         use_container_width=True)
                 
                 st.markdown("### Confidence Score")
                 st.markdown(f"""
                 <div class="confidence-bar">
                     <div class="confidence-fill" style="width: {analysis.confidence * 100}%;"></div>
                 </div>
-                <p style="text-align: center; font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                <p style="text-align: center; font-size: 0.9rem; color: #666666; margin-top: 0.5rem;">
                     {int(analysis.confidence * 100)}% confident in room classification
                 </p>
                 """, unsafe_allow_html=True)
@@ -1447,15 +1524,7 @@ def main():
             st.markdown('<div class="insight-box">', unsafe_allow_html=True)
             st.markdown("### Smart Insights")
             
-            insights = []
-            if analysis.dimensions['area'] < 12:
-                insights.append("**Compact Space Tip:** Use vertical storage and wall-mounted solutions to maximize floor space")
-            if analysis.dimensions['area'] > 25:
-                insights.append("**Spacious Room Advantage:** Consider creating distinct zones for different activities")
-            if 'Natural' in analysis.lighting:
-                insights.append("**Excellent Natural Light:** Position primary work area to leverage daylight hours")
-            if analysis.dimensions['height'] > 2.8:
-                insights.append("**High Ceilings Detected:** Great opportunity for tall storage units or hanging displays")
+            insights = generate_detailed_insights(analysis)
             
             for insight in insights:
                 st.markdown(insight)
@@ -1471,11 +1540,7 @@ def main():
             
             with col1:
                 if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera", type="primary"):
-                    # Clear all session state
-                    for key in list(st.session_state.keys()):
-                        del st.session_state[key]
-                    # Add JavaScript to scroll to top and refresh
-                    st.markdown('<script>window.parent.location.href = window.parent.location.href;</script>', unsafe_allow_html=True)
+                    st.session_state.clear()
                     st.rerun()
             
             with col2:
@@ -1484,7 +1549,7 @@ def main():
             
             # Social Media Share Section
             st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
-            st.markdown('<p style="font-weight: 600; color: #64748b; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
+            st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
             
             share_text = f"Check out my {analysis.room_type} design from RoomSense!"
             share_url = "https://roomsense.streamlit.app"
