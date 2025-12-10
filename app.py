@@ -899,18 +899,6 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
             st.markdown(objects_html, unsafe_allow_html=True)
     
     with col2:
-        if analysis.color_palette:
-            st.markdown("### Color Palette")
-            palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
-            for color in analysis.color_palette:
-                palette_html += f'''
-                <div style="width: 60px; height: 60px; background: {color}; 
-                     border-radius: 12px; border: 2px solid #ddd;
-                     box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
-                '''
-            palette_html += '</div>'
-            st.markdown(palette_html, unsafe_allow_html=True)
-        
         st.markdown("### Confidence Score")
         st.markdown(f"""
         <div class="confidence-bar">
