@@ -57,7 +57,8 @@ Six specialized workspace configurations:
 - Lighting specifications (color temperature, placement, intensity)
 - Ergonomic considerations and safety guidelines
 - Color palette recommendations based on room type and lighting
-- Visual inspiration galleries with Pinterest integration
+- AI-generated visual inspiration showing Modern and Classic design styles
+- Pinterest integration for additional design ideas
 
 **Detailed Spatial Insights**
 - Estimated room dimensions (width, length, height, area)
@@ -70,6 +71,7 @@ Six specialized workspace configurations:
 - PDF export via browser print
 - Social media sharing (Facebook, Twitter, LinkedIn, Pinterest)
 - Direct links to design inspiration boards
+- AI-generated inspiration images in Modern and Classic styles
 
 ---
 
@@ -131,6 +133,17 @@ Six specialized workspace configurations:
   - 128-191: Mixed - Good
   - 192-255: Natural - Excellent
 - **Input**: NumPy array operations on image data
+
+**7. AI-Powered Inspiration Images**
+- **Service**: Pollinations.ai API for generative image creation
+- **Method**: Text-to-image generation based on room analysis
+- **Inputs**: Room type combined with design style descriptors
+- **Generated Styles**: 
+  - Modern interior design style
+  - Classic/traditional interior design style
+- **Output**: 400x250px AI-generated interior design images
+- **Customization**: Dynamically personalized for each room type
+- **Purpose**: Provide visual inspiration showing different design approaches
 
 ### Application Framework
 
@@ -199,6 +212,7 @@ Six specialized workspace configurations:
 | **Numerical Computing** | NumPy | Array operations & tensor math |
 | **Web Framework** | Streamlit | Full-stack web application |
 | **Frontend** | Custom CSS, Google Fonts | Professional UI/UX design |
+| **AI Image Generation** | Pollinations.ai API | Dynamic inspiration image generation |
 
 ---
 
@@ -327,7 +341,20 @@ Generate:
   - Color scheme suggestions
 ```
 
-### 9. Results Display
+### 9. AI Image Generation
+```
+Room type → Descriptive prompt construction with design styles
+↓
+API call to Pollinations.ai text-to-image service
+↓
+Generate two style variations:
+  1. Modern {Room Type} interior
+  2. Classic {Room Type} interior
+↓
+Output: AI-rendered interior design visualizations in different styles
+```
+
+### 10. Results Display
 Progressive disclosure: Metrics → Detailed analysis → Recommendations → Insights → Inspiration
 
 ---
@@ -339,7 +366,7 @@ Progressive disclosure: Metrics → Detailed analysis → Recommendations → In
 - **AR Preview**: Mobile AR view to see furniture placement in actual space
 - **Custom Model Training**: Fine-tune on interior design dataset for better accuracy
 - **Real Object Detection**: Implement YOLOv8 or Faster R-CNN for bounding box detection
-- **Style Transfer**: Apply design styles to room photos using generative models
+- **Advanced Image Generation**: Multiple style variations using Stable Diffusion or DALL-E
 
 ### Medium-Term Goals
 - **True Depth Estimation**: Integrate MiDaS or DPT monocular depth networks
@@ -390,6 +417,6 @@ MIT License - Free for personal and commercial use
 
 ---
 
-**Built with ❤️ using PyTorch, Streamlit, OpenCV, and scikit-learn**
+**Built with ❤️ using PyTorch, Streamlit, OpenCV, scikit-learn, and Pollinations.ai**
 
-*Transforming spaces through artificial intelligence*
+*Transforming spaces through computer vision and generative AI*
