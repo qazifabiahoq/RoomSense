@@ -474,13 +474,45 @@ st.markdown("""
         font-weight: 500 !important;
     }
     
+    /* Select box dropdown options */
+    [data-testid="stSidebar"] .stSelectbox select,
+    [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
+        color: #1e293b !important;
+    }
+    
+    /* Select box selected value text */
+    [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
+        color: #1e293b !important;
+    }
+    
     /* Radio button text */
     [data-testid="stSidebar"] .stRadio > div {
-        color: #475569 !important;
+        color: #1e293b !important;
     }
     
     [data-testid="stSidebar"] [data-baseweb="radio"] > div {
-        color: #475569 !important;
+        color: #1e293b !important;
+    }
+    
+    /* All sidebar text elements */
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] div {
+        color: #1e293b !important;
+    }
+    
+    /* Dropdown menu items */
+    div[data-baseweb="popover"] {
+        background: white !important;
+    }
+    
+    div[data-baseweb="popover"] li {
+        color: #1e293b !important;
+        background: white !important;
+    }
+    
+    div[data-baseweb="popover"] li:hover {
+        background: #f1f5f9 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -491,7 +523,7 @@ st.markdown("""
 <div class="main-header">
     <div class="header-content">
         <h1 class="logo">RoomSense</h1>
-        <p class="tagline">Snap a photo, get the perfect layout</p>
+        <p class="tagline">Design your perfect space</p>
         <span class="ai-badge">Smart Space Planning</span>
     </div>
 </div>
@@ -798,8 +830,8 @@ def main():
     # Main content
     if analysis_mode == 'Upload Photo':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Upload Your Room Photo")
-        st.markdown("Take a photo with your phone or upload from your device")
+        st.markdown("### Snap a photo, get the perfect layout")
+        st.markdown("Upload a room photo from your phone or computer")
         
         uploaded_file = st.file_uploader(
             "Choose a photo...",
@@ -993,10 +1025,10 @@ def main():
     
     elif analysis_mode == 'Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Capture Room with Camera")
-        st.markdown("Use your device camera to capture your space in real-time")
+        st.markdown("### Capture your space")
+        st.markdown("Use your camera to snap a photo")
         
-        camera_image = st.camera_input("Take a photo of your room")
+        camera_image = st.camera_input("Take a photo")
         
         if camera_image is not None:
             col1, col2 = st.columns([1, 1])
@@ -1102,15 +1134,12 @@ def main():
             
             with col2:
                 st.markdown("### Color Palette")
-                palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
-                for color in analysis.color_palette:
-                    palette_html += f'''
-                    <div style="width: 60px; height: 60px; background: {color}; 
-                         border-radius: 12px; border: 2px solid #ddd;
-                         box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
-                    '''
-                palette_html += '</div>'
-                st.markdown(palette_html, unsafe_allow_html=True)
+                if analysis.color_palette:
+                    palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
+                    for color in analysis.color_palette:
+                        palette_html += f'<div style="width: 60px; height: 60px; min-width: 60px; background: {color}; border-radius: 12px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>'
+                    palette_html += '</div>'
+                    st.markdown(palette_html, unsafe_allow_html=True)
                 
                 st.markdown("### Confidence Score")
                 st.markdown(f"""
