@@ -451,8 +451,9 @@ st.markdown("""
     
     /* Buttons */
     .stButton > button {
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
-        color: white !important;
+        background: white !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
         border: none !important;
         border-radius: 12px !important;
         padding: 1rem 3rem !important;
@@ -1312,6 +1313,48 @@ def main():
             
 
 
+
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Suggested Color Palette Section
+            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+            st.markdown("### Suggested Color Palette for Your Space")
+            st.markdown("Based on your room type and lighting, here are professional color combinations:")
+            
+            # Generate color suggestions based on room type and lighting
+            if 'Bedroom' in analysis.room_type:
+                palette_suggestions = [
+                    ("Calm & Serene", ["#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB"]),
+                    ("Warm & Cozy", ["#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D"]),
+                    ("Modern Neutral", ["#FAFAFA", "#EEEEEE", "#BDBDBD", "#757575"])
+                ]
+            elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
+                palette_suggestions = [
+                    ("Focus Blue", ["#E3F2FD", "#BBDEFB", "#90CAF9", "#42A5F5"]),
+                    ("Professional Grey", ["#FAFAFA", "#ECEFF1", "#B0BEC5", "#546E7A"]),
+                    ("Creative Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
+                ]
+            elif 'Living' in analysis.room_type:
+                palette_suggestions = [
+                    ("Welcoming Warm", ["#FFF8E1", "#FFECB3", "#FFD54F", "#FFA726"]),
+                    ("Elegant Neutral", ["#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161"]),
+                    ("Fresh Modern", ["#E0F2F1", "#B2DFDB", "#4DB6AC", "#26A69A"])
+                ]
+            else:
+                palette_suggestions = [
+                    ("Bright & Airy", ["#FFFFFF", "#F5F5F5", "#EEEEEE", "#E0E0E0"]),
+                    ("Warm Neutral", ["#FBE9E7", "#FFCCBC", "#FF8A65", "#FF7043"]),
+                    ("Cool Modern", ["#E1F5FE", "#B3E5FC", "#4FC3F7", "#29B6F6"])
+                ]
+            
+            for palette_name, colors in palette_suggestions:
+                st.markdown(f"**{palette_name}**")
+                palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
+                for color in colors:
+                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #333; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
+                palette_html += '</div>'
+                st.markdown(palette_html, unsafe_allow_html=True)
+
             # Visual Inspiration Section
             st.markdown("""
             <div style="margin: 2rem 0; text-align: center;">
@@ -1349,15 +1392,11 @@ def main():
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
             
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload", type="primary"):
-                    st.session_state.clear()
-                    st.rerun()
+            # Single centered button
+            col1, col2, col3 = st.columns([1, 2, 1])
             
             with col2:
-                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_upload", type="primary"):
+                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_upload"):
                     st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
             # Social Media Share Section
@@ -1606,6 +1645,48 @@ def main():
             
 
 
+
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Suggested Color Palette Section
+            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+            st.markdown("### Suggested Color Palette for Your Space")
+            st.markdown("Based on your room type and lighting, here are professional color combinations:")
+            
+            # Generate color suggestions based on room type and lighting
+            if 'Bedroom' in analysis.room_type:
+                palette_suggestions = [
+                    ("Calm & Serene", ["#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB"]),
+                    ("Warm & Cozy", ["#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D"]),
+                    ("Modern Neutral", ["#FAFAFA", "#EEEEEE", "#BDBDBD", "#757575"])
+                ]
+            elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
+                palette_suggestions = [
+                    ("Focus Blue", ["#E3F2FD", "#BBDEFB", "#90CAF9", "#42A5F5"]),
+                    ("Professional Grey", ["#FAFAFA", "#ECEFF1", "#B0BEC5", "#546E7A"]),
+                    ("Creative Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
+                ]
+            elif 'Living' in analysis.room_type:
+                palette_suggestions = [
+                    ("Welcoming Warm", ["#FFF8E1", "#FFECB3", "#FFD54F", "#FFA726"]),
+                    ("Elegant Neutral", ["#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161"]),
+                    ("Fresh Modern", ["#E0F2F1", "#B2DFDB", "#4DB6AC", "#26A69A"])
+                ]
+            else:
+                palette_suggestions = [
+                    ("Bright & Airy", ["#FFFFFF", "#F5F5F5", "#EEEEEE", "#E0E0E0"]),
+                    ("Warm Neutral", ["#FBE9E7", "#FFCCBC", "#FF8A65", "#FF7043"]),
+                    ("Cool Modern", ["#E1F5FE", "#B3E5FC", "#4FC3F7", "#29B6F6"])
+                ]
+            
+            for palette_name, colors in palette_suggestions:
+                st.markdown(f"**{palette_name}**")
+                palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
+                for color in colors:
+                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #333; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
+                palette_html += '</div>'
+                st.markdown(palette_html, unsafe_allow_html=True)
+
             # Visual Inspiration Section
             st.markdown("""
             <div style="margin: 2rem 0; text-align: center;">
@@ -1643,15 +1724,11 @@ def main():
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
             
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera", type="primary"):
-                    st.session_state.clear()
-                    st.rerun()
+            # Single centered button
+            col1, col2, col3 = st.columns([1, 2, 1])
             
             with col2:
-                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_camera", type="primary"):
+                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_camera"):
                     st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
             # Social Media Share Section
