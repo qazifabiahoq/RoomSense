@@ -31,6 +31,7 @@ st.markdown("""
     /* Mobile responsive */
     @media (max-width: 768px) {
         .main-header {
+        text-align: center;
             padding: 1.5rem 1.5rem;
             margin: -6rem -1rem 1.5rem -1rem;
         }
@@ -82,6 +83,7 @@ st.markdown("""
     
     /* Main header */
     .main-header {
+        text-align: center;
         background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
         padding: 2.5rem 3rem;
         border-radius: 0 0 24px 24px;
@@ -129,6 +131,7 @@ st.markdown("""
     
     /* Main header with RoomSense branding */
     .main-header {
+        text-align: center;
         background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
         padding: 2.5rem 3rem;
         border-radius: 0 0 24px 24px;
@@ -159,7 +162,7 @@ st.markdown("""
         font-family: 'Space Grotesk', sans-serif;
         font-size: 3rem;
         font-weight: 700;
-        color: #ffffff;
+        color: #000000 !important;
         margin: 0;
         letter-spacing: -0.02em;
         text-shadow: 2px 2px 8px rgba(0,0,0,0.15);
@@ -169,7 +172,7 @@ st.markdown("""
         color: white !important;
         font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
-        color: #ffffff;
+        color: #000000 !important;
         margin-top: 0.5rem;
         font-weight: 400;
         letter-spacing: 0.02em;
@@ -180,7 +183,7 @@ st.markdown("""
         display: inline-block;
         background: rgba(255,255,255,0.15);
         backdrop-filter: blur(10px);
-        color: white;
+        color: #000000 !important;
         padding: 0.5rem 1.2rem;
         border-radius: 20px;
         font-size: 0.8rem;
@@ -421,7 +424,7 @@ st.markdown("""
     
     .status-processing {
         background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: white;
+        color: #000000 !important;
         animation: shimmer 2s ease-in-out infinite;
     }
     
@@ -432,7 +435,7 @@ st.markdown("""
     
     .status-complete {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
+        color: #000000 !important;
     }
     
     /* Confidence bar */
@@ -605,11 +608,11 @@ st.markdown("""
     }
     
     .action-btn:hover .action-icon {
-        color: white;
+        color: #000000 !important;
     }
     
     .action-btn:hover .action-label {
-        color: white;
+        color: #000000 !important;
     }
     
     .action-icon {
@@ -1375,10 +1378,10 @@ def main():
             
             st.markdown(f"""
             <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                <h2 style="color: white; font-family: 'Noto Serif', serif; margin-bottom: 1.5rem;">
+                <h2 style="color: #000000 !important; font-family: 'Noto Serif', serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
-                <p style="color: #ffffff; font-size: 1.1rem; margin-bottom: 2rem;">
+                <p style="color: #000000 !important; font-size: 1.1rem; margin-bottom: 2rem;">
                     Based on AI analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
                     with {analysis.lighting.lower()} conditions
                 </p>
@@ -1393,12 +1396,12 @@ def main():
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
-                        <strong style="color: white;">Recommended Furniture:</strong>
+                        <strong style="color: #000000 !important;">Recommended Furniture:</strong>
                         {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
                         <strong style="color: #000000 !important; font-weight: 600;">Key Considerations:</strong><br>
-                        {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
+                        {'<br>'.join([f'<span style="color: #000000 !important;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1516,7 +1519,7 @@ def main():
             with social_col1:
                 st.markdown(f'''
                 <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-                   style="display: block; padding: 0.75rem; background: #1877F2; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #1877F2; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Facebook
                 </a>
@@ -1525,7 +1528,7 @@ def main():
             with social_col2:
                 st.markdown(f'''
                 <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Twitter
                 </a>
@@ -1534,7 +1537,7 @@ def main():
             with social_col3:
                 st.markdown(f'''
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #0A66C2; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #0A66C2; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    LinkedIn
                 </a>
@@ -1543,7 +1546,7 @@ def main():
             with social_col4:
                 st.markdown(f'''
                 <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #E60023; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #E60023; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Pinterest
                 </a>
@@ -1699,10 +1702,10 @@ def main():
             
             st.markdown(f"""
             <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                <h2 style="color: white; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
+                <h2 style="color: #000000 !important; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
-                <p style="color: #ffffff; font-size: 1.1rem; margin-bottom: 2rem;">
+                <p style="color: #000000 !important; font-size: 1.1rem; margin-bottom: 2rem;">
                     Based on analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
                     with {analysis.lighting.lower()} conditions
                 </p>
@@ -1717,12 +1720,12 @@ def main():
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
-                        <strong style="color: white;">Recommended Furniture:</strong>
+                        <strong style="color: #000000 !important;">Recommended Furniture:</strong>
                         {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
                         <strong style="color: #000000 !important; font-weight: 600;">Key Considerations:</strong><br>
-                        {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
+                        {'<br>'.join([f'<span style="color: #000000 !important;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1840,7 +1843,7 @@ def main():
             with social_col1:
                 st.markdown(f'''
                 <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-                   style="display: block; padding: 0.75rem; background: #1877F2; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #1877F2; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Facebook
                 </a>
@@ -1849,7 +1852,7 @@ def main():
             with social_col2:
                 st.markdown(f'''
                 <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Twitter
                 </a>
@@ -1858,7 +1861,7 @@ def main():
             with social_col3:
                 st.markdown(f'''
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #0A66C2; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #0A66C2; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    LinkedIn
                 </a>
@@ -1867,7 +1870,7 @@ def main():
             with social_col4:
                 st.markdown(f'''
                 <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: #E60023; color: white; border-radius: 8px; 
+                   style="display: block; padding: 0.75rem; background: #E60023; color: #000000 !important; border-radius: 8px; 
                    text-align: center; text-decoration: none; font-weight: 600;">
                    Pinterest
                 </a>
@@ -1909,7 +1912,7 @@ def main():
             # Display recommendations (same format as above)
             st.markdown(f"""
             <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                <h2 style="color: white; font-family: 'Noto Serif', serif;">
+                <h2 style="color: #000000 !important; font-family: 'Noto Serif', serif;">
                     Recommendations for {work_type}
                 </h2>
             """, unsafe_allow_html=True)
