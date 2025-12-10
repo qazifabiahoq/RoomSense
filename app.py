@@ -175,6 +175,7 @@ st.markdown("""
     }
     
     .ai-badge {
+        color: white !important;
         display: inline-block;
         background: rgba(255,255,255,0.15);
         backdrop-filter: blur(10px);
@@ -371,8 +372,9 @@ st.markdown("""
     /* Zone tags */
     .zone-tag {
         display: inline-block;
-        background: #000000;
-        color: white;
+        background: white;
+        color: #000000;
+        border: 2px solid #000000;
         padding: 0.4rem 1rem;
         border-radius: 20px;
         font-size: 0.85rem;
@@ -1278,9 +1280,9 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item">
-                    <div class="rec-title">{rec.zone_name}</div>
-                    <div class="rec-description">
+                <div class="rec-item" style="background: rgba(50,50,50,0.95) !important; color: white !important;">
+                    <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
+                    <div class="rec-description" style="color: white !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
                     </div>
@@ -1309,6 +1311,40 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
             
 
+
+            # Visual Inspiration Section
+            st.markdown("""
+            <div style="margin: 2rem 0; text-align: center;">
+                <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
+                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
+                        <img src="https://image.pollinations.ai/prompt/modern%20minimalist%20workspace%20desk%20natural%20light?width=400&height=250&nologo=true&seed=42" 
+                             alt="Modern Workspace" 
+                             style="width: 100%; height: 200px; object-fit: cover;">
+                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern Workspace</div>
+                    </div>
+                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
+                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20clean%20aesthetic?width=400&height=250&nologo=true&seed=123" 
+                             alt="Minimalist Setup" 
+                             style="width: 100%; height: 200px; object-fit: cover;">
+                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Minimalist Setup</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Pinterest link
+            search_query = f"{analysis.room_type} {work_type} layout ideas"
+            st.markdown(f"""
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
+                   target="_blank" 
+                   style="color: #000000; text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px solid #000000; padding-bottom: 0.25rem;">
+                    Explore more {analysis.room_type} designs on Pinterest →
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+            
             # Next Steps Action Section
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
@@ -1502,10 +1538,13 @@ def main():
                 st.markdown(objects_html, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("### Room Preview")
-                st.image("https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=250&fit=crop&q=80", 
-                         caption="Professional Design Example", 
-                         use_container_width=True)
+                st.markdown("### Color Palette")
+                if analysis.color_palette:
+                    palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
+                    for color in analysis.color_palette:
+                        palette_html += f'<div style="width: 60px; height: 60px; min-width: 60px; background: {color}; border-radius: 12px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>'
+                    palette_html += '</div>'
+                    st.markdown(palette_html, unsafe_allow_html=True)
                 
                 st.markdown("### Confidence Score")
                 st.markdown(f"""
@@ -1535,9 +1574,9 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item">
-                    <div class="rec-title">{rec.zone_name}</div>
-                    <div class="rec-description">
+                <div class="rec-item" style="background: rgba(50,50,50,0.95) !important; color: white !important;">
+                    <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
+                    <div class="rec-description" style="color: white !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
                     </div>
@@ -1566,6 +1605,40 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
             
 
+
+            # Visual Inspiration Section
+            st.markdown("""
+            <div style="margin: 2rem 0; text-align: center;">
+                <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
+                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
+                        <img src="https://image.pollinations.ai/prompt/modern%20minimalist%20workspace%20desk%20natural%20light?width=400&height=250&nologo=true&seed=42" 
+                             alt="Modern Workspace" 
+                             style="width: 100%; height: 200px; object-fit: cover;">
+                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern Workspace</div>
+                    </div>
+                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
+                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20clean%20aesthetic?width=400&height=250&nologo=true&seed=123" 
+                             alt="Minimalist Setup" 
+                             style="width: 100%; height: 200px; object-fit: cover;">
+                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Minimalist Setup</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Pinterest link
+            search_query = f"{analysis.room_type} {work_type} layout ideas"
+            st.markdown(f"""
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
+                   target="_blank" 
+                   style="color: #000000; text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px solid #000000; padding-bottom: 0.25rem;">
+                    Explore more {analysis.room_type} designs on Pinterest →
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+            
             # Next Steps Action Section
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
@@ -1669,9 +1742,9 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item">
-                    <div class="rec-title">{rec.zone_name}</div>
-                    <div class="rec-description">
+                <div class="rec-item" style="background: rgba(50,50,50,0.95) !important; color: white !important;">
+                    <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
+                    <div class="rec-description" style="color: white !important;">
                         <strong>Location:</strong> {rec.location}<br>
                         <strong>Lighting:</strong> {rec.lighting_needs}
                     </div>
