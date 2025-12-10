@@ -320,17 +320,21 @@ st.markdown("""
         font-weight: 700;
         margin-bottom: 0.75rem;
         font-family: 'Space Grotesk', sans-serif;
-        color: #ffffff !important;
+        color: #000000 !important;
     }
     
     .rec-description {
         font-size: 1rem;
         line-height: 1.7;
-        color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .rec-description * {
+        color: #000000 !important;
     }
     
     .rec-description strong {
-        color: #ffffff !important;
+        color: #000000 !important;
         font-weight: 600;
     }
     
@@ -358,14 +362,14 @@ st.markdown("""
     }
     
     .furniture-list strong {
-        color: #ffffff !important;
+        color: #000000 !important;
     }
     
     .furniture-item {
         padding: 0.6rem 0;
         border-bottom: 1px solid rgba(255,255,255,0.25);
         font-size: 0.95rem;
-        color: #ffffff !important;
+        color: #000000 !important;
     }
     
     .furniture-item:last-child {
