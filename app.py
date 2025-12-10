@@ -426,6 +426,130 @@ st.markdown("""
         font-family: 'Space Grotesk', sans-serif;
     }
     
+    /* Inspiration section */
+    .inspiration-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+        border: 2px solid #e0f2fe;
+    }
+    
+    .inspiration-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 1.5rem;
+        font-family: 'Space Grotesk', sans-serif;
+        text-align: center;
+    }
+    
+    .inspiration-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .inspiration-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .inspiration-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    
+    .inspiration-image {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: #0ea5e9;
+    }
+    
+    .inspiration-label {
+        padding: 1rem;
+        text-align: center;
+        font-weight: 600;
+        color: #475569;
+    }
+    
+    /* Action buttons section */
+    .actions-section {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border-top: 4px solid #0ea5e9;
+    }
+    
+    .actions-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 1.5rem;
+        font-family: 'Space Grotesk', sans-serif;
+        text-align: center;
+    }
+    
+    .action-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .action-btn {
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        border: 2px solid #e0f2fe;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: #0f172a;
+    }
+    
+    .action-btn:hover {
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        border-color: #0ea5e9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(14,165,233,0.3);
+    }
+    
+    .action-btn:hover .action-icon {
+        color: white;
+    }
+    
+    .action-btn:hover .action-label {
+        color: white;
+    }
+    
+    .action-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: #0ea5e9;
+        transition: color 0.3s ease;
+    }
+    
+    .action-label {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #0f172a;
+        transition: color 0.3s ease;
+    }
+    
     /* Camera placeholder */
     .camera-placeholder {
         background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
@@ -1022,6 +1146,63 @@ def main():
                 st.markdown(insight)
             
             st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Visual Inspiration Section
+            st.markdown("---")
+            st.markdown("""
+            <div class="inspiration-section">
+                <h3 class="inspiration-title">Get Inspired</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
+                <div class="inspiration-grid">
+                    <div class="inspiration-card">
+                        <div class="inspiration-image">▪</div>
+                        <div class="inspiration-label">Modern Workspace</div>
+                    </div>
+                    <div class="inspiration-card">
+                        <div class="inspiration-image">▪</div>
+                        <div class="inspiration-label">Minimalist Setup</div>
+                    </div>
+                    <div class="inspiration-card">
+                        <div class="inspiration-image">▪</div>
+                        <div class="inspiration-label">Creative Studio</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Search link for Pinterest/Houzz
+            search_query = f"{analysis.room_type} {work_type} layout ideas"
+            st.markdown(f"""
+            <div style="text-align: center; margin: 1rem 0;">
+                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
+                   target="_blank" 
+                   style="color: #0ea5e9; text-decoration: none; font-weight: 600; font-size: 1rem;">
+                    Explore more {analysis.room_type} designs on Pinterest →
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Next Steps Action Section
+            st.markdown("---")
+            st.markdown("""
+            <div class="actions-section">
+                <h3 class="actions-title">What's Next?</h3>
+                <div class="action-buttons">
+                    <div class="action-btn" onclick="window.scrollTo(0, 0);">
+                        <div class="action-icon">↻</div>
+                        <div class="action-label">Try Another Room</div>
+                    </div>
+                    <div class="action-btn" onclick="navigator.share ? navigator.share({title: 'RoomSense', text: 'Check out my room layout!', url: window.location.href}) : alert('Share feature not supported on this browser');">
+                        <div class="action-icon">⤴</div>
+                        <div class="action-label">Share Your Plan</div>
+                    </div>
+                    <div class="action-btn" onclick="window.print();">
+                        <div class="action-icon">⎙</div>
+                        <div class="action-label">Save as PDF</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
     
     elif analysis_mode == 'Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
@@ -1207,6 +1388,63 @@ def main():
                 st.markdown(insight)
             
             st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Visual Inspiration Section
+            st.markdown("---")
+            st.markdown("""
+            <div class="inspiration-section">
+                <h3 class="inspiration-title">Get Inspired</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
+                <div class="inspiration-grid">
+                    <div class="inspiration-card">
+                        <div class="inspiration-image">▪</div>
+                        <div class="inspiration-label">Modern Workspace</div>
+                    </div>
+                    <div class="inspiration-card">
+                        <div class="inspiration-image">▪</div>
+                        <div class="inspiration-label">Minimalist Setup</div>
+                    </div>
+                    <div class="inspiration-card">
+                        <div class="inspiration-image">▪</div>
+                        <div class="inspiration-label">Creative Studio</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Search link for Pinterest/Houzz
+            search_query = f"{analysis.room_type} {work_type} layout ideas"
+            st.markdown(f"""
+            <div style="text-align: center; margin: 1rem 0;">
+                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
+                   target="_blank" 
+                   style="color: #0ea5e9; text-decoration: none; font-weight: 600; font-size: 1rem;">
+                    Explore more {analysis.room_type} designs on Pinterest →
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Next Steps Action Section
+            st.markdown("---")
+            st.markdown("""
+            <div class="actions-section">
+                <h3 class="actions-title">What's Next?</h3>
+                <div class="action-buttons">
+                    <div class="action-btn" onclick="window.scrollTo(0, 0);">
+                        <div class="action-icon">↻</div>
+                        <div class="action-label">Try Another Room</div>
+                    </div>
+                    <div class="action-btn" onclick="navigator.share ? navigator.share({title: 'RoomSense', text: 'Check out my room layout!', url: window.location.href}) : alert('Share feature not supported on this browser');">
+                        <div class="action-icon">⤴</div>
+                        <div class="action-label">Share Your Plan</div>
+                    </div>
+                    <div class="action-btn" onclick="window.print();">
+                        <div class="action-icon">⎙</div>
+                        <div class="action-label">Save as PDF</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
     
     else:  # Manual Entry
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
