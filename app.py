@@ -54,11 +54,6 @@ st.markdown("""
             font-size: 1.8rem;
         }
         
-        .camera-section, .analysis-card, .recommendation-section {
-        background: white !important;
-            padding: 1.5rem;
-        }
-        
         .stButton > button {
             padding: 0.875rem 2rem;
             font-size: 1rem;
@@ -304,41 +299,6 @@ st.markdown("""
     }
     
     /* Recommendation section */
-    .recommendation-section {
-        background: white !important;
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-        border-radius: 20px;
-        padding: 2.5rem;
-        margin: 2rem 0;
-        color: white !important;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .recommendation-section * {
-        color: #000000 !important;
-    }
-    
-    .recommendation-section h2,
-    .recommendation-section p,
-    .recommendation-section div,
-    .recommendation-section span,
-    .recommendation-section strong {
-        color: #000000 !important;
-    }
-    
-    .recommendation-section::before {
-        content: '';
-        position: absolute;
-        top: -100px;
-        right: -100px;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        border-radius: 50%;
-    }
-    
     .rec-item {
         color: white !important;
         background: rgba(255,255,255,0.08);
@@ -851,9 +811,9 @@ st.markdown("""
 st.markdown("""
 <div class="main-header">
     <div class="header-content">
-        <h1 class="logo">RoomSense</h1>
-        <p class="tagline">Design your perfect space</p>
-        <span class="ai-badge">Smart Space Planning</span>
+        <h1 class="logo" style="color: white !important;">RoomSense</h1>
+        <p class="tagline" style="color: white !important;">Design your perfect space</p>
+        <span class="ai-badge" style="color: white !important;">Smart Space Planning</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -1391,11 +1351,11 @@ def main():
                 st.markdown(f"""
                 <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
                     <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: #000000 !important;">
+                    <div class="rec-description" style="color: #000000 !important;"><div style="color: #000000 !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
-                    </div>
-                    <div class="furniture-list">
+                    </div></div>
+                    <div class="furniture-list" style="color: #000000 !important;">
                         <strong style="color: #000000 !important;">Recommended Furniture:</strong>
                         {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
@@ -1715,11 +1675,11 @@ def main():
                 st.markdown(f"""
                 <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
                     <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: #000000 !important;">
+                    <div class="rec-description" style="color: #000000 !important;"><div style="color: #000000 !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
                         <strong>Lighting Setup:</strong> {rec.lighting_needs}
-                    </div>
-                    <div class="furniture-list">
+                    </div></div>
+                    <div class="furniture-list" style="color: #000000 !important;">
                         <strong style="color: #000000 !important;">Recommended Furniture:</strong>
                         {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
@@ -1921,11 +1881,11 @@ def main():
                 st.markdown(f"""
                 <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
                     <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: #000000 !important;">
+                    <div class="rec-description" style="color: #000000 !important;"><div style="color: #000000 !important;">
                         <strong>Location:</strong> {rec.location}<br>
                         <strong>Lighting:</strong> {rec.lighting_needs}
-                    </div>
-                    <div class="furniture-list">
+                    </div></div>
+                    <div class="furniture-list" style="color: #000000 !important;">
                         {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
                     </div>
                 </div>
