@@ -198,14 +198,16 @@ st.markdown("""
     .metric-box {
         background: white;
         border-radius: 16px;
-        padding: 1.75rem;
+        padding: 1.5rem;
         box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         border-top: 3px solid #06b6d4;
         transition: all 0.3s ease;
-        min-height: 150px;
+        height: 140px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
+        text-align: center;
     }
     
     .metric-box:hover {
@@ -214,29 +216,33 @@ st.markdown("""
     }
     
     .metric-icon {
-        font-size: 2rem;
-        margin-bottom: 0.75rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
         color: #0ea5e9;
     }
     
     .metric-label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.05em;
         margin-bottom: 0.5rem;
         font-weight: 600;
     }
     
     .metric-value {
-        font-size: 2.2rem;
+        font-size: 1.6rem;
         font-weight: 700;
         color: #0f172a;
         font-family: 'Space Grotesk', sans-serif;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
     
     .metric-unit {
-        font-size: 1rem;
+        font-size: 0.9rem;
         color: #94a3b8;
         font-weight: 400;
     }
@@ -1074,7 +1080,7 @@ def main():
                 <div class="metric-box">
                     <div class="metric-icon">▪</div>
                     <div class="metric-label">Lighting</div>
-                    <div class="metric-value" style="font-size: 2.2rem;">{analysis.lighting}</div>
+                    <div class="metric-value">{analysis.lighting}</div>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -1191,11 +1197,11 @@ def main():
                 <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
                 <div class="inspiration-grid" style="grid-template-columns: repeat(2, 1fr);">
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true&seed=42" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop&q=80" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Modern Workspace</div>
                     </div>
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true&seed=123" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=300&fit=crop&q=80" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Minimalist Setup</div>
                     </div>
                 </div>
@@ -1378,7 +1384,7 @@ def main():
                 <div class="metric-box">
                     <div class="metric-icon">▪</div>
                     <div class="metric-label">Lighting</div>
-                    <div class="metric-value" style="font-size: 2.2rem;">{analysis.lighting}</div>
+                    <div class="metric-value">{analysis.lighting}</div>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -1492,11 +1498,11 @@ def main():
                 <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
                 <div class="inspiration-grid" style="grid-template-columns: repeat(2, 1fr);">
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true&seed=42" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop&q=80" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Modern Workspace</div>
                     </div>
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true&seed=123" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=300&fit=crop&q=80" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Minimalist Setup</div>
                     </div>
                 </div>
