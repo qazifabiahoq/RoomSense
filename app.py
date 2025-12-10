@@ -475,6 +475,43 @@ st.markdown("""
         font-weight: 600 !important;
     }
     
+    [data-testid="stFileUploader"] section {
+        background: white !important;
+    }
+    
+    [data-testid="stFileUploader"] section > div {
+        color: #000000 !important;
+        background: white !important;
+    }
+    
+    [data-testid="stFileUploader"] small {
+        color: #666666 !important;
+    }
+    
+    [data-testid="stFileUploader"] button {
+        background: white !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
+    }
+    
+    /* File uploader text elements */
+    [data-testid="stFileUploader"] [data-testid="stMarkdownContainer"] p {
+        color: #000000 !important;
+    }
+    
+    [data-testid="stFileUploader"] span {
+        color: #000000 !important;
+    }
+    
+    /* File uploader drag area */
+    [data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzone"] {
+        background: white !important;
+    }
+    
+    [data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzoneInput"] {
+        color: #000000 !important;
+    }
+    
     /* Camera input */
     [data-testid="stCameraInput"] label {
         color: #000000 !important;
@@ -511,6 +548,26 @@ st.markdown("""
         font-weight: 600 !important;
     }
     
+    /* Selectbox - main selected value display */
+    .stSelectbox div[data-baseweb="select"] {
+        background: white !important;
+    }
+    
+    .stSelectbox div[data-baseweb="select"] > div {
+        background: white !important;
+        color: #000000 !important;
+    }
+    
+    .stSelectbox div[data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    
+    /* Selectbox input field */
+    .stSelectbox input {
+        background: white !important;
+        color: #000000 !important;
+    }
+    
     /* Dropdown options */
     [role="listbox"] {
         background: white !important;
@@ -523,11 +580,19 @@ st.markdown("""
     
     [role="option"]:hover {
         background: #f5f5f5 !important;
+        color: #000000 !important;
     }
     
     [role="option"][aria-selected="true"] {
         background: #e0e0e0 !important;
+        color: #000000 !important;
         font-weight: 600 !important;
+    }
+    
+    /* Ensure all select elements have proper styling */
+    select {
+        background: white !important;
+        color: #000000 !important;
     }
 </style>
 """, unsafe_allow_html=True)
