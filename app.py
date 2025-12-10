@@ -949,7 +949,6 @@ def main():
         """)
     
     # Main content - move selectors to top
-    st.markdown("---")
     
     # Configuration at top of main page
     col1, col2 = st.columns([1, 1])
@@ -969,7 +968,6 @@ def main():
             horizontal=True
         )
     
-    st.markdown("---")
     
     # Main content
     if analysis_mode == 'Upload Photo':
@@ -1048,7 +1046,6 @@ def main():
             )
             
             # Display Analysis Results
-            st.markdown("---")
             st.markdown("## Your Room Analysis")
             
             # Metrics
@@ -1077,7 +1074,7 @@ def main():
                 <div class="metric-box">
                     <div class="metric-icon">▪</div>
                     <div class="metric-label">Lighting</div>
-                    <div class="metric-value" style="font-size: 1.3rem;">{analysis.lighting}</div>
+                    <div class="metric-value" style="font-size: 2.2rem;">{analysis.lighting}</div>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -1221,18 +1218,22 @@ def main():
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
             
-            col1, col2, col3 = st.columns(3)
+            col1, col2 = st.columns(2)
             
             with col1:
                 if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload", type="primary"):
+                    # Clear all session state
+                    if 'room_analysis' in st.session_state:
+                        del st.session_state.room_analysis
+                    if 'last_file_id' in st.session_state:
+                        del st.session_state.last_file_id
+                    if 'camera_analysis' in st.session_state:
+                        del st.session_state.camera_analysis
+                    if 'last_camera_id' in st.session_state:
+                        del st.session_state.last_camera_id
                     st.rerun()
             
             with col2:
-                if st.button("⤴ Share Your Plan", use_container_width=True, key="share_upload", type="primary"):
-                    st.write("Copy this link to share:")
-                    st.code(f"https://yourapp.streamlit.app")
-            
-            with col3:
                 if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_upload", type="primary"):
                     st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
@@ -1307,7 +1308,6 @@ def main():
             )
             
             # Display analysis results (same as upload section)
-            st.markdown("---")
             st.markdown("## Your Room Analysis")
             
             # Metrics
@@ -1336,7 +1336,7 @@ def main():
                 <div class="metric-box">
                     <div class="metric-icon">▪</div>
                     <div class="metric-label">Lighting</div>
-                    <div class="metric-value" style="font-size: 1.3rem;">{analysis.lighting}</div>
+                    <div class="metric-value" style="font-size: 2.2rem;">{analysis.lighting}</div>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -1477,18 +1477,22 @@ def main():
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
             
-            col1, col2, col3 = st.columns(3)
+            col1, col2 = st.columns(2)
             
             with col1:
                 if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera", type="primary"):
+                    # Clear all session state
+                    if 'room_analysis' in st.session_state:
+                        del st.session_state.room_analysis
+                    if 'last_file_id' in st.session_state:
+                        del st.session_state.last_file_id
+                    if 'camera_analysis' in st.session_state:
+                        del st.session_state.camera_analysis
+                    if 'last_camera_id' in st.session_state:
+                        del st.session_state.last_camera_id
                     st.rerun()
             
             with col2:
-                if st.button("⤴ Share Your Plan", use_container_width=True, key="share_camera", type="primary"):
-                    st.write("Copy this link to share:")
-                    st.code(f"https://yourapp.streamlit.app")
-            
-            with col3:
                 if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_camera", type="primary"):
                     st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
