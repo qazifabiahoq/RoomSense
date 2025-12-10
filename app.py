@@ -921,26 +921,9 @@ def main():
     # Initialize AI system
     ai_system = SpaceVisionAI()
     
-    # Sidebar
+    # Sidebar (keep only About section)
     with st.sidebar:
-        st.markdown("### Configuration")
-        
-        work_type = st.selectbox(
-            "Type of Work to Display",
-            ['Visual Art', 'Photography', 'Crafts & DIY', 'Writing & Content', 'Music Production', 'Design & Digital'],
-            help="Select your creative work type for tailored recommendations"
-        )
-        
-        st.markdown("---")
-        st.markdown("### Analysis Mode")
-        analysis_mode = st.radio(
-            "Choose input method",
-            ['Upload Photo', 'Live Camera', 'Manual Entry'],
-            help="Upload from device, use live camera, or enter dimensions"
-        )
-        
-        st.markdown("---")
-        st.markdown("### About")
+        st.markdown("### About RoomSense")
         st.markdown("""
         **RoomSense** analyzes your room photo to:
         - Identify your room type
@@ -950,6 +933,29 @@ def main():
         - Suggest perfect layouts
         - Recommend furniture placement
         """)
+    
+    # Main content - move selectors to top
+    st.markdown("---")
+    
+    # Configuration at top of main page
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        work_type = st.selectbox(
+            "What type of workspace?",
+            ['Visual Art', 'Photography', 'Crafts & DIY', 'Writing & Content', 'Music Production', 'Design & Digital'],
+            help="Select your creative work type for tailored recommendations"
+        )
+    
+    with col2:
+        analysis_mode = st.radio(
+            "How do you want to analyze?",
+            ['Upload Photo', 'Live Camera', 'Manual Entry'],
+            help="Choose your preferred input method",
+            horizontal=True
+        )
+    
+    st.markdown("---")
     
     # Main content
     if analysis_mode == 'Upload Photo':
