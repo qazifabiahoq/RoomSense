@@ -168,7 +168,7 @@ st.markdown("""
         color: white !important;
         font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
-        color: rgba(255,255,255,0.95);
+        color: #ffffff;
         margin-top: 0.5rem;
         font-weight: 400;
         letter-spacing: 0.02em;
@@ -703,6 +703,39 @@ st.markdown("""
     }
     
 
+    
+    /* Camera input text - black on white */
+    [data-testid="stCameraInput"] label {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    [data-testid="stCameraInput"] button {
+        background: white !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
+    }
+    
+    [data-testid="stCameraInput"] button:hover {
+        background: #000000 !important;
+        color: white !important;
+    }
+    
+
+    
+    /* Number input text - black on white */
+    .stNumberInput label {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    .stNumberInput input {
+        color: #000000 !important;
+        background: white !important;
+        border: 2px solid #000000 !important;
+    }
+    
+
         /* Progress bar */
     .stProgress > div > div > div > div {
         background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
@@ -728,6 +761,36 @@ st.markdown("""
         color: #000000 !important;
     }
     
+    
+    /* Fix dropdown selected text - make it clearly visible */
+    .stSelectbox div[data-baseweb="select"] > div > div {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Dropdown options list */
+    [role="listbox"] {
+        background: white !important;
+    }
+    
+    [role="option"] {
+        color: #000000 !important;
+        background: white !important;
+    }
+    
+    [role="option"]:hover {
+        background: #f5f5f5 !important;
+        color: #000000 !important;
+    }
+    
+    /* Selected option indicator */
+    [role="option"][aria-selected="true"] {
+        background: #e0e0e0 !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+
         /* Select box text */
     [data-testid="stSidebar"] .stSelectbox label,
     [data-testid="stSidebar"] .stRadio label {
@@ -1313,7 +1376,7 @@ def main():
                 <h2 style="color: white; font-family: 'Noto Serif', serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
-                <p style="color: #e8e8e8; font-size: 1.1rem; margin-bottom: 2rem;">
+                <p style="color: #ffffff; font-size: 1.1rem; margin-bottom: 2rem;">
                     Based on AI analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
                     with {analysis.lighting.lower()} conditions
                 </p>
@@ -1333,7 +1396,7 @@ def main():
                     </div>
                     <div style="margin-top: 1.25rem;">
                         <strong style="color: white;">Key Considerations:</strong><br>
-                        {'<br>'.join([f'<span style="color: #e8e8e8;">• {item}</span>' for item in rec.considerations])}
+                        {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1391,7 +1454,7 @@ def main():
                 st.markdown(f"**{palette_name}**")
                 palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
                 for color in colors:
-                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #333; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
+                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #000000; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
                 palette_html += '</div>'
                 st.markdown(palette_html, unsafe_allow_html=True)
 
@@ -1645,7 +1708,7 @@ def main():
                 <h2 style="color: white; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
-                <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 2rem;">
+                <p style="color: #ffffff; font-size: 1.1rem; margin-bottom: 2rem;">
                     Based on analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
                     with {analysis.lighting.lower()} conditions
                 </p>
@@ -1665,7 +1728,7 @@ def main():
                     </div>
                     <div style="margin-top: 1.25rem;">
                         <strong style="color: white;">Key Considerations:</strong><br>
-                        {'<br>'.join([f'<span style="color: rgba(255,255,255,0.95);">• {item}</span>' for item in rec.considerations])}
+                        {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1723,7 +1786,7 @@ def main():
                 st.markdown(f"**{palette_name}**")
                 palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
                 for color in colors:
-                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #333; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
+                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #000000; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
                 palette_html += '</div>'
                 st.markdown(palette_html, unsafe_allow_html=True)
 
