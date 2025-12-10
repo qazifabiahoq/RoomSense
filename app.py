@@ -1323,8 +1323,8 @@ def main():
     # Hero Image
     st.markdown("""
     <div style="margin: -1rem 0 2rem 0;">
-        <img src="https://images.unsplash.com/photo-1556912167-f556f1f39fdf?w=1200&h=400&fit=crop&q=80" 
-             alt="Beautiful Home Interior" 
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&h=400&fit=crop&q=80" 
+             alt="Modern Living Room Interior" 
              style="width: 100%; height: 300px; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
     </div>
     """, unsafe_allow_html=True)
