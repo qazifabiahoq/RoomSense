@@ -1237,6 +1237,52 @@ def main():
                 if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_upload", type="primary"):
                     st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
+            # Social Media Share Section
+            st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
+            st.markdown('<p style="font-weight: 600; color: #64748b; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
+            
+            share_text = f"Check out my {analysis.room_type} design from RoomSense!"
+            share_url = "https://roomsense.streamlit.app"
+            
+            social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+            
+            with social_col1:
+                st.markdown(f'''
+                <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
+                   style="display: block; padding: 0.75rem; background: #1877F2; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   Facebook
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            with social_col2:
+                st.markdown(f'''
+                <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
+                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   Twitter
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            with social_col3:
+                st.markdown(f'''
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
+                   style="display: block; padding: 0.75rem; background: #0A66C2; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   LinkedIn
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            with social_col4:
+                st.markdown(f'''
+                <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
+                   style="display: block; padding: 0.75rem; background: #E60023; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   Pinterest
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
     
     elif analysis_mode == 'Live Camera':
@@ -1496,6 +1542,52 @@ def main():
                 if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_camera", type="primary"):
                     st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
             
+            # Social Media Share Section
+            st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
+            st.markdown('<p style="font-weight: 600; color: #64748b; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
+            
+            share_text = f"Check out my {analysis.room_type} design from RoomSense!"
+            share_url = "https://roomsense.streamlit.app"
+            
+            social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+            
+            with social_col1:
+                st.markdown(f'''
+                <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
+                   style="display: block; padding: 0.75rem; background: #1877F2; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   Facebook
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            with social_col2:
+                st.markdown(f'''
+                <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
+                   style="display: block; padding: 0.75rem; background: #1DA1F2; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   Twitter
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            with social_col3:
+                st.markdown(f'''
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
+                   style="display: block; padding: 0.75rem; background: #0A66C2; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   LinkedIn
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            with social_col4:
+                st.markdown(f'''
+                <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
+                   style="display: block; padding: 0.75rem; background: #E60023; color: white; border-radius: 8px; 
+                   text-align: center; text-decoration: none; font-weight: 600;">
+                   Pinterest
+                </a>
+                ''', unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
     
     else:  # Manual Entry
