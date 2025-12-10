@@ -202,6 +202,10 @@ st.markdown("""
         box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         border-top: 3px solid #06b6d4;
         transition: all 0.3s ease;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-box:hover {
@@ -740,13 +744,13 @@ class SpaceVisionAI:
         """Detect furniture and objects in the room"""
         # In production, this would use YOLOv5 or Faster R-CNN
         common_objects = [
-            'Desk', 'Chair', 'Bookshelf', 'Lamp', 'Sofa', 'Table', 
+            'Desk', 'Chair', 'Bookshelf', 'Shelf', 'Lamp', 'Sofa', 'Table', 
             'Cabinet', 'Window', 'Door', 'Rug', 'Plant', 'Artwork',
-            'Bed Frame', 'Nightstand', 'Dresser', 'Mirror', 'Curtains',
+            'Bed', 'Bed Frame', 'Nightstand', 'Dresser', 'Mirror', 'Curtains',
             'TV Stand', 'Coffee Table', 'Side Table', 'Shelving Unit'
         ]
         # Simulate object detection
-        num_objects = np.random.randint(4, 9)
+        num_objects = np.random.randint(5, 10)
         detected = np.random.choice(common_objects, size=num_objects, replace=False)
         return detected.tolist()
     
@@ -974,44 +978,65 @@ def main():
         if uploaded_file is not None:
             # Display image
             image = Image.open(uploaded_file)
-            col1, col2 = st.columns([1, 1])
             
-            with col1:
+            # Check if we need to run analysis (only if new file or no cached analysis)
+            file_id = f"{uploaded_file.name}_{uploaded_file.size}"
+            
+            if 'last_file_id' not in st.session_state or st.session_state.last_file_id != file_id:
+                # New file uploaded - run analysis
+                col1, col2 = st.columns([1, 1])
+                
+                with col1:
+                    st.image(image, caption="Uploaded Room Image", use_container_width=True)
+                
+                with col2:
+                    st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
+                    
+                    # Simulate processing
+                    with st.spinner('Analyzing your space...'):
+                        import time
+                        progress_bar = st.progress(0)
+                        for i in range(100):
+                            time.sleep(0.01)
+                            progress_bar.progress(i + 1)
+                        
+                        # Run AI analysis
+                        scene_analysis = ai_system.analyze_room_scene(image)
+                        detected_objects = ai_system.detect_objects(image)
+                        dimensions = ai_system.estimate_dimensions(image)
+                        color_palette = ai_system.extract_color_palette(image)
+                        
+                        progress_bar.empty()
+                    
+                    st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
+                
+                # Store analysis in session state
+                st.session_state.last_file_id = file_id
+                st.session_state.room_analysis = {
+                    'room_type': scene_analysis['room_type'],
+                    'confidence': scene_analysis['confidence'],
+                    'dimensions': dimensions,
+                    'lighting': scene_analysis['lighting'],
+                    'layout_type': scene_analysis['layout_type'],
+                    'detected_objects': detected_objects,
+                    'color_palette': color_palette
+                }
+            else:
+                # Same file - use cached analysis
                 st.image(image, caption="Uploaded Room Image", use_container_width=True)
-            
-            with col2:
-                st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
-                
-                # Simulate processing
-                with st.spinner('Analyzing your space...'):
-                    import time
-                    progress_bar = st.progress(0)
-                    for i in range(100):
-                        time.sleep(0.01)
-                        progress_bar.progress(i + 1)
-                    
-                    # Run AI analysis
-                    scene_analysis = ai_system.analyze_room_scene(image)
-                    detected_objects = ai_system.detect_objects(image)
-                    dimensions = ai_system.estimate_dimensions(image)
-                    color_palette = ai_system.extract_color_palette(image)
-                    
-                    progress_bar.empty()
-                
-                st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
-        if uploaded_file is not None:
-            # Create RoomAnalysis object
+        if uploaded_file is not None and 'room_analysis' in st.session_state:
+            # Create RoomAnalysis object from session state
             analysis = RoomAnalysis(
-                room_type=scene_analysis['room_type'],
-                confidence=scene_analysis['confidence'],
-                dimensions=dimensions,
-                lighting=scene_analysis['lighting'],
-                layout_type=scene_analysis['layout_type'],
-                detected_objects=detected_objects,
-                color_palette=color_palette
+                room_type=st.session_state.room_analysis['room_type'],
+                confidence=st.session_state.room_analysis['confidence'],
+                dimensions=st.session_state.room_analysis['dimensions'],
+                lighting=st.session_state.room_analysis['lighting'],
+                layout_type=st.session_state.room_analysis['layout_type'],
+                detected_objects=st.session_state.room_analysis['detected_objects'],
+                color_palette=st.session_state.room_analysis['color_palette']
             )
             
             # Display Analysis Results
@@ -1161,18 +1186,14 @@ def main():
             <div class="inspiration-section">
                 <h3 class="inspiration-title">Get Inspired</h3>
                 <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
-                <div class="inspiration-grid">
+                <div class="inspiration-grid" style="grid-template-columns: repeat(2, 1fr);">
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true&seed=42" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Modern Workspace</div>
                     </div>
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true&seed=123" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Minimalist Setup</div>
-                    </div>
-                    <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/creative%20studio%20art%20supplies%20easel%20colorful%20workspace?width=400&height=300&nologo=true" alt="Creative Studio" style="width: 100%; height: 200px; object-fit: cover;">
-                        <div class="inspiration-label">Creative Studio</div>
                     </div>
                 </div>
             </div>
@@ -1192,25 +1213,32 @@ def main():
             
             # Next Steps Action Section
             st.markdown("---")
-            st.markdown("""
-            <div class="actions-section">
-                <h3 class="actions-title">What's Next?</h3>
-                <div class="action-buttons">
-                    <div class="action-btn" onclick="window.scrollTo(0, 0);">
-                        <div class="action-icon">↻</div>
-                        <div class="action-label">Try Another Room</div>
-                    </div>
-                    <div class="action-btn" onclick="navigator.share ? navigator.share({title: 'RoomSense', text: 'Check out my room layout!', url: window.location.href}) : alert('Share feature not supported on this browser');">
-                        <div class="action-icon">⤴</div>
-                        <div class="action-label">Share Your Plan</div>
-                    </div>
-                    <div class="action-btn" onclick="window.print();">
-                        <div class="action-icon">⎙</div>
-                        <div class="action-label">Save as PDF</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown('<div class="actions-section">', unsafe_allow_html=True)
+            st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload"):
+                    st.rerun()
+            
+            with col2:
+                st.markdown("""
+                <a href="#" onclick="if(navigator.share){navigator.share({title:'RoomSense',text:'Check out my room layout!',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href);alert('Link copied to clipboard!')}" 
+                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
+                   ⤴ Share Your Plan
+                </a>
+                """, unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown("""
+                <a href="#" onclick="window.print(); return false;" 
+                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
+                   ⎙ Save as PDF
+                </a>
+                """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
     
     elif analysis_mode == 'Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
@@ -1220,43 +1248,64 @@ def main():
         camera_image = st.camera_input("Take a photo")
         
         if camera_image is not None:
-            col1, col2 = st.columns([1, 1])
+            image = Image.open(camera_image)
             
-            with col1:
-                image = Image.open(camera_image)
+            # Create unique ID for this camera capture
+            camera_id = f"camera_{camera_image.size}"
+            
+            if 'last_camera_id' not in st.session_state or st.session_state.last_camera_id != camera_id:
+                # New photo - run analysis
+                col1, col2 = st.columns([1, 1])
+                
+                with col1:
+                    st.image(image, caption="Captured Photo", use_container_width=True)
+                
+                with col2:
+                    st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
+                    
+                    with st.spinner('Analyzing your space...'):
+                        import time
+                        progress_bar = st.progress(0)
+                        for i in range(100):
+                            time.sleep(0.01)
+                            progress_bar.progress(i + 1)
+                        
+                        scene_analysis = ai_system.analyze_room_scene(image)
+                        detected_objects = ai_system.detect_objects(image)
+                        dimensions = ai_system.estimate_dimensions(image)
+                        color_palette = ai_system.extract_color_palette(image)
+                        
+                        progress_bar.empty()
+                    
+                    st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
+                
+                # Store in session state
+                st.session_state.last_camera_id = camera_id
+                st.session_state.camera_analysis = {
+                    'room_type': scene_analysis['room_type'],
+                    'confidence': scene_analysis['confidence'],
+                    'dimensions': dimensions,
+                    'lighting': scene_analysis['lighting'],
+                    'layout_type': scene_analysis['layout_type'],
+                    'detected_objects': detected_objects,
+                    'color_palette': color_palette
+                }
+            else:
+                # Same photo - use cached analysis
                 st.image(image, caption="Captured Photo", use_container_width=True)
-            
-            with col2:
-                st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
-                
-                with st.spinner('Analyzing your space...'):
-                    import time
-                    progress_bar = st.progress(0)
-                    for i in range(100):
-                        time.sleep(0.01)
-                        progress_bar.progress(i + 1)
-                    
-                    scene_analysis = ai_system.analyze_room_scene(image)
-                    detected_objects = ai_system.detect_objects(image)
-                    dimensions = ai_system.estimate_dimensions(image)
-                    color_palette = ai_system.extract_color_palette(image)
-                    
-                    progress_bar.empty()
-                
-                st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
-        if camera_image is not None:
-            # Create analysis object and show results
+        if camera_image is not None and 'camera_analysis' in st.session_state:
+            # Create analysis object from session state
             analysis = RoomAnalysis(
-                room_type=scene_analysis['room_type'],
-                confidence=scene_analysis['confidence'],
-                dimensions=dimensions,
-                lighting=scene_analysis['lighting'],
-                layout_type=scene_analysis['layout_type'],
-                detected_objects=detected_objects,
-                color_palette=color_palette
+                room_type=st.session_state.camera_analysis['room_type'],
+                confidence=st.session_state.camera_analysis['confidence'],
+                dimensions=st.session_state.camera_analysis['dimensions'],
+                lighting=st.session_state.camera_analysis['lighting'],
+                layout_type=st.session_state.camera_analysis['layout_type'],
+                detected_objects=st.session_state.camera_analysis['detected_objects'],
+                color_palette=st.session_state.camera_analysis['color_palette']
             )
             
             # Display analysis results (same as upload section)
@@ -1403,18 +1452,14 @@ def main():
             <div class="inspiration-section">
                 <h3 class="inspiration-title">Get Inspired</h3>
                 <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
-                <div class="inspiration-grid">
+                <div class="inspiration-grid" style="grid-template-columns: repeat(2, 1fr);">
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true&seed=42" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Modern Workspace</div>
                     </div>
                     <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true&seed=123" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Minimalist Setup</div>
-                    </div>
-                    <div class="inspiration-card">
-                        <img src="https://image.pollinations.ai/prompt/creative%20studio%20art%20supplies%20easel%20colorful%20workspace?width=400&height=300&nologo=true" alt="Creative Studio" style="width: 100%; height: 200px; object-fit: cover;">
-                        <div class="inspiration-label">Creative Studio</div>
                     </div>
                 </div>
             </div>
@@ -1434,25 +1479,32 @@ def main():
             
             # Next Steps Action Section
             st.markdown("---")
-            st.markdown("""
-            <div class="actions-section">
-                <h3 class="actions-title">What's Next?</h3>
-                <div class="action-buttons">
-                    <div class="action-btn" onclick="window.scrollTo(0, 0);">
-                        <div class="action-icon">↻</div>
-                        <div class="action-label">Try Another Room</div>
-                    </div>
-                    <div class="action-btn" onclick="navigator.share ? navigator.share({title: 'RoomSense', text: 'Check out my room layout!', url: window.location.href}) : alert('Share feature not supported on this browser');">
-                        <div class="action-icon">⤴</div>
-                        <div class="action-label">Share Your Plan</div>
-                    </div>
-                    <div class="action-btn" onclick="window.print();">
-                        <div class="action-icon">⎙</div>
-                        <div class="action-label">Save as PDF</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown('<div class="actions-section">', unsafe_allow_html=True)
+            st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera"):
+                    st.rerun()
+            
+            with col2:
+                st.markdown("""
+                <a href="#" onclick="if(navigator.share){navigator.share({title:'RoomSense',text:'Check out my room layout!',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href);alert('Link copied to clipboard!')}" 
+                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
+                   ⤴ Share Your Plan
+                </a>
+                """, unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown("""
+                <a href="#" onclick="window.print(); return false;" 
+                   style="display: block; text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">
+                   ⎙ Save as PDF
+                </a>
+                """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
     
     else:  # Manual Entry
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
