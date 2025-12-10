@@ -31,18 +31,18 @@ st.markdown("""
     /* Mobile responsive */
     @media (max-width: 768px) {
         .main-header {
-        text-align: center;
+            text-align: center;
             padding: 1.5rem 1.5rem;
             margin: -6rem -1rem 1.5rem -1rem;
         }
         
         .logo {
-        color: #000000 !important;
+            color: #000000 !important;
             font-size: 2rem;
         }
         
         .tagline {
-        color: #000000 !important;
+            color: #000000 !important;
             font-size: 0.95rem;
         }
         
@@ -62,12 +62,12 @@ st.markdown("""
     
     @media (max-width: 480px) {
         .logo {
-        color: #000000 !important;
+            color: #000000 !important;
             font-size: 1.75rem;
         }
         
         .tagline {
-        color: #000000 !important;
+            color: #000000 !important;
             font-size: 0.85rem;
         }
         
@@ -87,8 +87,6 @@ st.markdown("""
         position: relative;
         overflow: hidden;
     }
-    
-
     
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
@@ -148,7 +146,6 @@ st.markdown("""
         font-family: 'Space Grotesk', sans-serif;
         font-size: 3rem;
         font-weight: 700;
-        color: #000000 !important;
         margin: 0;
         letter-spacing: -0.02em;
         text-shadow: 2px 2px 8px rgba(0,0,0,0.15);
@@ -158,7 +155,6 @@ st.markdown("""
         color: #000000 !important;
         font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
-        color: #000000 !important;
         margin-top: 0.5rem;
         font-weight: 400;
         letter-spacing: 0.02em;
@@ -169,15 +165,12 @@ st.markdown("""
         background: #f5f5f5;
         border: 2px solid #000000;
         display: inline-block;
-        background: rgba(255,255,255,0.15);
         backdrop-filter: blur(10px);
-        color: #000000 !important;
         padding: 0.5rem 1.2rem;
         border-radius: 20px;
         font-size: 0.8rem;
         font-weight: 600;
         margin-top: 1rem;
-        border: 1px solid rgba(255,255,255,0.3);
         text-transform: uppercase;
         letter-spacing: 0.1em;
     }
@@ -186,13 +179,11 @@ st.markdown("""
     h1, h2, h3 {
         color: #000000 !important;
         font-family: 'Space Grotesk', sans-serif;
-        color: #000000;
     }
     
     p, div, span, label {
         color: #333333 !important;
         font-family: 'Inter', sans-serif;
-        color: #333333;
     }
     
     /* Sidebar styling */
@@ -203,7 +194,6 @@ st.markdown("""
     
     [data-testid="stSidebar"] .stMarkdown {
         color: #000000 !important;
-        color: #000000;
     }
     
     [data-testid="stSidebar"] label {
@@ -293,18 +283,16 @@ st.markdown("""
     
     /* Recommendation section */
     .rec-item {
-        color: white !important;
-        background: rgba(255,255,255,0.08);
-        backdrop-filter: blur(10px);
+        background: #f5f5f5 !important;
         border-radius: 16px;
         padding: 1.75rem;
         margin: 1.25rem 0;
-        border-left: 4px solid rgba(255,255,255,0.6);
+        border: 2px solid #e0e0e0 !important;
         transition: all 0.3s ease;
     }
     
     .rec-item:hover {
-        background: rgba(255,255,255,0.12);
+        background: #eeeeee !important;
         transform: translateX(8px);
     }
     
@@ -347,11 +335,11 @@ st.markdown("""
     
     /* Furniture list */
     .furniture-list {
-        color: white !important;
-        background: rgba(15,23,42,0.3);
+        background: #ffffff;
         border-radius: 12px;
         padding: 1.25rem;
         margin-top: 1rem;
+        border: 1px solid #e0e0e0;
     }
     
     .furniture-list strong {
@@ -360,7 +348,7 @@ st.markdown("""
     
     .furniture-item {
         padding: 0.6rem 0;
-        border-bottom: 1px solid rgba(255,255,255,0.25);
+        border-bottom: 1px solid #e0e0e0;
         font-size: 0.95rem;
         color: #000000 !important;
     }
@@ -381,7 +369,7 @@ st.markdown("""
     
     .status-processing {
         background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: #000000 !important;
+        color: white !important;
         animation: shimmer 2s ease-in-out infinite;
     }
     
@@ -392,7 +380,7 @@ st.markdown("""
     
     .status-complete {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: #000000 !important;
+        color: white !important;
     }
     
     /* Confidence bar */
@@ -416,7 +404,6 @@ st.markdown("""
         background: white !important;
         color: #000000 !important;
         border: 2px solid #000000 !important;
-        border: none !important;
         border-radius: 12px !important;
         padding: 1rem 3rem !important;
         font-size: 1.1rem !important;
@@ -424,7 +411,7 @@ st.markdown("""
         font-family: 'Inter', sans-serif !important;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 16px rgba(14,165,233,0.3) !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         width: 100%;
@@ -433,15 +420,9 @@ st.markdown("""
     
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(14,165,233,0.4) !important;
-        background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%) !important;
-    }
-    
-    /* Ensure all buttons in action section are same */
-    .actions-section .stButton > button {
-        height: 60px !important;
-        padding: 1rem !important;
-        font-size: 1rem !important;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.15) !important;
+        background: #000000 !important;
+        color: white !important;
     }
     
     /* Insight box */
@@ -462,64 +443,7 @@ st.markdown("""
         font-family: 'Space Grotesk', sans-serif;
     }
     
-    /* Inspiration section */
-    .inspiration-section {
-        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-        border-radius: 20px;
-        padding: 2.5rem;
-        margin: 2rem 0;
-        border: 2px solid #e0e0e0;
-    }
-    
-    .inspiration-title {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #000000;
-        margin-bottom: 1.5rem;
-        font-family: 'Space Grotesk', sans-serif;
-        text-align: center;
-    }
-    
-    .inspiration-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin: 2rem 0;
-    }
-    
-    .inspiration-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-    }
-    
-    .inspiration-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }
-    
-    .inspiration-image {
-        width: 100%;
-        height: 200px;
-        background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        color: #000000;
-    }
-    
-    .inspiration-label {
-        padding: 1rem;
-        text-align: center;
-        font-weight: 600;
-        color: #333333;
-    }
-    
-    /* Action buttons section */
+    /* Actions section */
     .actions-section {
         background: white;
         border-radius: 20px;
@@ -538,95 +462,7 @@ st.markdown("""
         text-align: center;
     }
     
-    .action-buttons {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
-    }
-    
-    .action-btn {
-        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        color: #000000;
-    }
-    
-    .action-btn:hover {
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-        border-color: #000000;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(14,165,233,0.3);
-    }
-    
-    .action-btn:hover .action-icon {
-        color: #000000 !important;
-    }
-    
-    .action-btn:hover .action-label {
-        color: #000000 !important;
-    }
-    
-    .action-icon {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        color: #000000;
-        transition: color 0.3s ease;
-    }
-    
-    .action-label {
-        font-weight: 600;
-        font-size: 1rem;
-        color: #000000;
-        transition: color 0.3s ease;
-    }
-    
-    /* Camera placeholder */
-    .camera-placeholder {
-        background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-        border-radius: 16px;
-        padding: 4rem 2rem;
-        text-align: center;
-        color: #666666;
-        margin: 2rem 0;
-        border: 2px dashed #cbd5e1;
-    }
-    
-    .camera-icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        opacity: 0.6;
-    }
-    
-    /* Form inputs */
-    .stTextInput > div > div > input {
-        color: #000000 !important;
-    },
-    .stTextInput_disabled > div > div > input,
-    .stSelectbox > div > div > select,
-    .stNumberInput > div > div > input {
-        border-radius: 10px;
-        border: 2px solid #e0e0e0;
-        padding: 0.75rem 1rem;
-        font-family: 'Inter', sans-serif;
-        transition: all 0.3s ease;
-        color: #000000;
-    }
-    
-    .stTextInput > div > div > input:focus,
-    .stSelectbox > div > div > select:focus,
-    .stNumberInput > div > div > input:focus {
-        border-color: #000000;
-        box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
-    }
-    
-
-    /* File Uploader styling - white background, black text */
+    /* File Uploader styling */
     [data-testid="stFileUploader"] {
         background: white !important;
         border: 2px dashed #000000 !important;
@@ -639,34 +475,7 @@ st.markdown("""
         font-weight: 600 !important;
     }
     
-    [data-testid="stFileUploader"] section {
-        background: white !important;
-        border: 2px dashed #000000 !important;
-        border-radius: 12px !important;
-    }
-    
-    [data-testid="stFileUploader"] section > div {
-        color: #000000 !important;
-    }
-    
-    [data-testid="stFileUploader"] small {
-        color: #666666 !important;
-    }
-    
-    [data-testid="stFileUploader"] button {
-        background: white !important;
-        color: #000000 !important;
-        border: 2px solid #000000 !important;
-    }
-    
-    /* File uploader drag text */
-    [data-testid="stFileUploader"] [data-testid="stMarkdownContainer"] p {
-        color: #000000 !important;
-    }
-    
-
-    
-    /* Camera input text - black on white */
+    /* Camera input */
     [data-testid="stCameraInput"] label {
         color: #000000 !important;
         font-weight: 600 !important;
@@ -678,14 +487,7 @@ st.markdown("""
         border: 2px solid #000000 !important;
     }
     
-    [data-testid="stCameraInput"] button:hover {
-        background: #000000 !important;
-        color: white !important;
-    }
-    
-
-    
-    /* Number input text - black on white */
+    /* Number input */
     .stNumberInput label {
         color: #000000 !important;
         font-weight: 600 !important;
@@ -694,43 +496,22 @@ st.markdown("""
     .stNumberInput input {
         color: #000000 !important;
         background: white !important;
-        border: 2px solid #000000 !important;
+        border: 2px solid #e0e0e0 !important;
     }
     
-
-        /* Progress bar */
+    /* Progress bar */
     .stProgress > div > div > div > div {
         background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
     }
     
-    /* Main content area selectbox and radio - ensure black text */
-    .main .stSelectbox label,
-    .main .stRadio label {
+    /* Selectbox and radio */
+    .stSelectbox label,
+    .stRadio label {
         color: #000000 !important;
         font-weight: 600 !important;
     }
     
-    .main .stSelectbox select,
-    .main .stSelectbox div[data-baseweb="select"],
-    .main .stSelectbox div[data-baseweb="select"] > div,
-    .main .stSelectbox div[data-baseweb="select"] span {
-        color: #000000 !important;
-    }
-    
-    .main .stRadio > div,
-    .main .stRadio label,
-    .main [data-baseweb="radio"] > div {
-        color: #000000 !important;
-    }
-    
-    
-    /* Fix dropdown selected text - make it clearly visible */
-    .stSelectbox div[data-baseweb="select"] > div > div {
-        color: #000000 !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Dropdown options list */
+    /* Dropdown options */
     [role="listbox"] {
         background: white !important;
     }
@@ -742,67 +523,14 @@ st.markdown("""
     
     [role="option"]:hover {
         background: #f5f5f5 !important;
-        color: #000000 !important;
     }
     
-    /* Selected option indicator */
     [role="option"][aria-selected="true"] {
         background: #e0e0e0 !important;
-        color: #000000 !important;
         font-weight: 600 !important;
-    }
-    
-
-        /* Select box text */
-    [data-testid="stSidebar"] .stSelectbox label,
-    [data-testid="stSidebar"] .stRadio label {
-        color: #000000 !important;
-        font-weight: 500 !important;
-    }
-    
-    /* Select box dropdown options */
-    [data-testid="stSidebar"] .stSelectbox select,
-    [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
-        color: #000000 !important;
-    }
-    
-    /* Select box selected value text */
-    [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
-        color: #000000 !important;
-    }
-    
-    /* Radio button text */
-    [data-testid="stSidebar"] .stRadio > div {
-        color: #000000 !important;
-    }
-    
-    [data-testid="stSidebar"] [data-baseweb="radio"] > div {
-        color: #000000 !important;
-    }
-    
-    /* All sidebar text elements */
-    [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] span,
-    [data-testid="stSidebar"] div {
-        color: #000000 !important;
-    }
-    
-    /* Dropdown menu items */
-    div[data-baseweb="popover"] {
-        background: white !important;
-    }
-    
-    div[data-baseweb="popover"] li {
-        color: #000000 !important;
-        background: white !important;
-    }
-    
-    div[data-baseweb="popover"] li:hover {
-        background: #f5f5f5 !important;
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 # Header
 st.markdown("""
@@ -875,7 +603,6 @@ class SpaceVisionAI:
         img_tensor = self.preprocess_image(image)
         
         # Simulated analysis (in production, use trained models)
-        # This would use custom trained models for room classification
         room_types = ['Living Room', 'Bedroom', 'Office', 'Kitchen', 'Dining Room', 'Studio']
         lighting_types = ['Natural - Excellent', 'Mixed - Good', 'Artificial - Moderate', 'Low Light']
         layout_types = ['Open Plan', 'Traditional', 'L-Shaped', 'Square', 'Rectangular']
@@ -900,12 +627,10 @@ class SpaceVisionAI:
     
     def detect_objects(self, image: Image.Image) -> List[str]:
         """Detect furniture and objects in the room"""
-        # In production, this would use YOLOv5 or Faster R-CNN
         common_objects = [
             'Desk', 'Chair', 'Bookshelf', 'Shelf', 'Lamp', 'Sofa', 'Table', 
             'Cabinet', 'Window', 'Door', 'Rug', 'Plant', 'Artwork',
-            'Bed', 'Bed Frame', 'Nightstand', 'Dresser', 'Mirror', 'Curtains',
-            'TV Stand', 'Coffee Table', 'Side Table', 'Shelving Unit'
+            'Bed', 'Nightstand', 'Dresser', 'Mirror', 'Curtains'
         ]
         # Simulate object detection
         num_objects = np.random.randint(5, 10)
@@ -913,8 +638,7 @@ class SpaceVisionAI:
         return detected.tolist()
     
     def estimate_dimensions(self, image: Image.Image) -> Dict[str, float]:
-        """Estimate room dimensions using depth estimation"""
-        # In production, use monocular depth estimation (MiDaS, DPT)
+        """Estimate room dimensions"""
         width, height = image.size
         aspect_ratio = width / height
         
@@ -951,7 +675,6 @@ def generate_workspace_recommendations(analysis: RoomAnalysis, work_type: str) -
     """Generate intelligent workspace recommendations based on AI analysis"""
     
     recommendations = []
-    area = analysis.dimensions['area']
     
     workspace_configs = {
         'Visual Art': {
@@ -1079,7 +802,6 @@ def generate_workspace_recommendations(analysis: RoomAnalysis, work_type: str) -
     return recommendations
 
 
-
 def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
     """Generate detailed, room-specific insights"""
     insights = []
@@ -1091,10 +813,8 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
         insights.append("**Smart Storage Solutions:** Perfect size for organized single-purpose space. Use under-bed storage, floating shelves, and corner units to maximize every square meter.")
     elif analysis.dimensions['area'] < 25:
         insights.append("**Balanced Layout:** Create distinct functional zones using area rugs, furniture placement, or room dividers to define different activity areas.")
-    elif analysis.dimensions['area'] < 40:
-        insights.append("**Multi-Zone Design:** Your generous space allows separate work, relaxation, and storage zones. Use lighting to define each zone's purpose.")
     else:
-        insights.append("**Open Plan Advantage:** Create distinct rooms within the room using furniture as dividers, sliding panels, or gallery walls to separate areas.")
+        insights.append("**Multi-Zone Design:** Your generous space allows separate work, relaxation, and storage zones. Use lighting to define each zone's purpose.")
     
     # Lighting insights
     if 'Natural' in analysis.lighting or 'Excellent' in analysis.lighting:
@@ -1110,15 +830,276 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
     elif analysis.dimensions['height'] < 2.4:
         insights.append("**Low Ceiling Strategy:** Use horizontal lines in decor. Mount shelves and artwork lower to create visual balance.")
     
-    # Room type specific
-    if 'Bedroom' in analysis.room_type:
-        insights.append("**Bedroom Optimization:** Keep bed as focal point. Ensure 60cm walking space on each side. Add bedside storage and blackout curtains.")
-    elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
-        insights.append("**Workspace Ergonomics:** Position desk facing wall/window. Keep monitor at arm's length, top of screen at eye level.")
-    elif 'Living' in analysis.room_type:
-        insights.append("**Living Space Flow:** Arrange seating in U or L shape. Leave 45-60cm between coffee table and seating for easy movement.")
-    
     return insights
+
+
+def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_suffix: str):
+    """Display complete analysis results with recommendations"""
+    
+    # Display Analysis Results
+    st.markdown("## Your Room Analysis")
+    
+    # Metrics
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.markdown(f"""
+        <div class="metric-box">
+            <div class="metric-icon">▪</div>
+            <div class="metric-label">Room Type</div>
+            <div class="metric-value">{analysis.room_type}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f"""
+        <div class="metric-box">
+            <div class="metric-icon">▪</div>
+            <div class="metric-label">Estimated Area</div>
+            <div class="metric-value">{analysis.dimensions['area']}<span class="metric-unit">m²</span></div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown(f"""
+        <div class="metric-box">
+            <div class="metric-icon">▪</div>
+            <div class="metric-label">Lighting</div>
+            <div class="metric-value">{analysis.lighting}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col4:
+        st.markdown(f"""
+        <div class="metric-box">
+            <div class="metric-icon">▪</div>
+            <div class="metric-label">Confidence</div>
+            <div class="metric-value">{int(analysis.confidence * 100)}<span class="metric-unit">%</span></div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Detailed Analysis
+    st.markdown('<div class="analysis-card">', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        st.markdown("### Room Specifications")
+        st.markdown(f"""
+        - **Layout Type:** {analysis.layout_type}
+        - **Width:** {analysis.dimensions['width']}m
+        - **Length:** {analysis.dimensions['length']}m
+        - **Height:** {analysis.dimensions['height']}m
+        - **Total Area:** {analysis.dimensions['area']}m²
+        """)
+        
+        if analysis.detected_objects:
+            st.markdown("### Detected Objects")
+            objects_html = " ".join([f'<span class="zone-tag">{obj}</span>' for obj in analysis.detected_objects])
+            st.markdown(objects_html, unsafe_allow_html=True)
+    
+    with col2:
+        if analysis.color_palette:
+            st.markdown("### Color Palette")
+            palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
+            for color in analysis.color_palette:
+                palette_html += f'''
+                <div style="width: 60px; height: 60px; background: {color}; 
+                     border-radius: 12px; border: 2px solid #ddd;
+                     box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+                '''
+            palette_html += '</div>'
+            st.markdown(palette_html, unsafe_allow_html=True)
+        
+        st.markdown("### Confidence Score")
+        st.markdown(f"""
+        <div class="confidence-bar">
+            <div class="confidence-fill" style="width: {analysis.confidence * 100}%;"></div>
+        </div>
+        <p style="text-align: center; font-size: 0.9rem; color: #666666; margin-top: 0.5rem;">
+            {int(analysis.confidence * 100)}% confident in room classification
+        </p>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Generate Recommendations
+    recommendations = generate_workspace_recommendations(analysis, work_type)
+    
+    st.markdown(f"""
+    <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important; border-radius: 20px; padding: 2.5rem; margin: 2rem 0;">
+        <h2 style="color: #000000 !important; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
+            Smart Recommendations for {work_type}
+        </h2>
+        <p style="color: #000000 !important; font-size: 1.1rem; margin-bottom: 2rem;">
+            Based on AI analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
+            with {analysis.lighting.lower()} conditions
+        </p>
+    """, unsafe_allow_html=True)
+    
+    for rec in recommendations:
+        st.markdown(f"""
+        <div class="rec-item">
+            <div class="rec-title">{rec.zone_name}</div>
+            <div class="rec-description">
+                <strong>Optimal Location:</strong> {rec.location}<br><br>
+                <strong>Lighting Setup:</strong> {rec.lighting_needs}
+            </div>
+            <div class="furniture-list">
+                <strong>Recommended Furniture:</strong>
+                {''.join([f'<div class="furniture-item">• {item}</div>' for item in rec.furniture])}
+            </div>
+            <div style="margin-top: 1.25rem;">
+                <strong style="font-weight: 600;">Key Considerations:</strong><br>
+                {'<br>'.join([f'<span>• {item}</span>' for item in rec.considerations])}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Additional Insights
+    st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+    st.markdown("### Smart Insights")
+    
+    insights = generate_detailed_insights(analysis)
+    
+    for insight in insights:
+        st.markdown(insight)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Color Palette Suggestions
+    st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+    st.markdown("### Suggested Color Palette for Your Space")
+    st.markdown("Based on your room type and lighting, here are professional color combinations:")
+    
+    if 'Bedroom' in analysis.room_type:
+        palette_suggestions = [
+            ("Calm & Serene", ["#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB"]),
+            ("Warm & Cozy", ["#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D"]),
+            ("Modern Neutral", ["#FAFAFA", "#EEEEEE", "#BDBDBD", "#757575"])
+        ]
+    elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
+        palette_suggestions = [
+            ("Focus Blue", ["#E3F2FD", "#BBDEFB", "#90CAF9", "#42A5F5"]),
+            ("Professional Grey", ["#FAFAFA", "#ECEFF1", "#B0BEC5", "#546E7A"]),
+            ("Creative Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
+        ]
+    elif 'Living' in analysis.room_type:
+        palette_suggestions = [
+            ("Welcoming Warm", ["#FFF8E1", "#FFECB3", "#FFD54F", "#FFA726"]),
+            ("Elegant Neutral", ["#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161"]),
+            ("Fresh Modern", ["#E0F2F1", "#B2DFDB", "#4DB6AC", "#26A69A"])
+        ]
+    else:
+        palette_suggestions = [
+            ("Bright & Airy", ["#FFFFFF", "#F5F5F5", "#EEEEEE", "#E0E0E0"]),
+            ("Warm Neutral", ["#FBE9E7", "#FFCCBC", "#FF8A65", "#FF7043"]),
+            ("Cool Modern", ["#E1F5FE", "#B3E5FC", "#4FC3F7", "#29B6F6"])
+        ]
+    
+    for palette_name, colors in palette_suggestions:
+        st.markdown(f"**{palette_name}**")
+        palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
+        for color in colors:
+            palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #000000; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
+        palette_html += '</div>'
+        st.markdown(palette_html, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Visual Inspiration
+    st.markdown("""
+    <div style="margin: 2rem 0; text-align: center;">
+        <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
+            <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=250&fit=crop" 
+                     alt="Modern Workspace" 
+                     style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern Workspace</div>
+            </div>
+            <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=250&fit=crop" 
+                     alt="Minimalist Setup" 
+                     style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Minimalist Setup</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Pinterest link
+    search_query = f"{analysis.room_type} {work_type} layout ideas"
+    st.markdown(f"""
+    <div style="text-align: center; margin: 1.5rem 0;">
+        <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
+           target="_blank" 
+           style="color: #000000; text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px solid #000000; padding-bottom: 0.25rem;">
+            Explore more {analysis.room_type} designs on Pinterest →
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Next Steps
+    st.markdown('<div class="actions-section">', unsafe_allow_html=True)
+    st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        if st.button("⎙ Save as PDF", use_container_width=True, key=f"pdf_{button_key_suffix}"):
+            st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
+    
+    # Social Media Share
+    st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
+    st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
+    
+    share_text = f"Check out my {analysis.room_type} design from RoomSense!"
+    share_url = "https://roomsense.streamlit.app"
+    
+    social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+    
+    with social_col1:
+        st.markdown(f'''
+        <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+           text-align: center; text-decoration: none; font-weight: 600;">
+           Facebook
+        </a>
+        ''', unsafe_allow_html=True)
+    
+    with social_col2:
+        st.markdown(f'''
+        <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+           text-align: center; text-decoration: none; font-weight: 600;">
+           Twitter
+        </a>
+        ''', unsafe_allow_html=True)
+    
+    with social_col3:
+        st.markdown(f'''
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+           text-align: center; text-decoration: none; font-weight: 600;">
+           LinkedIn
+        </a>
+        ''', unsafe_allow_html=True)
+    
+    with social_col4:
+        st.markdown(f'''
+        <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+           text-align: center; text-decoration: none; font-weight: 600;">
+           Pinterest
+        </a>
+        ''', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
 def main():
     """Main application"""
@@ -1126,7 +1107,7 @@ def main():
     # Initialize AI system
     ai_system = SpaceVisionAI()
     
-    # Sidebar (keep only About section)
+    # Sidebar
     with st.sidebar:
         st.markdown("### About RoomSense")
         st.markdown("""
@@ -1139,9 +1120,7 @@ def main():
         - Recommend furniture placement
         """)
     
-    # Main content - move selectors to top
-    
-    # Hero Image Section
+    # Hero Image
     st.markdown("""
     <div style="margin: -1rem 0 2rem 0;">
         <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=400&fit=crop&q=80" 
@@ -1150,7 +1129,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # Configuration at top of main page
+    # Configuration
     col1, col2 = st.columns([1, 1])
     
     with col1:
@@ -1168,8 +1147,7 @@ def main():
             horizontal=True
         )
     
-    
-    # Main content
+    # Main content based on mode
     if analysis_mode == 'Upload Photo':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
         st.markdown("### Snap a photo, get the perfect layout")
@@ -1182,14 +1160,11 @@ def main():
         )
         
         if uploaded_file is not None:
-            # Display image
             image = Image.open(uploaded_file)
             
-            # Check if we need to run analysis (only if new file or no cached analysis)
             file_id = f"{uploaded_file.name}_{uploaded_file.size}"
             
             if 'last_file_id' not in st.session_state or st.session_state.last_file_id != file_id:
-                # New file uploaded - run analysis
                 col1, col2 = st.columns([1, 1])
                 
                 with col1:
@@ -1198,7 +1173,6 @@ def main():
                 with col2:
                     st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
                     
-                    # Simulate processing
                     with st.spinner('Analyzing your space...'):
                         import time
                         progress_bar = st.progress(0)
@@ -1206,7 +1180,6 @@ def main():
                             time.sleep(0.01)
                             progress_bar.progress(i + 1)
                         
-                        # Run AI analysis
                         scene_analysis = ai_system.analyze_room_scene(image)
                         detected_objects = ai_system.detect_objects(image)
                         dimensions = ai_system.estimate_dimensions(image)
@@ -1216,7 +1189,6 @@ def main():
                     
                     st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
                 
-                # Store analysis in session state
                 st.session_state.last_file_id = file_id
                 st.session_state.room_analysis = {
                     'room_type': scene_analysis['room_type'],
@@ -1228,13 +1200,11 @@ def main():
                     'color_palette': color_palette
                 }
             else:
-                # Same file - use cached analysis
                 st.image(image, caption="Uploaded Room Image", use_container_width=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
         if uploaded_file is not None and 'room_analysis' in st.session_state:
-            # Create RoomAnalysis object from session state
             analysis = RoomAnalysis(
                 room_type=st.session_state.room_analysis['room_type'],
                 confidence=st.session_state.room_analysis['confidence'],
@@ -1245,272 +1215,7 @@ def main():
                 color_palette=st.session_state.room_analysis['color_palette']
             )
             
-            # Display Analysis Results
-            st.markdown("## Your Room Analysis")
-            
-            # Metrics
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Room Type</div>
-                    <div class="metric-value">{analysis.room_type}</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Estimated Area</div>
-                    <div class="metric-value">{analysis.dimensions['area']}<span class="metric-unit">m²</span></div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col3:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Lighting</div>
-                    <div class="metric-value">{analysis.lighting}</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col4:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Confidence</div>
-                    <div class="metric-value">{int(analysis.confidence * 100)}<span class="metric-unit">%</span></div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            # Detailed Analysis
-            st.markdown('<div class="analysis-card">', unsafe_allow_html=True)
-            
-            col1, col2 = st.columns([1, 1])
-            
-            with col1:
-                st.markdown("### Room Specifications")
-                st.markdown(f"""
-                - **Layout Type:** {analysis.layout_type}
-                - **Width:** {analysis.dimensions['width']}m
-                - **Length:** {analysis.dimensions['length']}m
-                - **Height:** {analysis.dimensions['height']}m
-                - **Total Area:** {analysis.dimensions['area']}m²
-                """)
-                
-                st.markdown("### Detected Objects")
-                objects_html = " ".join([f'<span class="zone-tag">{obj}</span>' for obj in analysis.detected_objects])
-                st.markdown(objects_html, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown("### Color Palette")
-                palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
-                for color in analysis.color_palette:
-                    palette_html += f'''
-                    <div style="width: 60px; height: 60px; background: {color}; 
-                         border-radius: 12px; border: 2px solid #ddd;
-                         box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
-                    '''
-                palette_html += '</div>'
-                st.markdown(palette_html, unsafe_allow_html=True)
-                
-                st.markdown("### Confidence Score")
-                st.markdown(f"""
-                <div class="confidence-bar">
-                    <div class="confidence-fill" style="width: {analysis.confidence * 100}%;"></div>
-                </div>
-                <p style="text-align: center; font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">
-                    {int(analysis.confidence * 100)}% confident in room classification
-                </p>
-                """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Generate Recommendations
-            recommendations = generate_workspace_recommendations(analysis, work_type)
-            
-            st.markdown(f"""
-            <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                <h2 style="color: #000000 !important; font-family: 'Noto Serif', serif; margin-bottom: 1.5rem;">
-                    Smart Recommendations for {work_type}
-                </h2>
-                <p style="color: #000000 !important; font-size: 1.1rem; margin-bottom: 2rem;">
-                    Based on AI analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
-                    with {analysis.lighting.lower()} conditions
-                </p>
-            """, unsafe_allow_html=True)
-            
-            for rec in recommendations:
-                st.markdown(f"""
-                <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                    <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: #000000 !important;"><div style="color: #000000 !important;">
-                        <strong>Optimal Location:</strong> {rec.location}<br><br>
-                        <strong>Lighting Setup:</strong> {rec.lighting_needs}
-                    </div></div>
-                    <div class="furniture-list" style="color: #000000 !important;">
-                        <strong style="color: #000000 !important;">Recommended Furniture:</strong>
-                        {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
-                    </div>
-                    <div style="margin-top: 1.25rem;">
-                        <strong style="color: #000000 !important; font-weight: 600;">Key Considerations:</strong><br>
-                        {'<br>'.join([f'<span style="color: #000000 !important;">• {item}</span>' for item in rec.considerations])}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Additional Insights
-            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-            st.markdown("### Smart Insights")
-            
-            insights = generate_detailed_insights(analysis)
-            
-            for insight in insights:
-                st.markdown(insight)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-
-
-
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Suggested Color Palette Section
-            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-            st.markdown("### Suggested Color Palette for Your Space")
-            st.markdown("Based on your room type and lighting, here are professional color combinations:")
-            
-            # Generate color suggestions based on room type and lighting
-            if 'Bedroom' in analysis.room_type:
-                palette_suggestions = [
-                    ("Calm & Serene", ["#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB"]),
-                    ("Warm & Cozy", ["#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D"]),
-                    ("Modern Neutral", ["#FAFAFA", "#EEEEEE", "#BDBDBD", "#757575"])
-                ]
-            elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
-                palette_suggestions = [
-                    ("Focus Blue", ["#E3F2FD", "#BBDEFB", "#90CAF9", "#42A5F5"]),
-                    ("Professional Grey", ["#FAFAFA", "#ECEFF1", "#B0BEC5", "#546E7A"]),
-                    ("Creative Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
-                ]
-            elif 'Living' in analysis.room_type:
-                palette_suggestions = [
-                    ("Welcoming Warm", ["#FFF8E1", "#FFECB3", "#FFD54F", "#FFA726"]),
-                    ("Elegant Neutral", ["#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161"]),
-                    ("Fresh Modern", ["#E0F2F1", "#B2DFDB", "#4DB6AC", "#26A69A"])
-                ]
-            else:
-                palette_suggestions = [
-                    ("Bright & Airy", ["#FFFFFF", "#F5F5F5", "#EEEEEE", "#E0E0E0"]),
-                    ("Warm Neutral", ["#FBE9E7", "#FFCCBC", "#FF8A65", "#FF7043"]),
-                    ("Cool Modern", ["#E1F5FE", "#B3E5FC", "#4FC3F7", "#29B6F6"])
-                ]
-            
-            for palette_name, colors in palette_suggestions:
-                st.markdown(f"**{palette_name}**")
-                palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
-                for color in colors:
-                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #000000; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
-                palette_html += '</div>'
-                st.markdown(palette_html, unsafe_allow_html=True)
-
-            # Visual Inspiration Section
-            st.markdown("""
-            <div style="margin: 2rem 0; text-align: center;">
-                <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
-                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                        <img src="https://image.pollinations.ai/prompt/modern%20minimalist%20workspace%20desk%20natural%20light?width=400&height=250&nologo=true&seed=42" 
-                             alt="Modern Workspace" 
-                             style="width: 100%; height: 200px; object-fit: cover;">
-                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern Workspace</div>
-                    </div>
-                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20clean%20aesthetic?width=400&height=250&nologo=true&seed=123" 
-                             alt="Minimalist Setup" 
-                             style="width: 100%; height: 200px; object-fit: cover;">
-                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Minimalist Setup</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Pinterest link
-            search_query = f"{analysis.room_type} {work_type} layout ideas"
-            st.markdown(f"""
-            <div style="text-align: center; margin: 1.5rem 0;">
-                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
-                   target="_blank" 
-                   style="color: #000000; text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px solid #000000; padding-bottom: 0.25rem;">
-                    Explore more {analysis.room_type} designs on Pinterest →
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Next Steps Action Section
-            st.markdown('<div class="actions-section">', unsafe_allow_html=True)
-            st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
-            
-            # Single centered button
-            col1, col2, col3 = st.columns([1, 2, 1])
-            
-            with col2:
-                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_upload"):
-                    st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
-            
-            # Social Media Share Section
-            st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
-            st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
-            
-            share_text = f"Check out my {analysis.room_type} design from RoomSense!"
-            share_url = "https://roomsense.streamlit.app"
-            
-            social_col1, social_col2, social_col3, social_col4 = st.columns(4)
-            
-            with social_col1:
-                st.markdown(f'''
-                <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   Facebook
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            with social_col2:
-                st.markdown(f'''
-                <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   Twitter
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            with social_col3:
-                st.markdown(f'''
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   LinkedIn
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            with social_col4:
-                st.markdown(f'''
-                <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   Pinterest
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            display_analysis_results(analysis, work_type, "upload")
     
     elif analysis_mode == 'Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
@@ -1522,11 +1227,9 @@ def main():
         if camera_image is not None:
             image = Image.open(camera_image)
             
-            # Create unique ID for this camera capture
             camera_id = f"camera_{camera_image.size}"
             
             if 'last_camera_id' not in st.session_state or st.session_state.last_camera_id != camera_id:
-                # New photo - run analysis
                 col1, col2 = st.columns([1, 1])
                 
                 with col1:
@@ -1551,7 +1254,6 @@ def main():
                     
                     st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
                 
-                # Store in session state
                 st.session_state.last_camera_id = camera_id
                 st.session_state.camera_analysis = {
                     'room_type': scene_analysis['room_type'],
@@ -1563,13 +1265,11 @@ def main():
                     'color_palette': color_palette
                 }
             else:
-                # Same photo - use cached analysis
                 st.image(image, caption="Captured Photo", use_container_width=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
         if camera_image is not None and 'camera_analysis' in st.session_state:
-            # Create analysis object from session state
             analysis = RoomAnalysis(
                 room_type=st.session_state.camera_analysis['room_type'],
                 confidence=st.session_state.camera_analysis['confidence'],
@@ -1580,261 +1280,7 @@ def main():
                 color_palette=st.session_state.camera_analysis['color_palette']
             )
             
-            # Display analysis results (same as upload section)
-            st.markdown("## Your Room Analysis")
-            
-            # Metrics
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Room Type</div>
-                    <div class="metric-value">{analysis.room_type}</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Estimated Area</div>
-                    <div class="metric-value">{analysis.dimensions['area']}<span class="metric-unit">m²</span></div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col3:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Lighting</div>
-                    <div class="metric-value">{analysis.lighting}</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col4:
-                st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-icon">▪</div>
-                    <div class="metric-label">Confidence</div>
-                    <div class="metric-value">{int(analysis.confidence * 100)}<span class="metric-unit">%</span></div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            # Detailed Analysis
-            st.markdown('<div class="analysis-card">', unsafe_allow_html=True)
-            
-            col1, col2 = st.columns([1, 1])
-            
-            with col1:
-                st.markdown("### Room Specifications")
-                st.markdown(f"""
-                - **Layout Type:** {analysis.layout_type}
-                - **Width:** {analysis.dimensions['width']}m
-                - **Length:** {analysis.dimensions['length']}m
-                - **Height:** {analysis.dimensions['height']}m
-                - **Total Area:** {analysis.dimensions['area']}m²
-                """)
-                
-                st.markdown("### Detected Objects")
-                objects_html = " ".join([f'<span class="zone-tag">{obj}</span>' for obj in analysis.detected_objects])
-                st.markdown(objects_html, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown("### Confidence Score")
-                st.markdown(f"""
-                <div class="confidence-bar">
-                    <div class="confidence-fill" style="width: {analysis.confidence * 100}%;"></div>
-                </div>
-                <p style="text-align: center; font-size: 0.9rem; color: #666666; margin-top: 0.5rem;">
-                    {int(analysis.confidence * 100)}% confident in room classification
-                </p>
-                """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Generate Recommendations
-            recommendations = generate_workspace_recommendations(analysis, work_type)
-            
-            st.markdown(f"""
-            <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                <h2 style="color: #000000 !important; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
-                    Smart Recommendations for {work_type}
-                </h2>
-                <p style="color: #000000 !important; font-size: 1.1rem; margin-bottom: 2rem;">
-                    Based on analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
-                    with {analysis.lighting.lower()} conditions
-                </p>
-            """, unsafe_allow_html=True)
-            
-            for rec in recommendations:
-                st.markdown(f"""
-                <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                    <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: #000000 !important;"><div style="color: #000000 !important;">
-                        <strong>Optimal Location:</strong> {rec.location}<br><br>
-                        <strong>Lighting Setup:</strong> {rec.lighting_needs}
-                    </div></div>
-                    <div class="furniture-list" style="color: #000000 !important;">
-                        <strong style="color: #000000 !important;">Recommended Furniture:</strong>
-                        {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
-                    </div>
-                    <div style="margin-top: 1.25rem;">
-                        <strong style="color: #000000 !important; font-weight: 600;">Key Considerations:</strong><br>
-                        {'<br>'.join([f'<span style="color: #000000 !important;">• {item}</span>' for item in rec.considerations])}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Additional Insights
-            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-            st.markdown("### Smart Insights")
-            
-            insights = generate_detailed_insights(analysis)
-            
-            for insight in insights:
-                st.markdown(insight)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-
-
-
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Suggested Color Palette Section
-            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-            st.markdown("### Suggested Color Palette for Your Space")
-            st.markdown("Based on your room type and lighting, here are professional color combinations:")
-            
-            # Generate color suggestions based on room type and lighting
-            if 'Bedroom' in analysis.room_type:
-                palette_suggestions = [
-                    ("Calm & Serene", ["#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB"]),
-                    ("Warm & Cozy", ["#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D"]),
-                    ("Modern Neutral", ["#FAFAFA", "#EEEEEE", "#BDBDBD", "#757575"])
-                ]
-            elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
-                palette_suggestions = [
-                    ("Focus Blue", ["#E3F2FD", "#BBDEFB", "#90CAF9", "#42A5F5"]),
-                    ("Professional Grey", ["#FAFAFA", "#ECEFF1", "#B0BEC5", "#546E7A"]),
-                    ("Creative Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
-                ]
-            elif 'Living' in analysis.room_type:
-                palette_suggestions = [
-                    ("Welcoming Warm", ["#FFF8E1", "#FFECB3", "#FFD54F", "#FFA726"]),
-                    ("Elegant Neutral", ["#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161"]),
-                    ("Fresh Modern", ["#E0F2F1", "#B2DFDB", "#4DB6AC", "#26A69A"])
-                ]
-            else:
-                palette_suggestions = [
-                    ("Bright & Airy", ["#FFFFFF", "#F5F5F5", "#EEEEEE", "#E0E0E0"]),
-                    ("Warm Neutral", ["#FBE9E7", "#FFCCBC", "#FF8A65", "#FF7043"]),
-                    ("Cool Modern", ["#E1F5FE", "#B3E5FC", "#4FC3F7", "#29B6F6"])
-                ]
-            
-            for palette_name, colors in palette_suggestions:
-                st.markdown(f"**{palette_name}**")
-                palette_html = '<div style="display: flex; gap: 0.75rem; margin: 0.75rem 0 1.5rem 0;">'
-                for color in colors:
-                    palette_html += f'<div style="flex: 1; height: 60px; background: {color}; border-radius: 8px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: flex-end; justify-content: center; padding: 0.5rem;"><span style="font-size: 0.7rem; font-weight: 600; color: #000000; background: rgba(255,255,255,0.9); padding: 0.25rem 0.5rem; border-radius: 4px;">{color}</span></div>'
-                palette_html += '</div>'
-                st.markdown(palette_html, unsafe_allow_html=True)
-
-            # Visual Inspiration Section
-            st.markdown("""
-            <div style="margin: 2rem 0; text-align: center;">
-                <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
-                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                        <img src="https://image.pollinations.ai/prompt/modern%20minimalist%20workspace%20desk%20natural%20light?width=400&height=250&nologo=true&seed=42" 
-                             alt="Modern Workspace" 
-                             style="width: 100%; height: 200px; object-fit: cover;">
-                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern Workspace</div>
-                    </div>
-                    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20clean%20aesthetic?width=400&height=250&nologo=true&seed=123" 
-                             alt="Minimalist Setup" 
-                             style="width: 100%; height: 200px; object-fit: cover;">
-                        <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Minimalist Setup</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Pinterest link
-            search_query = f"{analysis.room_type} {work_type} layout ideas"
-            st.markdown(f"""
-            <div style="text-align: center; margin: 1.5rem 0;">
-                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
-                   target="_blank" 
-                   style="color: #000000; text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px solid #000000; padding-bottom: 0.25rem;">
-                    Explore more {analysis.room_type} designs on Pinterest →
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Next Steps Action Section
-            st.markdown('<div class="actions-section">', unsafe_allow_html=True)
-            st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
-            
-            # Single centered button
-            col1, col2, col3 = st.columns([1, 2, 1])
-            
-            with col2:
-                if st.button("⎙ Save as PDF", use_container_width=True, key="pdf_camera"):
-                    st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
-            
-            # Social Media Share Section
-            st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
-            st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
-            
-            share_text = f"Check out my {analysis.room_type} design from RoomSense!"
-            share_url = "https://roomsense.streamlit.app"
-            
-            social_col1, social_col2, social_col3, social_col4 = st.columns(4)
-            
-            with social_col1:
-                st.markdown(f'''
-                <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   Facebook
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            with social_col2:
-                st.markdown(f'''
-                <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   Twitter
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            with social_col3:
-                st.markdown(f'''
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   LinkedIn
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            with social_col4:
-                st.markdown(f'''
-                <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-                   style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
-                   text-align: center; text-decoration: none; font-weight: 600;">
-                   Pinterest
-                </a>
-                ''', unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            display_analysis_results(analysis, work_type, "camera")
     
     else:  # Manual Entry
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
@@ -1864,31 +1310,7 @@ def main():
             )
             
             st.success("Generating recommendations based on your input...")
-            recommendations = generate_workspace_recommendations(analysis, work_type)
-            
-            # Display recommendations (same format as above)
-            st.markdown(f"""
-            <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                <h2 style="color: #000000 !important; font-family: 'Noto Serif', serif;">
-                    Recommendations for {work_type}
-                </h2>
-            """, unsafe_allow_html=True)
-            
-            for rec in recommendations:
-                st.markdown(f"""
-                <div class="rec-item" style="background: #f5f5f5 !important; color: #000000 !important; border: 2px solid #e0e0e0 !important;">
-                    <div class="rec-title" style="color: #000000 !important;">{rec.zone_name}</div>
-                    <div class="rec-description" style="color: #000000 !important;"><div style="color: #000000 !important;">
-                        <strong>Location:</strong> {rec.location}<br>
-                        <strong>Lighting:</strong> {rec.lighting_needs}
-                    </div></div>
-                    <div class="furniture-list" style="color: #000000 !important;">
-                        {''.join([f'<div style="color: #000000 !important; padding: 0.6rem 0; border-bottom: 1px solid #e0e0e0;">• {item}</div>' for item in rec.furniture])}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
+            display_analysis_results(analysis, work_type, "manual")
         
         st.markdown('</div>', unsafe_allow_html=True)
 
