@@ -37,12 +37,12 @@ st.markdown("""
         }
         
         .logo {
-        color: white !important;
+        color: #000000 !important;
             font-size: 2rem;
         }
         
         .tagline {
-        color: white !important;
+        color: #000000 !important;
             font-size: 0.95rem;
         }
         
@@ -62,12 +62,12 @@ st.markdown("""
     
     @media (max-width: 480px) {
         .logo {
-        color: white !important;
+        color: #000000 !important;
             font-size: 1.75rem;
         }
         
         .tagline {
-        color: white !important;
+        color: #000000 !important;
             font-size: 0.85rem;
         }
         
@@ -79,7 +79,7 @@ st.markdown("""
     /* Main header */
     .main-header {
         text-align: center;
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        background: white;
         padding: 2.5rem 3rem;
         border-radius: 0 0 24px 24px;
         margin: -6rem -5rem 2rem -5rem;
@@ -88,16 +88,7 @@ st.markdown("""
         overflow: hidden;
     }
     
-    .main-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        opacity: 1;
-    }
+
     
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
@@ -127,7 +118,7 @@ st.markdown("""
     /* Main header with RoomSense branding */
     .main-header {
         text-align: center;
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        background: white;
         padding: 2.5rem 3rem;
         border-radius: 0 0 24px 24px;
         margin: -6rem -5rem 2rem -5rem;
@@ -153,7 +144,7 @@ st.markdown("""
     }
     
     .logo {
-        color: white !important;
+        color: #000000 !important;
         font-family: 'Space Grotesk', sans-serif;
         font-size: 3rem;
         font-weight: 700;
@@ -164,7 +155,7 @@ st.markdown("""
     }
     
     .tagline {
-        color: white !important;
+        color: #000000 !important;
         font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
         color: #000000 !important;
@@ -174,7 +165,9 @@ st.markdown("""
     }
     
     .ai-badge {
-        color: white !important;
+        color: #000000 !important;
+        background: #f5f5f5;
+        border: 2px solid #000000;
         display: inline-block;
         background: rgba(255,255,255,0.15);
         backdrop-filter: blur(10px);
@@ -815,9 +808,9 @@ st.markdown("""
 st.markdown("""
 <div class="main-header">
     <div class="header-content">
-        <h1 class="logo" style="color: white !important;">RoomSense</h1>
-        <p class="tagline" style="color: white !important;">Design your perfect space</p>
-        <span class="ai-badge" style="color: white !important;">Smart Space Planning</span>
+        <h1 class="logo" style="color: #000000 !important;">RoomSense</h1>
+        <p class="tagline" style="color: #000000 !important;">Design your perfect space</p>
+        <span class="ai-badge" style="color: #000000 !important;">Smart Space Planning</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
