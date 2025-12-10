@@ -547,30 +547,33 @@ st.markdown("""
         margin-bottom: 0.5rem !important;
     }
     
+    /* Slider track - make it visible */
     .stSlider [data-baseweb="slider"] {
-        background: white !important;
-        border: 2px solid #e0e0e0 !important;
-        border-radius: 12px !important;
-        padding: 1.5rem 1rem !important;
+        padding: 0.5rem 0 !important;
     }
     
+    .stSlider [data-baseweb="slider"] > div > div {
+        background: #000000 !important;
+        height: 4px !important;
+    }
+    
+    /* Slider thumb/handle */
     .stSlider [role="slider"] {
         background: #000000 !important;
-        border: 2px solid #000000 !important;
-        width: 24px !important;
-        height: 24px !important;
+        border: 3px solid #000000 !important;
+        width: 20px !important;
+        height: 20px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
     }
     
+    /* Slider labels */
     .stSlider [data-baseweb="tick-bar"] {
         color: #000000 !important;
         font-weight: 600 !important;
+        padding-top: 0.5rem !important;
     }
     
     .stSlider [data-baseweb="tick-bar"] > div {
-        color: #000000 !important;
-    }
-    
-    .stSlider .stMarkdown {
         color: #000000 !important;
     }
     
