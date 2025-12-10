@@ -36,10 +36,12 @@ st.markdown("""
         }
         
         .logo {
+        color: white !important;
             font-size: 2rem;
         }
         
         .tagline {
+        color: white !important;
             font-size: 0.95rem;
         }
         
@@ -63,10 +65,12 @@ st.markdown("""
     
     @media (max-width: 480px) {
         .logo {
+        color: white !important;
             font-size: 1.75rem;
         }
         
         .tagline {
+        color: white !important;
             font-size: 0.85rem;
         }
         
@@ -150,6 +154,7 @@ st.markdown("""
     }
     
     .logo {
+        color: white !important;
         font-family: 'Space Grotesk', sans-serif;
         font-size: 3rem;
         font-weight: 700;
@@ -160,6 +165,7 @@ st.markdown("""
     }
     
     .tagline {
+        color: white !important;
         font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
         color: rgba(255,255,255,0.95);
@@ -185,11 +191,13 @@ st.markdown("""
     
     /* Typography */
     h1, h2, h3 {
+        color: #000000 !important;
         font-family: 'Space Grotesk', sans-serif;
         color: #000000;
     }
     
     p, div, span, label {
+        color: #333333 !important;
         font-family: 'Inter', sans-serif;
         color: #333333;
     }
@@ -201,6 +209,7 @@ st.markdown("""
     }
     
     [data-testid="stSidebar"] .stMarkdown {
+        color: #000000 !important;
         color: #000000;
     }
     
@@ -325,6 +334,7 @@ st.markdown("""
     }
     
     .rec-item {
+        color: white !important;
         background: rgba(255,255,255,0.08);
         backdrop-filter: blur(10px);
         border-radius: 16px;
@@ -373,6 +383,7 @@ st.markdown("""
     
     /* Furniture list */
     .furniture-list {
+        color: white !important;
         background: rgba(15,23,42,0.3);
         border-radius: 12px;
         padding: 1.25rem;
@@ -612,7 +623,7 @@ st.markdown("""
     
     /* Camera placeholder */
     .camera-placeholder {
-        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
         border-radius: 16px;
         padding: 4rem 2rem;
         text-align: center;
@@ -628,15 +639,18 @@ st.markdown("""
     }
     
     /* Form inputs */
-    .stTextInput > div > div > input,
+    .stTextInput > div > div > input {
+        color: #000000 !important;
+    },
+    .stTextInput_disabled > div > div > input,
     .stSelectbox > div > div > select,
     .stNumberInput > div > div > input {
         border-radius: 10px;
-        border: 2px solid #e2e8f0;
+        border: 2px solid #e0e0e0;
         padding: 0.75rem 1rem;
         font-family: 'Inter', sans-serif;
         transition: all 0.3s ease;
-        color: #1e293b;
+        color: #000000;
     }
     
     .stTextInput > div > div > input:focus,
@@ -651,38 +665,58 @@ st.markdown("""
         background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
     }
     
-    /* Select box text */
+    /* Main content area selectbox and radio - ensure black text */
+    .main .stSelectbox label,
+    .main .stRadio label {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    .main .stSelectbox select,
+    .main .stSelectbox div[data-baseweb="select"],
+    .main .stSelectbox div[data-baseweb="select"] > div,
+    .main .stSelectbox div[data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    
+    .main .stRadio > div,
+    .main .stRadio label,
+    .main [data-baseweb="radio"] > div {
+        color: #000000 !important;
+    }
+    
+        /* Select box text */
     [data-testid="stSidebar"] .stSelectbox label,
     [data-testid="stSidebar"] .stRadio label {
-        color: #1e293b !important;
+        color: #000000 !important;
         font-weight: 500 !important;
     }
     
     /* Select box dropdown options */
     [data-testid="stSidebar"] .stSelectbox select,
     [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
-        color: #1e293b !important;
+        color: #000000 !important;
     }
     
     /* Select box selected value text */
     [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
-        color: #1e293b !important;
+        color: #000000 !important;
     }
     
     /* Radio button text */
     [data-testid="stSidebar"] .stRadio > div {
-        color: #1e293b !important;
+        color: #000000 !important;
     }
     
     [data-testid="stSidebar"] [data-baseweb="radio"] > div {
-        color: #1e293b !important;
+        color: #000000 !important;
     }
     
     /* All sidebar text elements */
     [data-testid="stSidebar"] p,
     [data-testid="stSidebar"] span,
     [data-testid="stSidebar"] div {
-        color: #1e293b !important;
+        color: #000000 !important;
     }
     
     /* Dropdown menu items */
@@ -691,12 +725,12 @@ st.markdown("""
     }
     
     div[data-baseweb="popover"] li {
-        color: #1e293b !important;
+        color: #000000 !important;
         background: white !important;
     }
     
     div[data-baseweb="popover"] li:hover {
-        background: #f1f5f9 !important;
+        background: #f5f5f5 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1252,7 +1286,7 @@ def main():
                     </div>
                     <div class="furniture-list">
                         <strong style="color: white;">Recommended Furniture:</strong>
-                        {''.join([f'<div class="furniture-item">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div class="furniture-item" style="color: white !important;">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
                         <strong style="color: white;">Key Considerations:</strong><br>
@@ -1509,7 +1543,7 @@ def main():
                     </div>
                     <div class="furniture-list">
                         <strong style="color: white;">Recommended Furniture:</strong>
-                        {''.join([f'<div class="furniture-item">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div class="furniture-item" style="color: white !important;">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
                         <strong style="color: white;">Key Considerations:</strong><br>
@@ -1642,7 +1676,7 @@ def main():
                         <strong>Lighting:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
-                        {''.join([f'<div class="furniture-item">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div class="furniture-item" style="color: white !important;">• {item}</div>' for item in rec.furniture])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
