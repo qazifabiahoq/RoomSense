@@ -54,6 +54,7 @@ st.markdown("""
         }
         
         .camera-section, .analysis-card, .recommendation-section {
+        background: #000000 !important;
             padding: 1.5rem;
         }
         
@@ -301,6 +302,7 @@ st.markdown("""
     
     /* Recommendation section */
     .recommendation-section {
+        background: #000000 !important;
         background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
         border-radius: 20px;
         padding: 2.5rem;
@@ -1372,7 +1374,7 @@ def main():
             recommendations = generate_workspace_recommendations(analysis, work_type)
             
             st.markdown(f"""
-            <div class="recommendation-section">
+            <div class="recommendation-section" style="background: #000000 !important; color: white !important;">
                 <h2 style="color: white; font-family: 'Noto Serif', serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
@@ -1384,7 +1386,7 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item" style="background: rgba(50,50,50,0.95) !important; color: white !important;">
+                <div class="rec-item" style="background: rgba(40,40,40,0.98) !important; color: white !important;">
                     <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
                     <div class="rec-description" style="color: white !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
@@ -1392,10 +1394,10 @@ def main():
                     </div>
                     <div class="furniture-list">
                         <strong style="color: white;">Recommended Furniture:</strong>
-                        {''.join([f'<div class="furniture-item" style="color: white !important;">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div style="color: white !important; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.25);">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
-                        <strong style="color: white;">Key Considerations:</strong><br>
+                        <strong style="color: white !important; font-weight: 600;">Key Considerations:</strong><br>
                         {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
@@ -1704,7 +1706,7 @@ def main():
             recommendations = generate_workspace_recommendations(analysis, work_type)
             
             st.markdown(f"""
-            <div class="recommendation-section">
+            <div class="recommendation-section" style="background: #000000 !important; color: white !important;">
                 <h2 style="color: white; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
                     Smart Recommendations for {work_type}
                 </h2>
@@ -1716,7 +1718,7 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item" style="background: rgba(50,50,50,0.95) !important; color: white !important;">
+                <div class="rec-item" style="background: rgba(40,40,40,0.98) !important; color: white !important;">
                     <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
                     <div class="rec-description" style="color: white !important;">
                         <strong>Optimal Location:</strong> {rec.location}<br><br>
@@ -1724,10 +1726,10 @@ def main():
                     </div>
                     <div class="furniture-list">
                         <strong style="color: white;">Recommended Furniture:</strong>
-                        {''.join([f'<div class="furniture-item" style="color: white !important;">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div style="color: white !important; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.25);">• {item}</div>' for item in rec.furniture])}
                     </div>
                     <div style="margin-top: 1.25rem;">
-                        <strong style="color: white;">Key Considerations:</strong><br>
+                        <strong style="color: white !important; font-weight: 600;">Key Considerations:</strong><br>
                         {'<br>'.join([f'<span style="color: #ffffff;">• {item}</span>' for item in rec.considerations])}
                     </div>
                 </div>
@@ -1914,7 +1916,7 @@ def main():
             
             # Display recommendations (same format as above)
             st.markdown(f"""
-            <div class="recommendation-section">
+            <div class="recommendation-section" style="background: #000000 !important; color: white !important;">
                 <h2 style="color: white; font-family: 'Noto Serif', serif;">
                     Recommendations for {work_type}
                 </h2>
@@ -1922,14 +1924,14 @@ def main():
             
             for rec in recommendations:
                 st.markdown(f"""
-                <div class="rec-item" style="background: rgba(50,50,50,0.95) !important; color: white !important;">
+                <div class="rec-item" style="background: rgba(40,40,40,0.98) !important; color: white !important;">
                     <div class="rec-title" style="color: white !important;">{rec.zone_name}</div>
                     <div class="rec-description" style="color: white !important;">
                         <strong>Location:</strong> {rec.location}<br>
                         <strong>Lighting:</strong> {rec.lighting_needs}
                     </div>
                     <div class="furniture-list">
-                        {''.join([f'<div class="furniture-item" style="color: white !important;">• {item}</div>' for item in rec.furniture])}
+                        {''.join([f'<div style="color: white !important; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.25);">• {item}</div>' for item in rec.furniture])}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
