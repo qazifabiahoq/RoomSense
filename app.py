@@ -198,7 +198,7 @@ st.markdown("""
     .metric-box {
         background: white;
         border-radius: 16px;
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
         box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         border-top: 3px solid #06b6d4;
         transition: all 0.3s ease;
@@ -222,7 +222,7 @@ st.markdown("""
     }
     
     .metric-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         color: #64748b;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -231,18 +231,18 @@ st.markdown("""
     }
     
     .metric-value {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         font-weight: 700;
         color: #0f172a;
         font-family: 'Space Grotesk', sans-serif;
-        line-height: 1.2;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        line-height: 1.3;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
         max-width: 100%;
     }
     
     .metric-unit {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #94a3b8;
         font-weight: 400;
     }
@@ -1190,36 +1190,7 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Visual Inspiration Section
-            st.markdown("""
-            <div class="inspiration-section">
-                <h3 class="inspiration-title">Get Inspired</h3>
-                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
-                <div class="inspiration-grid" style="grid-template-columns: repeat(2, 1fr);">
-                    <div class="inspiration-card">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop&q=80" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
-                        <div class="inspiration-label">Modern Workspace</div>
-                    </div>
-                    <div class="inspiration-card">
-                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=300&fit=crop&q=80" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
-                        <div class="inspiration-label">Minimalist Setup</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Search link for Pinterest/Houzz
-            search_query = f"{analysis.room_type} {work_type} layout ideas"
-            st.markdown(f"""
-            <div style="text-align: center; margin: 1rem 0;">
-                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
-                   target="_blank" 
-                   style="color: #0ea5e9; text-decoration: none; font-weight: 600; font-size: 1rem;">
-                    Explore more {analysis.room_type} designs on Pinterest →
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-            
+
             # Next Steps Action Section
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
@@ -1491,36 +1462,7 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Visual Inspiration Section
-            st.markdown("""
-            <div class="inspiration-section">
-                <h3 class="inspiration-title">Get Inspired</h3>
-                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
-                <div class="inspiration-grid" style="grid-template-columns: repeat(2, 1fr);">
-                    <div class="inspiration-card">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop&q=80" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
-                        <div class="inspiration-label">Modern Workspace</div>
-                    </div>
-                    <div class="inspiration-card">
-                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=300&fit=crop&q=80" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
-                        <div class="inspiration-label">Minimalist Setup</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Search link for Pinterest/Houzz
-            search_query = f"{analysis.room_type} {work_type} layout ideas"
-            st.markdown(f"""
-            <div style="text-align: center; margin: 1rem 0;">
-                <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
-                   target="_blank" 
-                   style="color: #0ea5e9; text-decoration: none; font-weight: 600; font-size: 1rem;">
-                    Explore more {analysis.room_type} designs on Pinterest →
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-            
+
             # Next Steps Action Section
             st.markdown('<div class="actions-section">', unsafe_allow_html=True)
             st.markdown('<h3 class="actions-title">What\'s Next?</h3>', unsafe_allow_html=True)
