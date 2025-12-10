@@ -1103,22 +1103,22 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Visual Inspiration
-    st.markdown("""
+    # Visual Inspiration - Dynamic based on room type and work type
+    st.markdown(f"""
     <div style="margin: 2rem 0; text-align: center;">
         <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
             <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=250&fit=crop" 
-                     alt="Modern Workspace" 
+                <img src="https://image.pollinations.ai/prompt/{analysis.room_type.replace(' ', '%20')}%20{work_type.replace(' ', '%20')}%20workspace%20interior%20design?width=400&height=250&nologo=true&enhance=true" 
+                     alt="{analysis.room_type} for {work_type}" 
                      style="width: 100%; height: 200px; object-fit: cover;">
-                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern Workspace</div>
+                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">{analysis.room_type} - {work_type}</div>
             </div>
             <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=250&fit=crop" 
-                     alt="Minimalist Setup" 
+                <img src="https://image.pollinations.ai/prompt/modern%20{analysis.room_type.replace(' ', '%20')}%20creative%20workspace%20minimalist%20design?width=400&height=250&nologo=true&enhance=true" 
+                     alt="Modern {analysis.room_type}" 
                      style="width: 100%; height: 200px; object-fit: cover;">
-                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Minimalist Setup</div>
+                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern {analysis.room_type}</div>
             </div>
         </div>
     </div>
