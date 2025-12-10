@@ -18,25 +18,75 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for professional IKEA-inspired design
+# Custom CSS for RoomSense brand design
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
     
+    /* Main app background */
     .stApp {
-        background: linear-gradient(135deg, #f8f6f3 0%, #fff 100%);
+        background: #fafbfc;
     }
     
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .main-header {
+            padding: 1.5rem 1.5rem;
+            margin: -6rem -1rem 1.5rem -1rem;
+        }
+        
+        .logo {
+            font-size: 2rem;
+        }
+        
+        .tagline {
+            font-size: 0.95rem;
+        }
+        
+        .metric-box {
+            padding: 1.25rem;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+        }
+        
+        .camera-section, .analysis-card, .recommendation-section {
+            padding: 1.5rem;
+        }
+        
+        .stButton > button {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .logo {
+            font-size: 1.75rem;
+        }
+        
+        .tagline {
+            font-size: 0.85rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+        }
+    }
+    
+    /* Hide default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
+    /* Main header with RoomSense branding */
     .main-header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
         padding: 2.5rem 3rem;
         border-radius: 0 0 24px 24px;
         margin: -6rem -5rem 2rem -5rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        box-shadow: 0 8px 32px rgba(14,165,233,0.2);
         position: relative;
         overflow: hidden;
     }
@@ -48,8 +98,8 @@ st.markdown("""
         left: 0;
         right: 0;
         bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        opacity: 0.5;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 1;
     }
     
     .header-content {
@@ -58,114 +108,116 @@ st.markdown("""
     }
     
     .logo {
-        font-family: 'Noto Serif', serif;
+        font-family: 'Space Grotesk', sans-serif;
         font-size: 3rem;
         font-weight: 700;
         color: #ffffff;
         margin: 0;
         letter-spacing: -0.02em;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.15);
     }
     
     .tagline {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
-        color: #e8e8e8;
+        color: rgba(255,255,255,0.95);
         margin-top: 0.5rem;
-        font-weight: 300;
-        letter-spacing: 0.05em;
+        font-weight: 400;
+        letter-spacing: 0.02em;
     }
     
     .ai-badge {
         display: inline-block;
-        background: linear-gradient(135deg, #d4a574 0%, #b8936c 100%);
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
         color: white;
-        padding: 0.4rem 1.2rem;
+        padding: 0.5rem 1.2rem;
         border-radius: 20px;
         font-size: 0.8rem;
-        font-weight: 700;
+        font-weight: 600;
         margin-top: 1rem;
-        box-shadow: 0 2px 12px rgba(212,165,116,0.4);
+        border: 1px solid rgba(255,255,255,0.3);
         text-transform: uppercase;
         letter-spacing: 0.1em;
     }
     
+    /* Typography */
     h1, h2, h3 {
-        font-family: 'Noto Serif', serif;
-        color: #2c3e50;
+        font-family: 'Space Grotesk', sans-serif;
+        color: #1e293b;
     }
     
     p, div, span, label {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        color: #34495e;
+        font-family: 'Inter', sans-serif;
+        color: #475569;
     }
     
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+        border-right: 1px solid #e2e8f0;
+    }
+    
+    [data-testid="stSidebar"] .stMarkdown {
+        color: #1e293b;
+    }
+    
+    [data-testid="stSidebar"] label {
+        color: #1e293b !important;
+        font-weight: 500;
+    }
+    
+    [data-testid="stSidebar"] h3 {
+        color: #0ea5e9 !important;
+        font-weight: 600;
+        margin-top: 1.5rem;
+    }
+    
+    /* Camera section */
     .camera-section {
         background: white;
         border-radius: 20px;
         padding: 2.5rem;
         margin: 2rem 0;
-        box-shadow: 0 6px 24px rgba(0,0,0,0.1);
-        border: 3px solid #d4a574;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        border: 2px solid #e0f2fe;
     }
     
+    /* Analysis card */
     .analysis-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+        background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
         border-radius: 20px;
         padding: 2.5rem;
         margin: 1.5rem 0;
-        box-shadow: 0 6px 24px rgba(0,0,0,0.1);
-        border-left: 6px solid #d4a574;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border-left: 5px solid #0ea5e9;
         position: relative;
-        overflow: hidden;
     }
     
-    .analysis-card::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(212,165,116,0.1) 0%, transparent 70%);
-        animation: pulse 4s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.5; }
-        50% { transform: scale(1.1); opacity: 0.8; }
-    }
-    
-    .metric-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 1.5rem;
-        margin: 2rem 0;
-    }
-    
+    /* Metric boxes */
     .metric-box {
         background: white;
         border-radius: 16px;
         padding: 1.75rem;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        border-top: 4px solid #d4a574;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border-top: 3px solid #06b6d4;
         transition: all 0.3s ease;
-        position: relative;
     }
     
     .metric-box:hover {
         transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        box-shadow: 0 6px 24px rgba(0,0,0,0.1);
     }
     
     .metric-icon {
         font-size: 2rem;
         margin-bottom: 0.75rem;
+        color: #0ea5e9;
     }
     
     .metric-label {
-        font-size: 0.8rem;
-        color: #7f8c8d;
+        font-size: 0.75rem;
+        color: #64748b;
         text-transform: uppercase;
         letter-spacing: 0.1em;
         margin-bottom: 0.5rem;
@@ -175,23 +227,24 @@ st.markdown("""
     .metric-value {
         font-size: 2.2rem;
         font-weight: 700;
-        color: #2c3e50;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: #0f172a;
+        font-family: 'Space Grotesk', sans-serif;
     }
     
     .metric-unit {
         font-size: 1rem;
-        color: #95a5a6;
+        color: #94a3b8;
         font-weight: 400;
     }
     
+    /* Recommendation section */
     .recommendation-section {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
         border-radius: 20px;
         padding: 2.5rem;
         margin: 2rem 0;
         color: white;
-        box-shadow: 0 8px 32px rgba(44,62,80,0.3);
+        box-shadow: 0 8px 32px rgba(14,165,233,0.25);
         position: relative;
         overflow: hidden;
     }
@@ -203,22 +256,22 @@ st.markdown("""
         right: -100px;
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(212,165,116,0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
         border-radius: 50%;
     }
     
     .rec-item {
-        background: rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.12);
         backdrop-filter: blur(10px);
         border-radius: 16px;
         padding: 1.75rem;
         margin: 1.25rem 0;
-        border-left: 4px solid #d4a574;
+        border-left: 4px solid rgba(255,255,255,0.4);
         transition: all 0.3s ease;
     }
     
     .rec-item:hover {
-        background: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.18);
         transform: translateX(8px);
     }
     
@@ -226,31 +279,36 @@ st.markdown("""
         font-size: 1.4rem;
         font-weight: 700;
         margin-bottom: 0.75rem;
-        font-family: 'Noto Serif', serif;
+        font-family: 'Space Grotesk', sans-serif;
         color: #ffffff;
     }
     
     .rec-description {
         font-size: 1rem;
         line-height: 1.7;
-        opacity: 0.95;
-        color: #e8e8e8;
+        color: rgba(255,255,255,0.95);
     }
     
+    .rec-description strong {
+        color: #ffffff;
+    }
+    
+    /* Zone tags */
     .zone-tag {
         display: inline-block;
-        background: #d4a574;
+        background: #0ea5e9;
         color: white;
         padding: 0.4rem 1rem;
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 600;
         margin: 0.3rem 0.3rem 0.3rem 0;
-        box-shadow: 0 2px 8px rgba(212,165,116,0.3);
+        box-shadow: 0 2px 8px rgba(14,165,233,0.3);
     }
     
+    /* Furniture list */
     .furniture-list {
-        background: rgba(255,255,255,0.05);
+        background: rgba(255,255,255,0.08);
         border-radius: 12px;
         padding: 1.25rem;
         margin-top: 1rem;
@@ -258,14 +316,16 @@ st.markdown("""
     
     .furniture-item {
         padding: 0.6rem 0;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(255,255,255,0.15);
         font-size: 0.95rem;
+        color: rgba(255,255,255,0.95);
     }
     
     .furniture-item:last-child {
         border-bottom: none;
     }
     
+    /* Status badges */
     .status-badge {
         display: inline-block;
         padding: 0.5rem 1.25rem;
@@ -276,7 +336,7 @@ st.markdown("""
     }
     
     .status-processing {
-        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         color: white;
         animation: shimmer 2s ease-in-out infinite;
     }
@@ -287,89 +347,135 @@ st.markdown("""
     }
     
     .status-complete {
-        background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         color: white;
     }
     
+    /* Confidence bar */
     .confidence-bar {
-        background: rgba(255,255,255,0.2);
-        height: 8px;
-        border-radius: 4px;
+        background: #e0f2fe;
+        height: 10px;
+        border-radius: 6px;
         overflow: hidden;
         margin: 0.75rem 0;
     }
     
     .confidence-fill {
         height: 100%;
-        background: linear-gradient(90deg, #d4a574 0%, #b8936c 100%);
-        border-radius: 4px;
+        background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 100%);
+        border-radius: 6px;
         transition: width 1s ease;
     }
     
+    /* Buttons */
     .stButton > button {
-        background: linear-gradient(135deg, #d4a574 0%, #b8936c 100%);
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
         color: white;
         border: none;
         border-radius: 12px;
         padding: 1rem 3rem;
         font-size: 1.1rem;
         font-weight: 700;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Inter', sans-serif;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 6px 20px rgba(212,165,116,0.4);
+        box-shadow: 0 4px 16px rgba(14,165,233,0.3);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         width: 100%;
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 28px rgba(212,165,116,0.5);
-        background: linear-gradient(135deg, #b8936c 0%, #d4a574 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(14,165,233,0.4);
+        background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
     }
     
+    /* Insight box */
     .insight-box {
-        background: linear-gradient(135deg, #fff 0%, #f8f6f3 100%);
+        background: white;
         border-radius: 16px;
         padding: 2rem;
         margin: 1.5rem 0;
-        border: 2px solid #e8e5e0;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        border: 2px solid #e0f2fe;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
     
     .insight-title {
         font-size: 1.2rem;
         font-weight: 700;
-        color: #2c3e50;
+        color: #0f172a;
         margin-bottom: 1rem;
-        font-family: 'Noto Serif', serif;
+        font-family: 'Space Grotesk', sans-serif;
     }
     
+    /* Camera placeholder */
     .camera-placeholder {
-        background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
         border-radius: 16px;
         padding: 4rem 2rem;
         text-align: center;
-        color: white;
+        color: #64748b;
         margin: 2rem 0;
+        border: 2px dashed #cbd5e1;
     }
     
     .camera-icon {
         font-size: 4rem;
         margin-bottom: 1rem;
-        opacity: 0.8;
+        opacity: 0.6;
+    }
+    
+    /* Form inputs */
+    .stTextInput > div > div > input,
+    .stSelectbox > div > div > select,
+    .stNumberInput > div > div > input {
+        border-radius: 10px;
+        border: 2px solid #e2e8f0;
+        padding: 0.75rem 1rem;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s ease;
+        color: #1e293b;
+    }
+    
+    .stTextInput > div > div > input:focus,
+    .stSelectbox > div > div > select:focus,
+    .stNumberInput > div > div > input:focus {
+        border-color: #0ea5e9;
+        box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+    }
+    
+    /* Progress bar */
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 100%);
+    }
+    
+    /* Select box text */
+    [data-testid="stSidebar"] .stSelectbox label,
+    [data-testid="stSidebar"] .stRadio label {
+        color: #1e293b !important;
+        font-weight: 500 !important;
+    }
+    
+    /* Radio button text */
+    [data-testid="stSidebar"] .stRadio > div {
+        color: #475569 !important;
+    }
+    
+    [data-testid="stSidebar"] [data-baseweb="radio"] > div {
+        color: #475569 !important;
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # Header
 st.markdown("""
 <div class="main-header">
     <div class="header-content">
         <h1 class="logo">RoomSense</h1>
-        <p class="tagline">Neural networks that understand your space</p>
-        <span class="ai-badge">Powered by Deep Learning</span>
+        <p class="tagline">Snap a photo, get the perfect layout</p>
+        <span class="ai-badge">Smart Space Planning</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -656,32 +762,32 @@ def main():
         st.markdown("### Analysis Mode")
         analysis_mode = st.radio(
             "Choose input method",
-            ['Upload Image', 'Use Webcam', 'Manual Input'],
-            help="How would you like to capture your room?"
+            ['Upload Photo', 'Live Camera', 'Manual Entry'],
+            help="Upload from device, use live camera, or enter dimensions"
         )
         
         st.markdown("---")
         st.markdown("### About")
         st.markdown("""
-        **RoomSense** uses deep learning computer vision to:
-        - Detect room type and layout
-        - Estimate dimensions
-        - Identify existing furniture
-        - Analyze lighting conditions
-        - Extract color palette
-        - Generate smart recommendations
+        **RoomSense** analyzes your room photo to:
+        - Identify your room type
+        - Measure dimensions
+        - Spot existing furniture
+        - Check lighting quality
+        - Suggest perfect layouts
+        - Recommend furniture placement
         """)
     
     # Main content
-    if analysis_mode == 'Upload Image':
+    if analysis_mode == 'Upload Photo':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Upload Room Image")
-        st.markdown("Upload a clear photo of your room for analysis")
+        st.markdown("### Upload Your Room Photo")
+        st.markdown("Take a photo with your phone or upload from your device")
         
         uploaded_file = st.file_uploader(
-            "Choose an image...",
+            "Choose a photo...",
             type=['jpg', 'jpeg', 'png'],
-            help="Best results with well-lit, wide-angle shots"
+            help="Take a photo on your phone or select from gallery"
         )
         
         if uploaded_file is not None:
@@ -693,10 +799,10 @@ def main():
                 st.image(image, caption="Uploaded Room Image", use_container_width=True)
             
             with col2:
-                st.markdown('<span class="status-badge status-processing">Analyzing...</span>', unsafe_allow_html=True)
+                st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
                 
                 # Simulate processing
-                with st.spinner('Deep learning models processing...'):
+                with st.spinner('Analyzing your space...'):
                     import time
                     progress_bar = st.progress(0)
                     for i in range(100):
@@ -729,7 +835,7 @@ def main():
             
             # Display Analysis Results
             st.markdown("---")
-            st.markdown("## Analysis Results")
+            st.markdown("## Your Room Analysis")
             
             # Metrics
             col1, col2, col3, col4 = st.columns(4)
@@ -868,43 +974,197 @@ def main():
             
             st.markdown('</div>', unsafe_allow_html=True)
     
-    elif analysis_mode == 'Use Webcam':
+    elif analysis_mode == 'Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Live Webcam Capture")
+        st.markdown("### Capture Room with Camera")
+        st.markdown("Use your device camera to capture your space in real-time")
         
-        enable_camera = st.checkbox("Enable Webcam")
+        camera_image = st.camera_input("Take a photo of your room")
         
-        if enable_camera:
-            camera_image = st.camera_input("Capture your room")
+        if camera_image is not None:
+            col1, col2 = st.columns([1, 1])
             
-            if camera_image is not None:
-                st.success("Image captured! Processing with deep learning...")
+            with col1:
                 image = Image.open(camera_image)
+                st.image(image, caption="Captured Photo", use_container_width=True)
+            
+            with col2:
+                st.markdown('<span class="status-badge status-processing">Analyzing your room...</span>', unsafe_allow_html=True)
                 
-                # Run same analysis as upload
-                with st.spinner('Analyzing with deep learning...'):
+                with st.spinner('Analyzing your space...'):
                     import time
-                    time.sleep(2)
+                    progress_bar = st.progress(0)
+                    for i in range(100):
+                        time.sleep(0.01)
+                        progress_bar.progress(i + 1)
+                    
                     scene_analysis = ai_system.analyze_room_scene(image)
                     detected_objects = ai_system.detect_objects(image)
                     dimensions = ai_system.estimate_dimensions(image)
                     color_palette = ai_system.extract_color_palette(image)
+                    
+                    progress_bar.empty()
                 
-                st.markdown("**Analysis complete!** Scroll up to see results.")
-        else:
-            st.markdown("""
-            <div class="camera-placeholder">
-                <div class="camera-icon">▪</div>
-                <h3>Webcam Ready</h3>
-                <p>Enable the webcam above to capture your room in real-time</p>
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
+        
+        if camera_image is not None:
+            # Create analysis object and show results
+            analysis = RoomAnalysis(
+                room_type=scene_analysis['room_type'],
+                confidence=scene_analysis['confidence'],
+                dimensions=dimensions,
+                lighting=scene_analysis['lighting'],
+                layout_type=scene_analysis['layout_type'],
+                detected_objects=detected_objects,
+                color_palette=color_palette
+            )
+            
+            # Display analysis results (same as upload section)
+            st.markdown("---")
+            st.markdown("## Your Room Analysis")
+            
+            # Metrics
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.markdown(f"""
+                <div class="metric-box">
+                    <div class="metric-icon">▪</div>
+                    <div class="metric-label">Room Type</div>
+                    <div class="metric-value">{analysis.room_type}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown(f"""
+                <div class="metric-box">
+                    <div class="metric-icon">▪</div>
+                    <div class="metric-label">Estimated Area</div>
+                    <div class="metric-value">{analysis.dimensions['area']}<span class="metric-unit">m²</span></div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown(f"""
+                <div class="metric-box">
+                    <div class="metric-icon">▪</div>
+                    <div class="metric-label">Lighting</div>
+                    <div class="metric-value" style="font-size: 1.3rem;">{analysis.lighting}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col4:
+                st.markdown(f"""
+                <div class="metric-box">
+                    <div class="metric-icon">▪</div>
+                    <div class="metric-label">Confidence</div>
+                    <div class="metric-value">{int(analysis.confidence * 100)}<span class="metric-unit">%</span></div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Detailed Analysis
+            st.markdown('<div class="analysis-card">', unsafe_allow_html=True)
+            
+            col1, col2 = st.columns([1, 1])
+            
+            with col1:
+                st.markdown("### Room Specifications")
+                st.markdown(f"""
+                - **Layout Type:** {analysis.layout_type}
+                - **Width:** {analysis.dimensions['width']}m
+                - **Length:** {analysis.dimensions['length']}m
+                - **Height:** {analysis.dimensions['height']}m
+                - **Total Area:** {analysis.dimensions['area']}m²
+                """)
+                
+                st.markdown("### Detected Objects")
+                objects_html = " ".join([f'<span class="zone-tag">{obj}</span>' for obj in analysis.detected_objects])
+                st.markdown(objects_html, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown("### Color Palette")
+                palette_html = '<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">'
+                for color in analysis.color_palette:
+                    palette_html += f'''
+                    <div style="width: 60px; height: 60px; background: {color}; 
+                         border-radius: 12px; border: 2px solid #ddd;
+                         box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+                    '''
+                palette_html += '</div>'
+                st.markdown(palette_html, unsafe_allow_html=True)
+                
+                st.markdown("### Confidence Score")
+                st.markdown(f"""
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: {analysis.confidence * 100}%;"></div>
+                </div>
+                <p style="text-align: center; font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                    {int(analysis.confidence * 100)}% confident in room classification
+                </p>
+                """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Generate Recommendations
+            st.markdown("---")
+            recommendations = generate_workspace_recommendations(analysis, work_type)
+            
+            st.markdown(f"""
+            <div class="recommendation-section">
+                <h2 style="color: white; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
+                    Smart Recommendations for {work_type}
+                </h2>
+                <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 2rem;">
+                    Based on analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
+                    with {analysis.lighting.lower()} conditions
+                </p>
+            """, unsafe_allow_html=True)
+            
+            for rec in recommendations:
+                st.markdown(f"""
+                <div class="rec-item">
+                    <div class="rec-title">{rec.zone_name}</div>
+                    <div class="rec-description">
+                        <strong>Optimal Location:</strong> {rec.location}<br><br>
+                        <strong>Lighting Setup:</strong> {rec.lighting_needs}
+                    </div>
+                    <div class="furniture-list">
+                        <strong style="color: white;">Recommended Furniture:</strong>
+                        {''.join([f'<div class="furniture-item">• {item}</div>' for item in rec.furniture])}
+                    </div>
+                    <div style="margin-top: 1.25rem;">
+                        <strong style="color: white;">Key Considerations:</strong><br>
+                        {'<br>'.join([f'<span style="color: rgba(255,255,255,0.95);">• {item}</span>' for item in rec.considerations])}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Additional Insights
+            st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+            st.markdown("### Smart Insights")
+            
+            insights = []
+            if analysis.dimensions['area'] < 12:
+                insights.append("**Compact Space Tip:** Use vertical storage and wall-mounted solutions to maximize floor space")
+            if analysis.dimensions['area'] > 25:
+                insights.append("**Spacious Room Advantage:** Consider creating distinct zones for different activities")
+            if 'Natural' in analysis.lighting:
+                insights.append("**Excellent Natural Light:** Position primary work area to leverage daylight hours")
+            if analysis.dimensions['height'] > 2.8:
+                insights.append("**High Ceilings Detected:** Great opportunity for tall storage units or hanging displays")
+            
+            for insight in insights:
+                st.markdown(insight)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
     
-    else:  # Manual Input
+    else:  # Manual Entry
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Manual Room Entry")
+        st.markdown("### Enter Room Dimensions")
         
         col1, col2, col3 = st.columns(3)
         with col1:
