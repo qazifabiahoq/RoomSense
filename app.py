@@ -741,10 +741,12 @@ class SpaceVisionAI:
         # In production, this would use YOLOv5 or Faster R-CNN
         common_objects = [
             'Desk', 'Chair', 'Bookshelf', 'Lamp', 'Sofa', 'Table', 
-            'Cabinet', 'Window', 'Door', 'Rug', 'Plant', 'Artwork'
+            'Cabinet', 'Window', 'Door', 'Rug', 'Plant', 'Artwork',
+            'Bed Frame', 'Nightstand', 'Dresser', 'Mirror', 'Curtains',
+            'TV Stand', 'Coffee Table', 'Side Table', 'Shelving Unit'
         ]
         # Simulate object detection
-        num_objects = np.random.randint(3, 8)
+        num_objects = np.random.randint(4, 9)
         detected = np.random.choice(common_objects, size=num_objects, replace=False)
         return detected.tolist()
     
@@ -1161,15 +1163,15 @@ def main():
                 <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
                 <div class="inspiration-grid">
                     <div class="inspiration-card">
-                        <div class="inspiration-image">▪</div>
+                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Modern Workspace</div>
                     </div>
                     <div class="inspiration-card">
-                        <div class="inspiration-image">▪</div>
+                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Minimalist Setup</div>
                     </div>
                     <div class="inspiration-card">
-                        <div class="inspiration-image">▪</div>
+                        <img src="https://image.pollinations.ai/prompt/creative%20studio%20art%20supplies%20easel%20colorful%20workspace?width=400&height=300&nologo=true" alt="Creative Studio" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Creative Studio</div>
                     </div>
                 </div>
@@ -1403,15 +1405,15 @@ def main():
                 <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore layouts similar to your space</p>
                 <div class="inspiration-grid">
                     <div class="inspiration-card">
-                        <div class="inspiration-image">▪</div>
+                        <img src="https://image.pollinations.ai/prompt/modern%20workspace%20desk%20bright%20natural%20light%20plants?width=400&height=300&nologo=true" alt="Modern Workspace" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Modern Workspace</div>
                     </div>
                     <div class="inspiration-card">
-                        <div class="inspiration-image">▪</div>
+                        <img src="https://image.pollinations.ai/prompt/minimalist%20home%20office%20white%20desk%20laptop%20simple?width=400&height=300&nologo=true" alt="Minimalist Setup" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Minimalist Setup</div>
                     </div>
                     <div class="inspiration-card">
-                        <div class="inspiration-image">▪</div>
+                        <img src="https://image.pollinations.ai/prompt/creative%20studio%20art%20supplies%20easel%20colorful%20workspace?width=400&height=300&nologo=true" alt="Creative Studio" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="inspiration-label">Creative Studio</div>
                     </div>
                 </div>
