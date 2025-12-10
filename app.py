@@ -243,10 +243,22 @@ st.markdown("""
         border-radius: 20px;
         padding: 2.5rem;
         margin: 2rem 0;
-        color: white;
+        color: white !important;
         box-shadow: 0 8px 32px rgba(14,165,233,0.25);
         position: relative;
         overflow: hidden;
+    }
+    
+    .recommendation-section * {
+        color: white !important;
+    }
+    
+    .recommendation-section h2,
+    .recommendation-section p,
+    .recommendation-section div,
+    .recommendation-section span,
+    .recommendation-section strong {
+        color: white !important;
     }
     
     .recommendation-section::before {
@@ -261,17 +273,17 @@ st.markdown("""
     }
     
     .rec-item {
-        background: rgba(255,255,255,0.12);
+        background: rgba(15,23,42,0.4);
         backdrop-filter: blur(10px);
         border-radius: 16px;
         padding: 1.75rem;
         margin: 1.25rem 0;
-        border-left: 4px solid rgba(255,255,255,0.4);
+        border-left: 4px solid rgba(255,255,255,0.6);
         transition: all 0.3s ease;
     }
     
     .rec-item:hover {
-        background: rgba(255,255,255,0.18);
+        background: rgba(15,23,42,0.5);
         transform: translateX(8px);
     }
     
@@ -280,17 +292,18 @@ st.markdown("""
         font-weight: 700;
         margin-bottom: 0.75rem;
         font-family: 'Space Grotesk', sans-serif;
-        color: #ffffff;
+        color: #ffffff !important;
     }
     
     .rec-description {
         font-size: 1rem;
         line-height: 1.7;
-        color: rgba(255,255,255,0.95);
+        color: #ffffff !important;
     }
     
     .rec-description strong {
-        color: #ffffff;
+        color: #ffffff !important;
+        font-weight: 600;
     }
     
     /* Zone tags */
@@ -308,17 +321,21 @@ st.markdown("""
     
     /* Furniture list */
     .furniture-list {
-        background: rgba(255,255,255,0.08);
+        background: rgba(15,23,42,0.3);
         border-radius: 12px;
         padding: 1.25rem;
         margin-top: 1rem;
     }
     
+    .furniture-list strong {
+        color: #ffffff !important;
+    }
+    
     .furniture-item {
         padding: 0.6rem 0;
-        border-bottom: 1px solid rgba(255,255,255,0.15);
+        border-bottom: 1px solid rgba(255,255,255,0.25);
         font-size: 0.95rem;
-        color: rgba(255,255,255,0.95);
+        color: #ffffff !important;
     }
     
     .furniture-item:last-child {
