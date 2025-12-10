@@ -536,6 +536,44 @@ st.markdown("""
         border: 2px solid #e0e0e0 !important;
     }
     
+    /* Slider styling for select_slider */
+    .stSlider {
+        padding: 1rem 0 !important;
+    }
+    
+    .stSlider > label {
+        color: #000000 !important;
+        font-weight: 600 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .stSlider [data-baseweb="slider"] {
+        background: white !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 12px !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .stSlider [role="slider"] {
+        background: #000000 !important;
+        border: 2px solid #000000 !important;
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    .stSlider [data-baseweb="tick-bar"] {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    .stSlider [data-baseweb="tick-bar"] > div {
+        color: #000000 !important;
+    }
+    
+    .stSlider .stMarkdown {
+        color: #000000 !important;
+    }
+    
     /* Progress bar */
     .stProgress > div > div > div > div {
         background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
