@@ -663,7 +663,47 @@ st.markdown("""
         box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
     }
     
-    /* Progress bar */
+
+    /* File Uploader styling - white background, black text */
+    [data-testid="stFileUploader"] {
+        background: white !important;
+        border: 2px dashed #000000 !important;
+        border-radius: 12px !important;
+        padding: 2rem !important;
+    }
+    
+    [data-testid="stFileUploader"] label {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    [data-testid="stFileUploader"] section {
+        background: white !important;
+        border: 2px dashed #000000 !important;
+        border-radius: 12px !important;
+    }
+    
+    [data-testid="stFileUploader"] section > div {
+        color: #000000 !important;
+    }
+    
+    [data-testid="stFileUploader"] small {
+        color: #666666 !important;
+    }
+    
+    [data-testid="stFileUploader"] button {
+        background: white !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
+    }
+    
+    /* File uploader drag text */
+    [data-testid="stFileUploader"] [data-testid="stMarkdownContainer"] p {
+        color: #000000 !important;
+    }
+    
+
+        /* Progress bar */
     .stProgress > div > div > div > div {
         background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
     }
