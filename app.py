@@ -1223,14 +1223,10 @@ def main():
             with col1:
                 if st.button("↻ Try Another Room", use_container_width=True, key="try_another_upload", type="primary"):
                     # Clear all session state
-                    if 'room_analysis' in st.session_state:
-                        del st.session_state.room_analysis
-                    if 'last_file_id' in st.session_state:
-                        del st.session_state.last_file_id
-                    if 'camera_analysis' in st.session_state:
-                        del st.session_state.camera_analysis
-                    if 'last_camera_id' in st.session_state:
-                        del st.session_state.last_camera_id
+                    for key in list(st.session_state.keys()):
+                        del st.session_state[key]
+                    # Add JavaScript to scroll to top and refresh
+                    st.markdown('<script>window.parent.location.href = window.parent.location.href;</script>', unsafe_allow_html=True)
                     st.rerun()
             
             with col2:
@@ -1528,14 +1524,10 @@ def main():
             with col1:
                 if st.button("↻ Try Another Room", use_container_width=True, key="try_another_camera", type="primary"):
                     # Clear all session state
-                    if 'room_analysis' in st.session_state:
-                        del st.session_state.room_analysis
-                    if 'last_file_id' in st.session_state:
-                        del st.session_state.last_file_id
-                    if 'camera_analysis' in st.session_state:
-                        del st.session_state.camera_analysis
-                    if 'last_camera_id' in st.session_state:
-                        del st.session_state.last_camera_id
+                    for key in list(st.session_state.keys()):
+                        del st.session_state[key]
+                    # Add JavaScript to scroll to top and refresh
+                    st.markdown('<script>window.parent.location.href = window.parent.location.href;</script>', unsafe_allow_html=True)
                     st.rerun()
             
             with col2:
