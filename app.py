@@ -644,7 +644,7 @@ st.markdown("""
     <div class="header-content">
         <h1 class="logo" style="color: #000000 !important;">RoomSense</h1>
         <p class="tagline" style="color: #000000 !important;">Design your perfect space</p>
-        <span class="ai-badge" style="color: #000000 !important;">Smart Space Planning</span>
+        <span class="ai-badge" style="color: #000000 !important;">Smart Room Planning</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -663,7 +663,7 @@ class RoomAnalysis:
 
 
 @dataclass
-class WorkspaceRecommendation:
+class RoomRecommendation:
     zone_name: str
     location: str
     furniture: List[str]
@@ -709,7 +709,7 @@ class SpaceVisionAI:
         img_tensor = self.preprocess_image(image)
         
         # Simulated analysis (in production, use trained models)
-        room_types = ['Living Room', 'Bedroom', 'Office', 'Kitchen', 'Dining Room', 'Studio']
+        room_types = ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom', 'Dining Room', 'Home Office', 'Kids Room', 'Laundry Room']
         lighting_types = ['Natural - Excellent', 'Mixed - Good', 'Artificial - Moderate', 'Low Light']
         layout_types = ['Open Plan', 'Traditional', 'L-Shaped', 'Square', 'Rectangular']
         
@@ -718,7 +718,7 @@ class SpaceVisionAI:
         brightness = np.mean(img_array)
         
         # Simulate ML predictions
-        room_type = np.random.choice(room_types, p=[0.25, 0.2, 0.2, 0.1, 0.15, 0.1])
+        room_type = np.random.choice(room_types, p=[0.20, 0.20, 0.15, 0.10, 0.10, 0.10, 0.10, 0.05])
         confidence = np.random.uniform(0.78, 0.95)
         lighting = lighting_types[min(int(brightness / 64), 3)]
         layout = np.random.choice(layout_types)
@@ -734,9 +734,9 @@ class SpaceVisionAI:
     def detect_objects(self, image: Image.Image) -> List[str]:
         """Detect furniture and objects in the room"""
         common_objects = [
-            'Desk', 'Chair', 'Bookshelf', 'Shelf', 'Lamp', 'Sofa', 'Table', 
-            'Cabinet', 'Window', 'Door', 'Rug', 'Plant', 'Artwork',
-            'Bed', 'Nightstand', 'Dresser', 'Mirror', 'Curtains'
+            'Sofa', 'Chair', 'Table', 'Bed', 'Dresser', 'Nightstand', 'Bookshelf', 
+            'TV Stand', 'Cabinet', 'Desk', 'Lamp', 'Mirror', 'Rug', 'Curtains',
+            'Window', 'Door', 'Plant', 'Artwork', 'Shelving'
         ]
         # Simulate object detection
         num_objects = np.random.randint(5, 10)
@@ -749,9 +749,9 @@ class SpaceVisionAI:
         aspect_ratio = width / height
         
         # Simulate dimension estimation
-        estimated_width = np.random.uniform(3.5, 6.0)
+        estimated_width = np.random.uniform(3.0, 5.5)
         estimated_length = estimated_width * aspect_ratio * np.random.uniform(0.8, 1.2)
-        estimated_height = np.random.uniform(2.4, 3.2)
+        estimated_height = np.random.uniform(2.4, 3.0)
         
         return {
             'width': round(estimated_width, 1),
@@ -777,126 +777,218 @@ class SpaceVisionAI:
         return hex_colors
 
 
-def generate_workspace_recommendations(analysis: RoomAnalysis, work_type: str) -> List[WorkspaceRecommendation]:
-    """Generate intelligent workspace recommendations based on AI analysis"""
+def generate_room_recommendations(analysis: RoomAnalysis, room_type: str) -> List[RoomRecommendation]:
+    """Generate intelligent room recommendations based on AI analysis"""
     
     recommendations = []
     
-    workspace_configs = {
-        'Visual Art': {
+    room_configs = {
+        'Living Room': {
             'zones': [
                 {
-                    'name': 'Creation Zone',
-                    'location': 'Near natural light source (optimal)',
-                    'furniture': ['Height-adjustable Easel', 'Mobile Supply Cart', 'Ergonomic Stool', 'Storage Drawers'],
-                    'lighting': 'Track lighting (5000K daylight bulbs) + Natural light',
-                    'considerations': ['Position perpendicular to window to avoid glare', 'Minimum 2m² clear space']
+                    'name': 'Seating Area',
+                    'location': 'Center of room, facing TV or focal point',
+                    'furniture': ['3-Seater Sofa', 'Accent Chairs (2x)', 'Coffee Table', 'Side Tables', 'Floor Lamp', 'Area Rug'],
+                    'lighting': 'Layered: Overhead pendant + Floor lamp + Table lamps (2700-3000K)',
+                    'considerations': ['Leave 45cm walking space around furniture', 'Position sofa 2-3m from TV', 'Create conversation pit with chairs facing each other']
                 },
                 {
-                    'name': 'Display Gallery',
-                    'location': 'Opposite wall from entrance',
-                    'furniture': ['Gallery Rail System', 'Display Pedestals', 'Spotlights'],
-                    'lighting': 'Adjustable accent spotlights (3000K warm)',
-                    'considerations': ['Eye-level hanging (145-155cm)', 'Allow 60cm viewing distance']
+                    'name': 'Entertainment Zone',
+                    'location': 'Against main wall',
+                    'furniture': ['TV Stand or Media Console', 'Wall-mounted TV', 'Cable Management Box', 'Sound Bar', 'Storage Baskets'],
+                    'lighting': 'LED bias lighting behind TV',
+                    'considerations': ['Mount TV at eye level when seated', 'Hide cables with cable covers', 'Add closed storage for media clutter']
+                },
+                {
+                    'name': 'Reading Nook',
+                    'location': 'Corner near window',
+                    'furniture': ['Comfortable Armchair', 'Reading Lamp', 'Small Side Table', 'Throw Blanket', 'Bookshelf'],
+                    'lighting': 'Adjustable task lamp (reading light)',
+                    'considerations': ['Position near natural light source', 'Add floor cushion for flexibility', 'Keep books within arm\'s reach']
                 }
             ]
         },
-        'Photography': {
+        'Bedroom': {
             'zones': [
                 {
-                    'name': 'Shooting Area',
-                    'location': 'Center of room with maximum ceiling height',
-                    'furniture': ['Backdrop Stand', 'Light Stands (3x)', 'Reflectors', 'Props Storage'],
-                    'lighting': 'Studio strobes + Continuous LED panels',
-                    'considerations': ['3m minimum distance from backdrop', 'Neutral wall colors']
+                    'name': 'Sleeping Area',
+                    'location': 'Against longest wall, away from door',
+                    'furniture': ['Bed Frame', 'Mattress', 'Nightstands (2x)', 'Table Lamps (2x)', 'Headboard'],
+                    'lighting': 'Bedside lamps with dimmer switches (2700K warm)',
+                    'considerations': ['Allow 60cm on each side of bed', 'Position bed away from direct sunlight', 'Avoid placing bed under window']
                 },
                 {
-                    'name': 'Editing Station',
-                    'location': 'Corner with controlled lighting',
-                    'furniture': ['L-Desk with monitor arm', 'Color-calibrated monitor', 'Graphics tablet', 'Storage for hard drives'],
-                    'lighting': 'Bias lighting behind monitor (6500K)',
-                    'considerations': ['Avoid direct light on monitor', 'Ergonomic chair essential']
+                    'name': 'Storage & Dressing',
+                    'location': 'Opposite or adjacent to bed',
+                    'furniture': ['Wardrobe or Closet System', 'Dresser with Mirror', 'Clothing Rack', 'Storage Boxes', 'Bench'],
+                    'lighting': 'Overhead lighting + Mirror lights',
+                    'considerations': ['Keep wardrobe doors clearance 90cm', 'Use vertical space efficiently', 'Add drawer organizers']
+                },
+                {
+                    'name': 'Personal Space',
+                    'location': 'Corner or window area',
+                    'furniture': ['Accent Chair', 'Small Desk or Vanity', 'Ottoman', 'Full-length Mirror'],
+                    'lighting': 'Task lighting for vanity area',
+                    'considerations': ['Create relaxation spot', 'Add plants for air quality', 'Keep surfaces minimal']
                 }
             ]
         },
-        'Crafts & DIY': {
+        'Kitchen': {
             'zones': [
                 {
-                    'name': 'Work Bench',
-                    'location': 'Against sturdy wall',
-                    'furniture': ['Heavy-duty Workbench', 'Pegboard Tool Wall', 'Rolling Tool Chest', 'Task Light'],
-                    'lighting': 'Under-cabinet LED strips + Task lamp',
-                    'considerations': ['Height 85-95cm for standing work', 'Power outlets every 60cm']
+                    'name': 'Cooking Zone',
+                    'location': 'Stove, counter, sink triangle',
+                    'furniture': ['Kitchen Island or Cart', 'Bar Stools (2-3x)', 'Pot Rack', 'Spice Rack', 'Cutting Board Station'],
+                    'lighting': 'Under-cabinet LED strips + Pendant lights over island',
+                    'considerations': ['Keep 120cm between counters', 'Place frequently used items within reach', 'Add anti-fatigue mat']
                 },
                 {
-                    'name': 'Material Storage',
-                    'location': 'Adjacent to work area',
-                    'furniture': ['Vertical Shelving Units', 'Clear Bins', 'Label Maker Station'],
-                    'lighting': 'Overhead ambient lighting',
-                    'considerations': ['Categorize by project type', 'Keep frequently used items at waist height']
+                    'name': 'Storage & Pantry',
+                    'location': 'Along walls, maximize vertical space',
+                    'furniture': ['Pantry Shelving', 'Upper Cabinets', 'Pull-out Drawers', 'Lazy Susan', 'Clear Storage Containers'],
+                    'lighting': 'Interior cabinet lights',
+                    'considerations': ['Group items by category', 'Use clear containers for visibility', 'Label everything']
+                },
+                {
+                    'name': 'Dining/Eating Area',
+                    'location': 'Adjacent to kitchen',
+                    'furniture': ['Dining Table', 'Dining Chairs', 'Pendant Light', 'Buffet or Sideboard'],
+                    'lighting': 'Statement pendant 75cm above table',
+                    'considerations': ['Allow 60cm per person at table', 'Leave 90cm walking clearance', 'Add rug under table for comfort']
                 }
             ]
         },
-        'Writing & Content': {
+        'Bathroom': {
             'zones': [
                 {
-                    'name': 'Focus Writing Desk',
-                    'location': 'Quiet corner with pleasant view',
-                    'furniture': ['Minimalist Desk (120x60cm)', 'Ergonomic Chair', 'Monitor Stand', 'Desk Lamp'],
-                    'lighting': 'Warm desk lamp (2700-3000K) + Ambient',
-                    'considerations': ['Face window or inspiring view', 'Minimal visual distractions']
+                    'name': 'Vanity Area',
+                    'location': 'Primary wall space',
+                    'furniture': ['Vanity with Sink', 'Mirror (large)', 'Wall-mounted Shelves', 'Toiletry Organizers', 'Towel Bar'],
+                    'lighting': 'Side-mounted mirror lights + Overhead (4000K)',
+                    'considerations': ['Install lighting at face level, not overhead', 'Add storage for daily items', 'Keep counter clutter-free']
                 },
                 {
-                    'name': 'Reference Library',
-                    'location': 'Within arm\'s reach',
-                    'furniture': ['Low Bookshelf (90cm height)', 'Magazine Files', 'Reading Chair'],
-                    'lighting': 'Adjustable reading light',
-                    'considerations': ['Organize by project or frequency', 'Display inspirational books']
+                    'name': 'Shower/Bath Zone',
+                    'location': 'Wet area with proper drainage',
+                    'furniture': ['Shower Caddy', 'Bath Mat', 'Towel Hooks', 'Shower Curtain or Glass Door'],
+                    'lighting': 'Waterproof recessed lighting',
+                    'considerations': ['Use non-slip mats', 'Add grab bar for safety', 'Ensure proper ventilation']
+                },
+                {
+                    'name': 'Storage Solutions',
+                    'location': 'Walls, over toilet, under sink',
+                    'furniture': ['Over-toilet Cabinet', 'Under-sink Organizers', 'Medicine Cabinet', 'Towel Ladder', 'Baskets'],
+                    'lighting': 'Ambient ceiling light',
+                    'considerations': ['Use vertical wall space', 'Keep cleaning supplies accessible', 'Store towels within reach']
                 }
             ]
         },
-        'Music Production': {
+        'Dining Room': {
             'zones': [
                 {
-                    'name': 'Recording Station',
-                    'location': 'Corner with acoustic treatment',
-                    'furniture': ['Studio Desk', 'Monitor Speakers (pair)', 'Audio Interface', 'MIDI Controller', 'Acoustic Panels'],
-                    'lighting': 'Dimmable indirect lighting',
-                    'considerations': ['Equilateral triangle speaker placement', 'Acoustic foam at reflection points']
+                    'name': 'Main Dining Area',
+                    'location': 'Center of room',
+                    'furniture': ['Dining Table (6-8 seater)', 'Dining Chairs', 'Table Runner', 'Centerpiece', 'Area Rug'],
+                    'lighting': 'Statement chandelier or pendant (centered, 75-85cm above table)',
+                    'considerations': ['Allow 60cm per person', 'Leave 90-120cm walking space around table', 'Rug should extend 60cm beyond table edges']
                 },
                 {
-                    'name': 'Instrument Area',
-                    'location': 'Open space for movement',
-                    'furniture': ['Guitar Stands', 'Keyboard Stand', 'Cable Management', 'Equipment Rack'],
-                    'lighting': 'Soft ambient overhead',
-                    'considerations': ['Climate control for instruments', 'Cable routing planned']
+                    'name': 'Serving Station',
+                    'location': 'Against wall, near kitchen',
+                    'furniture': ['Buffet or Sideboard', 'Table Lamp', 'Serving Trays', 'Wine Rack', 'Storage for Linens'],
+                    'lighting': 'Accent lighting with table lamps',
+                    'considerations': ['Height should be 75-90cm', 'Use for dish storage and serving', 'Add decorative items on top']
+                },
+                {
+                    'name': 'Display Area',
+                    'location': 'Open wall space',
+                    'furniture': ['China Cabinet', 'Display Shelves', 'Artwork', 'Mirror'],
+                    'lighting': 'Picture lights or spotlights',
+                    'considerations': ['Showcase special dinnerware', 'Create visual interest', 'Balance with room size']
                 }
             ]
         },
-        'Design & Digital': {
+        'Home Office': {
             'zones': [
                 {
-                    'name': 'Digital Workstation',
-                    'location': 'Low-glare position',
-                    'furniture': ['Adjustable Desk', 'Monitor Arm (dual)', 'Ergonomic Chair', 'Document Holder', 'Cable Box'],
-                    'lighting': 'Monitor bias light + Overhead (4000K)',
-                    'considerations': ['Monitor 50-70cm from eyes', 'Top of screen at eye level']
+                    'name': 'Work Station',
+                    'location': 'Near natural light, against wall',
+                    'furniture': ['Desk (140x70cm)', 'Ergonomic Office Chair', 'Monitor Stand', 'Desk Lamp', 'Cable Management'],
+                    'lighting': 'Task lamp + Ambient overhead (4000-5000K)',
+                    'considerations': ['Position desk perpendicular to window', 'Monitor 50-70cm from eyes', 'Add footrest if needed']
                 },
                 {
-                    'name': 'Inspiration Board',
-                    'location': 'Primary sight-line',
-                    'furniture': ['Cork Board or Magnetic Board', 'Sample Shelves', 'Color Swatch Display'],
-                    'lighting': 'Even ambient lighting',
-                    'considerations': ['Change displays monthly', 'Mix textures and mediums']
+                    'name': 'Storage & Filing',
+                    'location': 'Adjacent to desk, within reach',
+                    'furniture': ['Filing Cabinet', 'Bookshelf', 'Storage Boxes', 'Magazine Holders', 'Printer Stand'],
+                    'lighting': 'Overhead lighting',
+                    'considerations': ['Keep frequently used items accessible', 'Use vertical storage', 'Label all files clearly']
+                },
+                {
+                    'name': 'Meeting/Reading Corner',
+                    'location': 'Opposite desk area',
+                    'furniture': ['Comfortable Chair', 'Small Side Table', 'Bookshelf', 'Floor Lamp'],
+                    'lighting': 'Adjustable reading lamp',
+                    'considerations': ['Create separation from work desk', 'Add plants for relaxation', 'Use for video calls']
+                }
+            ]
+        },
+        'Kids Room': {
+            'zones': [
+                {
+                    'name': 'Sleep Zone',
+                    'location': 'Quiet corner, away from play area',
+                    'furniture': ['Bed with Storage', 'Nightstand', 'Night Light', 'Blackout Curtains'],
+                    'lighting': 'Dimmable ceiling light + Night light',
+                    'considerations': ['Use bed rails for young children', 'Keep pathway clear', 'Add comfort items (pillows, stuffed animals)']
+                },
+                {
+                    'name': 'Play & Activity Area',
+                    'location': 'Open floor space, center of room',
+                    'furniture': ['Toy Storage Bins', 'Play Mat', 'Small Table & Chairs', 'Toy Organizer', 'Bookshelf'],
+                    'lighting': 'Bright overhead lighting',
+                    'considerations': ['Use low storage for easy access', 'Rotate toys regularly', 'Create designated zones for activities']
+                },
+                {
+                    'name': 'Study Corner',
+                    'location': 'Near window, quiet area',
+                    'furniture': ['Kid-sized Desk', 'Adjustable Chair', 'Desk Lamp', 'Supply Organizer', 'Bulletin Board'],
+                    'lighting': 'Task lighting for homework',
+                    'considerations': ['Adjust furniture as child grows', 'Keep supplies organized', 'Display artwork and achievements']
+                }
+            ]
+        },
+        'Laundry Room': {
+            'zones': [
+                {
+                    'name': 'Washing Station',
+                    'location': 'Against wall with plumbing',
+                    'furniture': ['Washer & Dryer', 'Laundry Baskets (3x for sorting)', 'Hamper', 'Rolling Cart'],
+                    'lighting': 'Bright overhead LED (4000K)',
+                    'considerations': ['Leave 10cm space behind machines', 'Use vibration pads', 'Sort lights, darks, delicates']
+                },
+                {
+                    'name': 'Folding & Ironing',
+                    'location': 'Open counter space',
+                    'furniture': ['Folding Counter', 'Wall-mounted Ironing Board', 'Iron Holder', 'Drying Rack', 'Shelf for Detergent'],
+                    'lighting': 'Under-cabinet lights',
+                    'considerations': ['Counter height 85-90cm', 'Keep iron at safe distance', 'Add cushioned mat for standing']
+                },
+                {
+                    'name': 'Storage & Organization',
+                    'location': 'Upper cabinets and shelving',
+                    'furniture': ['Upper Cabinets', 'Shelving Units', 'Clear Storage Jars', 'Hanging Rod', 'Utility Sink'],
+                    'lighting': 'General ambient lighting',
+                    'considerations': ['Store detergents out of reach of children', 'Label all products', 'Keep stain removers accessible']
                 }
             ]
         }
     }
     
-    config = workspace_configs.get(work_type, workspace_configs['Design & Digital'])
+    config = room_configs.get(room_type, room_configs['Living Room'])
     
     for zone in config['zones']:
-        rec = WorkspaceRecommendation(
+        rec = RoomRecommendation(
             zone_name=zone['name'],
             location=zone['location'],
             furniture=zone['furniture'],
@@ -914,32 +1006,32 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
     
     # Size-based insights
     if analysis.dimensions['area'] < 10:
-        insights.append("**Maximize Vertical Space:** In compact rooms, use tall shelving units and wall-mounted storage. Consider fold-down desks or Murphy beds for multi-functional spaces.")
+        insights.append("**Maximize Space:** Your room is cozy! Use wall-mounted shelves, under-bed storage, and multi-functional furniture like ottomans with storage or fold-down desks.")
     elif analysis.dimensions['area'] < 15:
-        insights.append("**Smart Storage Solutions:** Perfect size for organized single-purpose space. Use under-bed storage, floating shelves, and corner units to maximize every square meter.")
+        insights.append("**Perfect Size:** You have a comfortable room. Create clear zones using area rugs and furniture placement. Keep pathways at least 60cm wide for easy movement.")
     elif analysis.dimensions['area'] < 25:
-        insights.append("**Balanced Layout:** Create distinct functional zones using area rugs, furniture placement, or room dividers to define different activity areas.")
+        insights.append("**Spacious Layout:** Great room size! You can create multiple functional zones. Use furniture to define different areas - a reading corner, entertainment space, etc.")
     else:
-        insights.append("**Multi-Zone Design:** Your generous space allows separate work, relaxation, and storage zones. Use lighting to define each zone's purpose.")
+        insights.append("**Generous Space:** You have plenty of room! Consider creating distinct zones for different activities. Use area rugs, lighting, and furniture arrangement to define each zone.")
     
     # Lighting insights
     if 'Natural' in analysis.lighting or 'Excellent' in analysis.lighting:
-        insights.append("**Natural Light Optimization:** Position work areas perpendicular to windows to avoid glare. Add sheer curtains to diffuse harsh sunlight.")
+        insights.append("**Natural Light Advantage:** Position furniture to take advantage of natural light. Add sheer curtains to control glare and blackout curtains for privacy and sleep.")
     elif 'Good' in analysis.lighting:
-        insights.append("**Enhance Existing Light:** Add task lamps at work surfaces. Use warm white (2700-3000K) for ambient and cool white (4000-5000K) for work areas.")
+        insights.append("**Lighting Balance:** Mix ambient, task, and accent lighting. Use warm white (2700-3000K) for living areas and cool white (4000-5000K) for workspaces.")
     else:
-        insights.append("**Lighting Upgrade:** Add multiple light sources at different heights. Aim for 300-500 lumens per square meter for workspaces.")
+        insights.append("**Brighten Up:** Add multiple light sources! Use overhead lighting, floor lamps, and table lamps. Aim for 200-300 lumens per square meter in living spaces.")
     
     # Ceiling height
     if analysis.dimensions['height'] > 2.8:
-        insights.append("**High Ceiling Benefits:** Install tall storage up to 2.4m. Add pendant lights or hanging plants to draw eyes upward.")
-    elif analysis.dimensions['height'] < 2.4:
-        insights.append("**Low Ceiling Strategy:** Use horizontal lines in decor. Mount shelves and artwork lower to create visual balance.")
+        insights.append("**High Ceilings:** Install tall storage units and use vertical space. Hang artwork higher and add statement pendant lights to draw the eye upward.")
+    elif analysis.dimensions['height'] < 2.5:
+        insights.append("**Standard Height:** Keep furniture and decor at eye level. Use horizontal lines in decor and avoid tall furniture that makes the room feel smaller.")
     
     return insights
 
 
-def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_suffix: str):
+def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_suffix: str):
     """Display complete analysis results with recommendations"""
     
     # Display Analysis Results
@@ -951,7 +1043,7 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     with col1:
         st.markdown(f"""
         <div class="metric-box">
-            <div class="metric-icon">▪</div>
+            <div class="metric-icon">🏠</div>
             <div class="metric-label">Room Type</div>
             <div class="metric-value">{analysis.room_type}</div>
         </div>
@@ -960,7 +1052,7 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     with col2:
         st.markdown(f"""
         <div class="metric-box">
-            <div class="metric-icon">▪</div>
+            <div class="metric-icon">📏</div>
             <div class="metric-label">Estimated Area</div>
             <div class="metric-value">{analysis.dimensions['area']}<span class="metric-unit">m²</span></div>
         </div>
@@ -969,7 +1061,7 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     with col3:
         st.markdown(f"""
         <div class="metric-box">
-            <div class="metric-icon">▪</div>
+            <div class="metric-icon">💡</div>
             <div class="metric-label">Lighting</div>
             <div class="metric-value">{analysis.lighting}</div>
         </div>
@@ -978,7 +1070,7 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     with col4:
         st.markdown(f"""
         <div class="metric-box">
-            <div class="metric-icon">▪</div>
+            <div class="metric-icon">✓</div>
             <div class="metric-label">Confidence</div>
             <div class="metric-value">{int(analysis.confidence * 100)}<span class="metric-unit">%</span></div>
         </div>
@@ -1018,12 +1110,12 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Generate Recommendations
-    recommendations = generate_workspace_recommendations(analysis, work_type)
+    recommendations = generate_room_recommendations(analysis, room_type)
     
     st.markdown(f"""
     <div class="recommendation-section" style="background: white !important; color: #000000 !important; border: 2px solid #e0e0e0 !important; border-radius: 20px; padding: 2.5rem; margin: 2rem 0;">
         <h2 style="color: #000000 !important; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">
-            Smart Recommendations for {work_type}
+            Smart Recommendations for Your {room_type}
         </h2>
         <p style="color: #000000 !important; font-size: 1.1rem; margin-bottom: 2rem;">
             Based on AI analysis of your {analysis.dimensions['area']}m² {analysis.room_type.lower()} 
@@ -1054,7 +1146,7 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     
     # Additional Insights
     st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-    st.markdown("### Smart Insights")
+    st.markdown("### Smart Insights for Your Space")
     
     insights = generate_detailed_insights(analysis)
     
@@ -1065,26 +1157,38 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     
     # Color Palette Suggestions
     st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-    st.markdown("### Suggested Color Palette for Your Space")
-    st.markdown("Based on your room type and lighting, here are professional color combinations:")
+    st.markdown("### Suggested Color Palette for Your Room")
+    st.markdown("Professional color combinations that work perfectly for your space:")
     
-    if 'Bedroom' in analysis.room_type:
+    if 'Bedroom' in analysis.room_type or 'Kids Room' in analysis.room_type:
         palette_suggestions = [
             ("Calm & Serene", ["#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB"]),
             ("Warm & Cozy", ["#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D"]),
             ("Modern Neutral", ["#FAFAFA", "#EEEEEE", "#BDBDBD", "#757575"])
         ]
-    elif 'Office' in analysis.room_type or 'Study' in analysis.room_type:
+    elif 'Office' in analysis.room_type:
         palette_suggestions = [
             ("Focus Blue", ["#E3F2FD", "#BBDEFB", "#90CAF9", "#42A5F5"]),
             ("Professional Grey", ["#FAFAFA", "#ECEFF1", "#B0BEC5", "#546E7A"]),
-            ("Creative Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
+            ("Energizing Green", ["#E8F5E9", "#C8E6C9", "#81C784", "#66BB6A"])
         ]
-    elif 'Living' in analysis.room_type:
+    elif 'Living' in analysis.room_type or 'Dining' in analysis.room_type:
         palette_suggestions = [
             ("Welcoming Warm", ["#FFF8E1", "#FFECB3", "#FFD54F", "#FFA726"]),
             ("Elegant Neutral", ["#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161"]),
             ("Fresh Modern", ["#E0F2F1", "#B2DFDB", "#4DB6AC", "#26A69A"])
+        ]
+    elif 'Kitchen' in analysis.room_type:
+        palette_suggestions = [
+            ("Clean White", ["#FFFFFF", "#F8F9FA", "#E9ECEF", "#CED4DA"]),
+            ("Classic Wood Tones", ["#F5E6D3", "#D7C9B8", "#A89784", "#8B7355"]),
+            ("Modern Charcoal", ["#F5F5F5", "#E0E0E0", "#757575", "#424242"])
+        ]
+    elif 'Bathroom' in analysis.room_type:
+        palette_suggestions = [
+            ("Spa Blue", ["#E1F5FE", "#B3E5FC", "#4FC3F7", "#0288D1"]),
+            ("Fresh White", ["#FFFFFF", "#F5F5F5", "#EEEEEE", "#BDBDBD"]),
+            ("Warm Beige", ["#FFF8E1", "#FFECB3", "#FFD54F", "#F9A825"])
         ]
     else:
         palette_suggestions = [
@@ -1103,29 +1207,29 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Visual Inspiration - Dynamic based on room type
+    # Visual Inspiration
     st.markdown(f"""
     <div style="margin: 2rem 0; text-align: center;">
         <h3 style="color: #000000; font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem;">Get Inspired</h3>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 1.5rem 0;">
             <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                <img src="https://image.pollinations.ai/prompt/modern%20{analysis.room_type.replace(' ', '%20')}%20interior?width=400&height=250&nologo=true&seed=42" 
+                <img src="https://images.unsplash.com/photo-1556912173-3bb406ef7e77?w=400&h=250&fit=crop&q=80" 
                      alt="Modern {analysis.room_type}" 
                      style="width: 100%; height: 200px; object-fit: cover;">
                 <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Modern {analysis.room_type}</div>
             </div>
             <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #e0e0e0;">
-                <img src="https://image.pollinations.ai/prompt/classic%20{analysis.room_type.replace(' ', '%20')}%20interior?width=400&height=250&nologo=true&seed=123" 
-                     alt="Classic {analysis.room_type}" 
+                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=250&fit=crop&q=80" 
+                     alt="Cozy {analysis.room_type}" 
                      style="width: 100%; height: 200px; object-fit: cover;">
-                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Classic {analysis.room_type}</div>
+                <div style="padding: 1rem; text-align: center; font-weight: 600; color: #000000;">Cozy {analysis.room_type}</div>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
     
     # Pinterest link
-    search_query = f"{analysis.room_type} {work_type} layout ideas"
+    search_query = f"{analysis.room_type} design ideas"
     st.markdown(f"""
     <div style="text-align: center; margin: 1.5rem 0;">
         <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
@@ -1148,7 +1252,7 @@ def display_analysis_results(analysis: RoomAnalysis, work_type: str, button_key_
     
     # Social Media Share
     st.markdown('<div style="margin-top: 2rem; text-align: center;">', unsafe_allow_html=True)
-    st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share on Social Media</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-weight: 600; color: #666666; margin-bottom: 1rem;">Share Your Design</p>', unsafe_allow_html=True)
     
     share_text = f"Check out my {analysis.room_type} design from RoomSense!"
     share_url = "https://roomsense.streamlit.app"
@@ -1205,20 +1309,22 @@ def main():
     with st.sidebar:
         st.markdown("### About RoomSense")
         st.markdown("""
-        **RoomSense** analyzes your room photo to:
-        - Identify your room type
-        - Measure dimensions
-        - Spot existing furniture
-        - Check lighting quality
-        - Suggest perfect layouts
-        - Recommend furniture placement
+        **RoomSense** helps you design any room in your home:
+        - 🏠 Identify your room type
+        - 📏 Measure dimensions
+        - 🪑 Spot existing furniture
+        - 💡 Check lighting quality
+        - 🎨 Suggest perfect layouts
+        - ✨ Recommend furniture placement
+        
+        Perfect for bedrooms, living rooms, kitchens, bathrooms, and more!
         """)
     
     # Hero Image
     st.markdown("""
     <div style="margin: -1rem 0 2rem 0;">
-        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=400&fit=crop&q=80" 
-             alt="Professional Interior Design" 
+        <img src="https://images.unsplash.com/photo-1556912167-f556f1f39fdf?w=1200&h=400&fit=crop&q=80" 
+             alt="Beautiful Home Interior" 
              style="width: 100%; height: 300px; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
     </div>
     """, unsafe_allow_html=True)
@@ -1227,30 +1333,30 @@ def main():
     col1, col2 = st.columns([1, 1])
     
     with col1:
-        work_type = st.selectbox(
-            "What type of workspace?",
-            ['Visual Art', 'Photography', 'Crafts & DIY', 'Writing & Content', 'Music Production', 'Design & Digital'],
-            help="Select your creative work type for tailored recommendations"
+        room_type = st.selectbox(
+            "What room are you designing?",
+            ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom', 'Dining Room', 'Home Office', 'Kids Room', 'Laundry Room'],
+            help="Select the type of room you want to design"
         )
     
     with col2:
         analysis_mode = st.radio(
             "How do you want to analyze?",
-            ['Upload Photo', 'Live Camera', 'Manual Entry'],
+            ['📸 Upload Photo', '📷 Live Camera', '✏️ Manual Entry'],
             help="Choose your preferred input method",
             horizontal=True
         )
     
     # Main content based on mode
-    if analysis_mode == 'Upload Photo':
+    if analysis_mode == '📸 Upload Photo':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Snap a photo, get the perfect layout")
-        st.markdown("Upload a room photo from your phone or computer")
+        st.markdown("### Upload a Photo of Your Room")
+        st.markdown("Take a photo on your phone or select from your gallery")
         
         uploaded_file = st.file_uploader(
             "Choose a photo...",
             type=['jpg', 'jpeg', 'png'],
-            help="Take a photo on your phone or select from gallery"
+            help="Upload a clear photo of your room"
         )
         
         if uploaded_file is not None:
@@ -1281,7 +1387,7 @@ def main():
                         
                         progress_bar.empty()
                     
-                    st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
+                    st.markdown('<span class="status-badge status-complete">✓ Analysis Complete</span>', unsafe_allow_html=True)
                 
                 st.session_state.last_file_id = file_id
                 st.session_state.room_analysis = {
@@ -1309,12 +1415,12 @@ def main():
                 color_palette=st.session_state.room_analysis['color_palette']
             )
             
-            display_analysis_results(analysis, work_type, "upload")
+            display_analysis_results(analysis, room_type, "upload")
     
-    elif analysis_mode == 'Live Camera':
+    elif analysis_mode == '📷 Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Capture your space")
-        st.markdown("Use your camera to snap a photo")
+        st.markdown("### Capture Your Room")
+        st.markdown("Use your camera to take a photo of your room")
         
         camera_image = st.camera_input("Take a photo")
         
@@ -1346,7 +1452,7 @@ def main():
                         
                         progress_bar.empty()
                     
-                    st.markdown('<span class="status-badge status-complete">Analysis Complete</span>', unsafe_allow_html=True)
+                    st.markdown('<span class="status-badge status-complete">✓ Analysis Complete</span>', unsafe_allow_html=True)
                 
                 st.session_state.last_camera_id = camera_id
                 st.session_state.camera_analysis = {
@@ -1374,27 +1480,27 @@ def main():
                 color_palette=st.session_state.camera_analysis['color_palette']
             )
             
-            display_analysis_results(analysis, work_type, "camera")
+            display_analysis_results(analysis, room_type, "camera")
     
     else:  # Manual Entry
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
-        st.markdown("### Enter Room Dimensions")
+        st.markdown("### Enter Your Room Dimensions")
+        st.markdown("No photo? No problem! Just tell us about your room.")
         
         col1, col2, col3 = st.columns(3)
         with col1:
-            width = st.number_input("Width (meters)", min_value=2.0, max_value=15.0, value=4.5, step=0.1)
+            width = st.number_input("Width (meters)", min_value=2.0, max_value=15.0, value=4.0, step=0.1)
         with col2:
-            length = st.number_input("Length (meters)", min_value=2.0, max_value=15.0, value=5.0, step=0.1)
+            length = st.number_input("Length (meters)", min_value=2.0, max_value=15.0, value=4.5, step=0.1)
         with col3:
-            height = st.number_input("Height (meters)", min_value=2.0, max_value=5.0, value=2.7, step=0.1)
+            height = st.number_input("Height (meters)", min_value=2.0, max_value=5.0, value=2.6, step=0.1)
         
-        room_type_manual = st.selectbox("Room Type", ['Living Room', 'Bedroom', 'Office', 'Studio', 'Other'])
-        lighting_manual = st.select_slider("Lighting Quality", options=['Poor', 'Moderate', 'Good', 'Excellent'])
+        lighting_manual = st.select_slider("How's the lighting?", options=['Poor', 'Moderate', 'Good', 'Excellent'])
         
-        if st.button("Generate Recommendations"):
+        if st.button("🎨 Generate Design Recommendations", use_container_width=True):
             area = width * length
             analysis = RoomAnalysis(
-                room_type=room_type_manual,
+                room_type=room_type,
                 confidence=1.0,
                 dimensions={'width': width, 'length': length, 'height': height, 'area': area},
                 lighting=f"{lighting_manual} lighting",
@@ -1403,8 +1509,8 @@ def main():
                 color_palette=[]
             )
             
-            st.success("Generating recommendations based on your input...")
-            display_analysis_results(analysis, work_type, "manual")
+            st.success("✓ Creating your personalized room design...")
+            display_analysis_results(analysis, room_type, "manual")
         
         st.markdown('</div>', unsafe_allow_html=True)
 
