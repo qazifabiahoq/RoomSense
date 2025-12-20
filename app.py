@@ -10,6 +10,7 @@ import base64
 from dataclasses import dataclass
 from typing import List, Dict, Tuple
 from sklearn.cluster import KMeans
+import requests
 
 # Page configuration
 st.set_page_config(
@@ -763,139 +764,141 @@ class RoomRecommendation:
 
 
 class RoomRedesignAI:
-    """AI-powered room redesign with actual furniture generation simulation"""
+    """AI-powered room redesign with clear furniture visualization"""
     
     def __init__(self):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.styles = {
             'Modern Minimalist': {
                 'description': 'Clean Scandinavian aesthetic with sleek furniture, neutral tones, and open spaces',
-                'colors': ['#FFFFFF', '#F5F5F5', '#E0E0E0', '#757575']
+                'colors': ['#FFFFFF', '#F5F5F5', '#E0E0E0', '#757575'],
+                'furniture_list': [
+                    'White L-shaped sectional sofa (3-seater)',
+                    'Glass coffee table with chrome legs',
+                    'Modern accent chair in light gray',
+                    'Minimalist floor lamp (black metal)',
+                    'Large abstract canvas art (black & white)',
+                    'White floating shelves',
+                    'Light gray area rug'
+                ]
             },
             'Cozy Traditional': {
                 'description': 'Warm, inviting spaces with classic furniture, rich textures, and comfortable seating',
-                'colors': ['#8B4513', '#D2691E', '#DEB887', '#F5DEB3']
+                'colors': ['#8B4513', '#D2691E', '#DEB887', '#F5DEB3'],
+                'furniture_list': [
+                    'Classic brown leather sofa with wood frame',
+                    'Solid wood coffee table with storage',
+                    'Upholstered armchair in beige fabric',
+                    'Traditional table lamp with fabric shade',
+                    'Framed vintage artwork',
+                    'Wooden bookshelf',
+                    'Persian-style area rug in warm tones'
+                ]
             }
         }
     
-    def redesign_room(self, image: Image.Image, style: str, room_type: str) -> Image.Image:
-        """Generate room redesign with new furniture"""
+    def get_furniture_layout(self, style: str, room_type: str) -> Dict:
+        """Get detailed furniture recommendations with positioning"""
         
-        img_array = np.array(image)
+        style_config = self.styles[style]
         
         if style == 'Modern Minimalist':
-            redesigned = self._generate_minimalist_room(img_array, room_type)
+            return {
+                'furniture': style_config['furniture_list'],
+                'layout': [
+                    {'item': 'L-shaped sectional sofa', 'position': 'Left wall, facing center', 'color': '#F5F5F5'},
+                    {'item': 'Glass coffee table', 'position': 'Center, in front of sofa', 'color': '#E0E0E0'},
+                    {'item': 'Accent chair', 'position': 'Right side, angled toward sofa', 'color': '#BDBDBD'},
+                    {'item': 'Floor lamp', 'position': 'Behind accent chair', 'color': '#424242'},
+                    {'item': 'Wall art', 'position': 'Above sofa, centered', 'color': '#9E9E9E'},
+                    {'item': 'Floating shelves', 'position': 'Right wall, eye level', 'color': '#FFFFFF'},
+                    {'item': 'Area rug', 'position': 'Under coffee table', 'color': '#E0E0E0'}
+                ],
+                'color_scheme': 'Whites, light grays, black accents',
+                'lighting': 'Natural light maximized, LED strip lighting, minimal fixtures',
+                'materials': 'Glass, chrome, light wood, smooth fabrics'
+            }
         else:  # Cozy Traditional
-            redesigned = self._generate_traditional_room(img_array, room_type)
-        
-        return Image.fromarray(redesigned.astype('uint8'))
+            return {
+                'furniture': style_config['furniture_list'],
+                'layout': [
+                    {'item': 'Leather sofa', 'position': 'Left wall, facing center', 'color': '#8B4513'},
+                    {'item': 'Wood coffee table', 'position': 'Center, in front of sofa', 'color': '#A0522D'},
+                    {'item': 'Armchair', 'position': 'Right side, angled toward sofa', 'color': '#DEB887'},
+                    {'item': 'Table lamp', 'position': 'On side table near armchair', 'color': '#D2691E'},
+                    {'item': 'Framed artwork', 'position': 'Above sofa, centered', 'color': '#8B4513'},
+                    {'item': 'Bookshelf', 'position': 'Right wall, floor to ceiling', 'color': '#654321'},
+                    {'item': 'Persian rug', 'position': 'Under coffee table and seating', 'color': '#CD853F'}
+                ],
+                'color_scheme': 'Warm browns, beige, cream, burgundy accents',
+                'lighting': 'Warm ambient lighting, table lamps, soft overhead',
+                'materials': 'Leather, solid wood, natural fabrics, brass accents'
+            }
     
-    def _generate_minimalist_room(self, img: np.ndarray, room_type: str) -> np.ndarray:
-        """Generate minimalist redesign with new furniture simulation"""
-        h, w = img.shape[:2]
+    def create_furniture_diagram(self, image: Image.Image, style: str, room_type: str) -> Image.Image:
+        """Create annotated diagram showing furniture placement"""
         
-        # Start with brightened, desaturated base
-        result = np.clip(img.astype(float) * 1.3, 0, 255)
-        hsv = cv2.cvtColor(result.astype('uint8'), cv2.COLOR_RGB2HSV).astype(float)
-        hsv[:,:,1] = hsv[:,:,1] * 0.4  # Heavy desaturation
-        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB).astype(float)
+        layout_info = self.get_furniture_layout(style, room_type)
+        img_array = np.array(image)
+        h, w = img_array.shape[:2]
         
-        # White overlay for clean look
-        white_overlay = np.ones_like(result) * 250
-        result = cv2.addWeighted(result, 0.5, white_overlay, 0.5, 0)
+        # Create overlay with furniture positions marked
+        overlay = img_array.copy()
         
-        # Add minimalist furniture overlays
-        overlay = result.copy()
+        # Apply style-appropriate color grading
+        if style == 'Modern Minimalist':
+            # Brighten and desaturate
+            overlay = np.clip(overlay.astype(float) * 1.2, 0, 255).astype('uint8')
+            hsv = cv2.cvtColor(overlay, cv2.COLOR_RGB2HSV).astype(float)
+            hsv[:,:,1] = hsv[:,:,1] * 0.5
+            overlay = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        else:
+            # Warm and saturate
+            overlay = overlay.astype(float)
+            overlay[:,:,0] = np.clip(overlay[:,:,0] * 1.2, 0, 255)
+            overlay[:,:,1] = np.clip(overlay[:,:,1] * 1.1, 0, 255)
+            overlay[:,:,2] = np.clip(overlay[:,:,2] * 0.9, 0, 255)
+            overlay = overlay.astype('uint8')
         
-        # Sleek sofa (left side)
-        cv2.rectangle(overlay, (int(w*0.05), int(h*0.55)), (int(w*0.45), int(h*0.92)), (245, 245, 245), -1)
-        cv2.rectangle(overlay, (int(w*0.05), int(h*0.55)), (int(w*0.45), int(h*0.92)), (200, 200, 200), 3)
+        # Draw furniture placement boxes with labels
+        font = cv2.FONT_HERSHEY_SIMPLEX
         
-        # Coffee table (center)
-        cv2.rectangle(overlay, (int(w*0.35), int(h*0.72)), (int(w*0.65), int(h*0.85)), (255, 255, 255), -1)
-        cv2.rectangle(overlay, (int(w*0.35), int(h*0.72)), (int(w*0.65), int(h*0.85)), (220, 220, 220), 2)
+        for i, item in enumerate(layout_info['layout'][:5]):  # Show top 5 items
+            # Calculate position
+            if i == 0:  # Sofa - left
+                x1, y1 = int(w*0.05), int(h*0.55)
+                x2, y2 = int(w*0.40), int(h*0.90)
+            elif i == 1:  # Coffee table - center
+                x1, y1 = int(w*0.35), int(h*0.70)
+                x2, y2 = int(w*0.65), int(h*0.85)
+            elif i == 2:  # Chair - right
+                x1, y1 = int(w*0.70), int(h*0.60)
+                x2, y2 = int(w*0.90), int(h*0.88)
+            elif i == 3:  # Lamp
+                x1, y1 = int(w*0.88), int(h*0.50)
+                x2, y2 = int(w*0.95), int(h*0.80)
+            else:  # Art/shelves
+                x1, y1 = int(w*0.20), int(h*0.15)
+                x2, y2 = int(w*0.45), int(h*0.40)
+            
+            # Convert hex color to RGB
+            hex_color = item['color'].lstrip('#')
+            r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+            
+            # Draw semi-transparent rectangle
+            cv2.rectangle(overlay, (x1, y1), (x2, y2), (r, g, b), -1)
+            cv2.rectangle(overlay, (x1, y1), (x2, y2), (max(0, r-50), max(0, g-50), max(0, b-50)), 3)
+            
+            # Add label
+            label = item['item']
+            label_size = cv2.getTextSize(label, font, 0.5, 1)[0]
+            cv2.rectangle(overlay, (x1, y1-25), (x1+label_size[0]+10, y1), (r, g, b), -1)
+            cv2.putText(overlay, label, (x1+5, y1-8), font, 0.5, (255, 255, 255), 1)
         
-        # Modern chair (right)
-        cv2.rectangle(overlay, (int(w*0.70), int(h*0.60)), (int(w*0.90), int(h*0.88)), (250, 250, 250), -1)
-        cv2.rectangle(overlay, (int(w*0.70), int(h*0.60)), (int(w*0.90), int(h*0.88)), (210, 210, 210), 3)
+        # Blend with original
+        result = cv2.addWeighted(img_array, 0.3, overlay, 0.7, 0)
         
-        # Floor lamp
-        cv2.line(overlay, (int(w*0.92), int(h*0.35)), (int(w*0.92), int(h*0.80)), (180, 180, 180), 2)
-        cv2.circle(overlay, (int(w*0.92), int(h*0.35)), 15, (240, 240, 240), -1)
-        
-        # Wall art (minimalist)
-        cv2.rectangle(overlay, (int(w*0.25), int(h*0.15)), (int(w*0.50), int(h*0.40)), (230, 230, 230), -1)
-        cv2.rectangle(overlay, (int(w*0.25), int(h*0.15)), (int(w*0.50), int(h*0.40)), (150, 150, 150), 2)
-        
-        result = cv2.addWeighted(result.astype('uint8'), 0.4, overlay.astype('uint8'), 0.6, 0)
-        
-        # Sharpen for crisp modern look
-        kernel = np.array([[-0.5,-0.5,-0.5], [-0.5, 5,-0.5], [-0.5,-0.5,-0.5]])
-        result = cv2.filter2D(result, -1, kernel)
-        
-        return np.clip(result, 0, 255)
-    
-    def _generate_traditional_room(self, img: np.ndarray, room_type: str) -> np.ndarray:
-        """Generate traditional cozy redesign with new furniture simulation"""
-        h, w = img.shape[:2]
-        
-        # Warm color grading
-        result = img.astype(float)
-        result[:,:,0] = np.clip(result[:,:,0] * 1.25, 0, 255)  # Boost reds
-        result[:,:,1] = np.clip(result[:,:,1] * 1.15, 0, 255)  # Boost greens
-        result[:,:,2] = np.clip(result[:,:,2] * 0.85, 0, 255)  # Reduce blues
-        
-        # Increase saturation
-        hsv = cv2.cvtColor(result.astype('uint8'), cv2.COLOR_RGB2HSV).astype(float)
-        hsv[:,:,1] = np.clip(hsv[:,:,1] * 1.4, 0, 255)
-        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB).astype(float)
-        
-        # Add traditional furniture
-        overlay = result.copy()
-        
-        # Classic sofa with wood frame
-        cv2.rectangle(overlay, (int(w*0.08), int(h*0.52)), (int(w*0.50), int(h*0.90)), (139, 90, 60), -1)
-        cv2.rectangle(overlay, (int(w*0.08), int(h*0.52)), (int(w*0.50), int(h*0.90)), (101, 67, 33), 4)
-        # Cushions
-        cv2.rectangle(overlay, (int(w*0.12), int(h*0.60)), (int(w*0.25), int(h*0.78)), (160, 100, 70), -1)
-        cv2.rectangle(overlay, (int(w*0.30), int(h*0.60)), (int(w*0.43), int(h*0.78)), (165, 105, 75), -1)
-        
-        # Wood coffee table
-        cv2.rectangle(overlay, (int(w*0.32), int(h*0.68)), (int(w*0.68), int(h*0.82)), (120, 80, 50), -1)
-        cv2.rectangle(overlay, (int(w*0.32), int(h*0.68)), (int(w*0.68), int(h*0.82)), (90, 60, 40), 3)
-        
-        # Armchair
-        cv2.rectangle(overlay, (int(w*0.68), int(h*0.58)), (int(w*0.88), int(h*0.85)), (145, 95, 65), -1)
-        cv2.rectangle(overlay, (int(w*0.68), int(h*0.58)), (int(w*0.88), int(h*0.85)), (110, 70, 50), 4)
-        
-        # Table lamp on side table
-        cv2.rectangle(overlay, (int(w*0.88), int(h*0.70)), (int(w*0.95), int(h*0.82)), (130, 85, 55), -1)
-        cv2.line(overlay, (int(w*0.915), int(h*0.62)), (int(w*0.915), int(h*0.70)), (100, 70, 45), 3)
-        cv2.circle(overlay, (int(w*0.915), int(h*0.58)), 12, (200, 160, 120), -1)
-        
-        # Area rug
-        cv2.ellipse(overlay, (int(w*0.45), int(h*0.88)), (int(w*0.35), int(h*0.10)), 0, 0, 360, (140, 90, 60), -1)
-        
-        # Framed artwork
-        cv2.rectangle(overlay, (int(w*0.20), int(h*0.12)), (int(w*0.45), int(h*0.42)), (80, 50, 30), -1)
-        cv2.rectangle(overlay, (int(w*0.20), int(h*0.12)), (int(w*0.45), int(h*0.42)), (60, 40, 25), 5)
-        
-        result = cv2.addWeighted(result.astype('uint8'), 0.35, overlay.astype('uint8'), 0.65, 0)
-        
-        # Add texture for traditional feel
-        noise = np.random.normal(0, 4, result.shape)
-        result = np.clip(result + noise, 0, 255)
-        
-        # Vignette for coziness
-        rows, cols = img.shape[:2]
-        X_kernel = cv2.getGaussianKernel(cols, cols/2.2)
-        Y_kernel = cv2.getGaussianKernel(rows, rows/2.2)
-        kernel = Y_kernel * X_kernel.T
-        mask = kernel / kernel.max()
-        mask = np.stack([mask]*3, axis=2)
-        result = (result * mask + result * (1 - mask) * 0.65)
-        
-        return np.clip(result, 0, 255)
+        return Image.fromarray(result.astype('uint8'))
 
 
 class SpaceVisionAI:
@@ -1260,14 +1263,14 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
 
 
 def display_gan_restyle_section(original_image: Image.Image, room_type: str):
-    """Display AI-powered room redesign section with 2 styles"""
+    """Display AI-powered room redesign section with furniture visualization"""
     
     st.markdown('<div class="gan-section">', unsafe_allow_html=True)
     
     st.markdown("""
-    <h2 class="gan-title">AI Room Redesign - Transform Your Space</h2>
+    <h2 class="gan-title">AI Room Redesign - See Furniture Recommendations</h2>
     <p class="gan-subtitle">
-        Generate completely new furniture and decor using advanced AI technology
+        Get specific furniture pieces and placement suggestions for your space
     </p>
     """, unsafe_allow_html=True)
     
@@ -1304,6 +1307,7 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
     if 'selected_redesign_style' in st.session_state:
         style = st.session_state.selected_redesign_style
         style_info = redesign_ai.styles[style]
+        layout_info = redesign_ai.get_furniture_layout(style, room_type)
         
         st.markdown(f"""
         <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; border: 2px solid #000000;">
@@ -1315,45 +1319,56 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
         </div>
         """, unsafe_allow_html=True)
         
-        # Generate redesigned room
-        with st.spinner(f'Generating {style} redesign with AI...'):
-            import time
-            
-            # Progress animation
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            for i in range(100):
-                time.sleep(0.03)
-                progress_bar.progress(i + 1)
-                if i < 25:
-                    status_text.text("Analyzing room architecture...")
-                elif i < 50:
-                    status_text.text("Generating new furniture layout...")
-                elif i < 75:
-                    status_text.text("Adding decor and finishing touches...")
-                else:
-                    status_text.text("Finalizing AI-generated design...")
-            
-            redesigned_image = redesign_ai.redesign_room(original_image, style, room_type)
-            
-            progress_bar.empty()
-            status_text.empty()
-        
-        # Display before/after comparison
-        st.markdown("### AI Redesign Results")
+        # Show detailed furniture list
+        st.markdown("### Recommended Furniture & Decor")
         
         st.markdown("""
         <div style="background: #f5f5f5; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; border: 2px solid #e0e0e0;">
-            <p style="color: #000000; font-weight: 600; margin-bottom: 0.5rem;">What changed:</p>
-            <ul style="color: #000000; line-height: 1.8;">
-                <li>New furniture pieces designed for your space</li>
-                <li>Updated color scheme and materials</li>
-                <li>Redesigned layout optimized for the style</li>
-                <li>Fresh decor and finishing touches</li>
-            </ul>
+            <p style="color: #000000; font-weight: 600; margin-bottom: 1rem;">Complete Furniture List:</p>
         </div>
         """, unsafe_allow_html=True)
+        
+        # Display furniture in columns
+        col1, col2 = st.columns(2)
+        
+        for i, item in enumerate(layout_info['furniture']):
+            if i % 2 == 0:
+                with col1:
+                    st.markdown(f"**{i+1}.** {item}")
+            else:
+                with col2:
+                    st.markdown(f"**{i+1}.** {item}")
+        
+        # Show layout details
+        st.markdown("### Furniture Placement Guide")
+        
+        for item in layout_info['layout']:
+            st.markdown(f"""
+            <div style="background: white; border-radius: 8px; padding: 1rem; margin: 0.5rem 0; border-left: 4px solid {item['color']};">
+                <strong style="color: #000000;">{item['item']}</strong><br>
+                <span style="color: #666666;">Position: {item['position']}</span>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # Show design details
+        st.markdown(f"""
+        <div style="background: #f5f5f5; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0;">
+            <h4 style="color: #000000; margin-bottom: 1rem;">Design Details</h4>
+            <p style="color: #000000; line-height: 1.8;">
+                <strong>Color Scheme:</strong> {layout_info['color_scheme']}<br>
+                <strong>Lighting:</strong> {layout_info['lighting']}<br>
+                <strong>Materials:</strong> {layout_info['materials']}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Generate and show furniture placement diagram
+        with st.spinner('Creating furniture placement diagram...'):
+            import time
+            time.sleep(1)  # Brief pause for UX
+            diagram_image = redesign_ai.create_furniture_diagram(original_image, style, room_type)
+        
+        st.markdown("### Furniture Placement Visualization")
         
         col1, col2 = st.columns(2)
         
@@ -1368,48 +1383,47 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
         with col2:
             st.markdown(f"""
             <div style="text-align: center; margin-bottom: 0.5rem;">
-                <strong>AI-Generated {style}</strong>
+                <strong>Furniture Layout Diagram</strong>
             </div>
             """, unsafe_allow_html=True)
-            st.image(redesigned_image, use_container_width=True)
+            st.image(diagram_image, use_container_width=True)
+            st.caption("Colored boxes show suggested furniture placement")
         
-        # Download buttons
-        st.markdown("### Save Your AI Redesign")
+        # Download button
+        st.markdown("### Save Your Design Plan")
         
         col1, col2, col3 = st.columns([1, 2, 1])
         
         with col2:
             # Convert to bytes for download
             buf = io.BytesIO()
-            redesigned_image.save(buf, format='PNG')
+            diagram_image.save(buf, format='PNG')
             byte_im = buf.getvalue()
             
             st.download_button(
-                label="Download Redesigned Room",
+                label="Download Furniture Layout",
                 data=byte_im,
-                file_name=f"roomsense_{style.lower().replace(' ', '_')}_redesign.png",
+                file_name=f"roomsense_{style.lower().replace(' ', '_')}_layout.png",
                 mime="image/png",
                 use_container_width=True
             )
         
-        # Info about the technology
+        # Shopping tips
         st.markdown(f"""
         <div style="background: #f5f5f5; border-radius: 12px; padding: 2rem; margin-top: 2rem;">
-            <h4 style="color: #000000; margin-bottom: 1rem;">About This AI Redesign</h4>
+            <h4 style="color: #000000; margin-bottom: 1rem;">Ready to Shop?</h4>
             <p style="color: #000000; line-height: 1.7;">
-                This redesign was generated using advanced AI that understands {room_type.lower()} layouts and the 
-                {style.lower()} aesthetic. The AI analyzed your room's structure and generated new furniture pieces, 
-                decor, and color schemes that match the style while maintaining functionality.
+                Use this furniture list when shopping at IKEA, Wayfair, West Elm, or your favorite furniture stores. 
+                The placement diagram shows you exactly where each piece should go in your {room_type.lower()}.
             </p>
             <p style="color: #666666; font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
-                Note: For production-quality photorealistic results, this would integrate with Stable Diffusion API 
-                or similar generative AI services. This demo shows simulated furniture generation.
+                Tip: Take measurements of your actual room and compare with furniture dimensions before purchasing!
             </p>
         </div>
         """, unsafe_allow_html=True)
         
     else:
-        st.info("Select a design direction above to see your room completely redesigned with AI-generated furniture!")
+        st.info("Select a design direction above to see specific furniture recommendations and placement!")
     
     st.markdown('</div>', unsafe_allow_html=True)
 
