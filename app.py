@@ -464,8 +464,8 @@ st.markdown("""
         text-align: center;
     }
     
-    /* GAN Restyle Section */
-    .gan-section {
+    /* Furniture Recommendations Section */
+    .furniture-section {
         background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
         border-radius: 24px;
         padding: 3rem;
@@ -476,7 +476,7 @@ st.markdown("""
         overflow: hidden;
     }
     
-    .gan-section::before {
+    .furniture-section::before {
         content: '';
         position: absolute;
         top: 20px;
@@ -485,7 +485,7 @@ st.markdown("""
         opacity: 0.1;
     }
     
-    .gan-title {
+    .furniture-title {
         font-size: 2rem;
         font-weight: 800;
         color: #000000;
@@ -494,7 +494,7 @@ st.markdown("""
         text-align: center;
     }
     
-    .gan-subtitle {
+    .furniture-subtitle {
         font-size: 1.1rem;
         color: #666666;
         text-align: center;
@@ -763,8 +763,8 @@ class RoomRecommendation:
 
 
 
-class RoomRedesignAI:
-    """AI-powered room redesign with clear furniture visualization"""
+class FurnitureRecommendationSystem:
+    """Smart furniture recommendation system with visual placement guide"""
     
     def __init__(self):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -1262,20 +1262,20 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
 
 
 
-def display_gan_restyle_section(original_image: Image.Image, room_type: str):
-    """Display AI-powered room redesign section with furniture visualization"""
+def display_furniture_recommendations(original_image: Image.Image, room_type: str):
+    """Display smart furniture recommendations with placement visualization"""
     
-    st.markdown('<div class="gan-section">', unsafe_allow_html=True)
+    st.markdown('<div class="furniture-section">', unsafe_allow_html=True)
     
     st.markdown("""
-    <h2 class="gan-title">AI Room Redesign - See Furniture Recommendations</h2>
-    <p class="gan-subtitle">
-        Get specific furniture pieces and placement suggestions for your space
+    <h2 class="furniture-title">Smart Furniture Recommendations</h2>
+    <p class="furniture-subtitle">
+        Get specific furniture pieces and placement guide for your space
     </p>
     """, unsafe_allow_html=True)
     
-    # Initialize AI system
-    redesign_ai = RoomRedesignAI()
+    # Initialize recommendation system
+    furniture_system = FurnitureRecommendationSystem()
     
     # Style selector - just 2 powerful options
     st.markdown("### Choose Your Design Direction")
@@ -1306,8 +1306,8 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
     
     if 'selected_redesign_style' in st.session_state:
         style = st.session_state.selected_redesign_style
-        style_info = redesign_ai.styles[style]
-        layout_info = redesign_ai.get_furniture_layout(style, room_type)
+        style_info = furniture_system.styles[style]
+        layout_info = furniture_system.get_furniture_layout(style, room_type)
         
         st.markdown(f"""
         <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; border: 2px solid #000000;">
@@ -1366,7 +1366,7 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
         with st.spinner('Creating furniture placement diagram...'):
             import time
             time.sleep(1)  # Brief pause for UX
-            diagram_image = redesign_ai.create_furniture_diagram(original_image, style, room_type)
+            diagram_image = furniture_system.create_furniture_diagram(original_image, style, room_type)
         
         st.markdown("### Furniture Placement Visualization")
         
@@ -1604,10 +1604,10 @@ def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # GAN RESTYLE SECTION - New Addition!
+    # Furniture Recommendations Section
     if original_image is not None:
         st.markdown("---")
-        display_gan_restyle_section(original_image, room_type)
+        display_furniture_recommendations(original_image, room_type)
     
     # Visual Inspiration
     st.markdown(f"""
