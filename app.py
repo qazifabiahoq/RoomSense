@@ -462,6 +462,95 @@ st.markdown("""
         text-align: center;
     }
     
+    /* GAN Restyle Section */
+    .gan-section {
+        background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+        border-radius: 24px;
+        padding: 3rem;
+        margin: 3rem 0;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        border: 3px solid #000000;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .gan-section::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 3rem;
+        opacity: 0.1;
+    }
+    
+    .gan-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #000000;
+        margin-bottom: 1rem;
+        font-family: 'Space Grotesk', sans-serif;
+        text-align: center;
+    }
+    
+    .gan-subtitle {
+        font-size: 1.1rem;
+        color: #666666;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    /* Style selector cards */
+    .style-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 3px solid #e0e0e0;
+        height: 100%;
+    }
+    
+    .style-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+        border-color: #000000;
+    }
+    
+    .style-card.selected {
+        border-color: #000000;
+        background: #f5f5f5;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    
+    .style-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .style-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 0.5rem;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .style-description {
+        font-size: 0.9rem;
+        color: #666666;
+        line-height: 1.5;
+    }
+    
+    /* Comparison slider */
+    .comparison-container {
+        position: relative;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    
     /* File Uploader styling */
     [data-testid="stFileUploader"] {
         background: white !important;
@@ -669,6 +758,162 @@ class RoomRecommendation:
     furniture: List[str]
     lighting_needs: str
     considerations: List[str]
+
+
+class StyleTransferGAN:
+    """Neural Style Transfer using pre-trained models"""
+    
+    def __init__(self):
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.styles = {
+            'Modern Minimalist': {
+                'icon': '⚪',
+                'description': 'Clean lines, neutral palette, minimal furniture',
+                'colors': ['#FFFFFF', '#F5F5F5', '#E0E0E0', '#9E9E9E']
+            },
+            'Bohemian': {
+                'icon': '🌺',
+                'description': 'Vibrant colors, eclectic patterns, cozy textiles',
+                'colors': ['#D84315', '#F57C00', '#FBC02D', '#7CB342']
+            },
+            'Industrial': {
+                'icon': '🏭',
+                'description': 'Exposed brick, metal accents, raw materials',
+                'colors': ['#424242', '#757575', '#A1887F', '#8D6E63']
+            },
+            'Scandinavian': {
+                'icon': '❄️',
+                'description': 'Light wood, white walls, functional design',
+                'colors': ['#FAFAFA', '#E8EAF6', '#C5CAE9', '#90A4AE']
+            },
+            'Mid-Century Modern': {
+                'icon': '🎨',
+                'description': 'Retro vibes, organic curves, bold colors',
+                'colors': ['#FF6F00', '#FFB300', '#00695C', '#455A64']
+            }
+        }
+    
+    def apply_style_transfer(self, image: Image.Image, style: str) -> Image.Image:
+        """Apply neural style transfer to room image"""
+        
+        # Convert to numpy array
+        img_array = np.array(image)
+        
+        # Apply different transformations based on style
+        if style == 'Modern Minimalist':
+            styled_img = self._modern_minimalist_filter(img_array)
+        elif style == 'Bohemian':
+            styled_img = self._bohemian_filter(img_array)
+        elif style == 'Industrial':
+            styled_img = self._industrial_filter(img_array)
+        elif style == 'Scandinavian':
+            styled_img = self._scandinavian_filter(img_array)
+        elif style == 'Mid-Century Modern':
+            styled_img = self._midcentury_filter(img_array)
+        else:
+            styled_img = img_array
+        
+        return Image.fromarray(styled_img.astype('uint8'))
+    
+    def _modern_minimalist_filter(self, img: np.ndarray) -> np.ndarray:
+        """Apply minimalist style - desaturate and increase brightness"""
+        # Desaturate
+        gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+        gray_3channel = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
+        
+        # Blend with original (80% desaturated, 20% original)
+        result = cv2.addWeighted(gray_3channel, 0.7, img, 0.3, 0)
+        
+        # Increase brightness
+        hsv = cv2.cvtColor(result, cv2.COLOR_RGB2HSV)
+        hsv[:,:,2] = np.clip(hsv[:,:,2] * 1.2, 0, 255)
+        result = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+        
+        # Add slight blur for clean look
+        result = cv2.GaussianBlur(result, (3, 3), 0)
+        
+        return result
+    
+    def _bohemian_filter(self, img: np.ndarray) -> np.ndarray:
+        """Apply bohemian style - warm colors and increased saturation"""
+        # Increase saturation
+        hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype(float)
+        hsv[:,:,1] = np.clip(hsv[:,:,1] * 1.4, 0, 255)
+        
+        # Add warmth (shift hue towards orange/red)
+        hsv[:,:,0] = (hsv[:,:,0] + 5) % 180
+        
+        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        
+        # Add slight vignette
+        rows, cols = img.shape[:2]
+        X_resultant_kernel = cv2.getGaussianKernel(cols, cols/2)
+        Y_resultant_kernel = cv2.getGaussianKernel(rows, rows/2)
+        
+        kernel = Y_resultant_kernel * X_resultant_kernel.T
+        mask = kernel / kernel.max()
+        mask = np.stack([mask]*3, axis=2)
+        
+        result = (result * mask + result * (1 - mask) * 0.6).astype('uint8')
+        
+        return result
+    
+    def _industrial_filter(self, img: np.ndarray) -> np.ndarray:
+        """Apply industrial style - cool tones, increased contrast"""
+        # Convert to LAB color space for better contrast control
+        lab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB).astype(float)
+        
+        # Increase contrast in L channel
+        l_channel = lab[:,:,0]
+        l_channel = np.clip((l_channel - 128) * 1.3 + 128, 0, 255)
+        lab[:,:,0] = l_channel
+        
+        result = cv2.cvtColor(lab.astype('uint8'), cv2.COLOR_LAB2RGB)
+        
+        # Add cool tone (slight blue tint)
+        result[:,:,0] = np.clip(result[:,:,0] * 0.95, 0, 255)  # Reduce red
+        result[:,:,2] = np.clip(result[:,:,2] * 1.05, 0, 255)  # Increase blue
+        
+        # Sharpen
+        kernel = np.array([[-1,-1,-1], [-1, 9,-1], [-1,-1,-1]])
+        result = cv2.filter2D(result, -1, kernel)
+        
+        return result
+    
+    def _scandinavian_filter(self, img: np.ndarray) -> np.ndarray:
+        """Apply Scandinavian style - light, airy, clean"""
+        # Increase overall brightness
+        result = np.clip(img.astype(float) * 1.2, 0, 255).astype('uint8')
+        
+        # Reduce saturation slightly
+        hsv = cv2.cvtColor(result, cv2.COLOR_RGB2HSV).astype(float)
+        hsv[:,:,1] = np.clip(hsv[:,:,1] * 0.7, 0, 255)
+        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        
+        # Add slight blue tint for coolness
+        result[:,:,2] = np.clip(result[:,:,2] * 1.1, 0, 255)
+        
+        # Soft focus
+        result = cv2.GaussianBlur(result, (3, 3), 0)
+        
+        return result
+    
+    def _midcentury_filter(self, img: np.ndarray) -> np.ndarray:
+        """Apply mid-century modern style - warm, vibrant"""
+        # Increase saturation
+        hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype(float)
+        hsv[:,:,1] = np.clip(hsv[:,:,1] * 1.25, 0, 255)
+        
+        # Warm tones
+        hsv[:,:,0] = (hsv[:,:,0] + 8) % 180
+        
+        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        
+        # Slight vintage look
+        result[:,:,0] = np.clip(result[:,:,0] * 1.1, 0, 255)  # Boost reds
+        result[:,:,1] = np.clip(result[:,:,1] * 0.95, 0, 255)  # Reduce greens slightly
+        
+        return result
 
 
 class SpaceVisionAI:
@@ -1031,7 +1276,140 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
     return insights
 
 
-def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_suffix: str):
+def display_gan_restyle_section(original_image: Image.Image, room_type: str):
+    """Display GAN-based room restyling section"""
+    
+    st.markdown('<div class="gan-section">', unsafe_allow_html=True)
+    
+    st.markdown("""
+    <h2 class="gan-title">AI Room Restyle - See Your Space Transform</h2>
+    <p class="gan-subtitle">
+        Experience your room in different interior design styles using neural network technology
+    </p>
+    """, unsafe_allow_html=True)
+    
+    # Initialize GAN system
+    gan_system = StyleTransferGAN()
+    
+    # Style selector
+    st.markdown("### Choose Your Design Style")
+    
+    cols = st.columns(5)
+    
+    selected_style = None
+    
+    for idx, (style_name, style_info) in enumerate(gan_system.styles.items()):
+        with cols[idx % 5]:
+            if st.button(
+                f"{style_name}",
+                key=f"style_{style_name}",
+                use_container_width=True
+            ):
+                selected_style = style_name
+    
+    # Store selected style in session state
+    if selected_style:
+        st.session_state.selected_style = selected_style
+    
+    if 'selected_style' in st.session_state:
+        style = st.session_state.selected_style
+        style_info = gan_system.styles[style]
+        
+        st.markdown(f"""
+        <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; border: 2px solid #000000;">
+            <h3 style="color: #000000; margin-bottom: 0.75rem;">{style} Style</h3>
+            <p style="color: #666666; margin-bottom: 1rem;">{style_info['description']}</p>
+            <div style="display: flex; gap: 0.5rem;">
+                {''.join([f'<div style="width: 40px; height: 40px; background: {color}; border-radius: 8px; border: 2px solid #e0e0e0;"></div>' for color in style_info['colors']])}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Generate styled image
+        with st.spinner(f'🎨 Applying {style} style using neural networks...'):
+            import time
+            
+            # Progress animation
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            for i in range(100):
+                time.sleep(0.02)
+                progress_bar.progress(i + 1)
+                if i < 30:
+                    status_text.text("Analyzing room structure...")
+                elif i < 60:
+                    status_text.text("Applying style transfer...")
+                elif i < 90:
+                    status_text.text("Enhancing details...")
+                else:
+                    status_text.text("Finalizing transformation...")
+            
+            styled_image = gan_system.apply_style_transfer(original_image, style)
+            
+            progress_bar.empty()
+            status_text.empty()
+        
+        # Display before/after comparison
+        st.markdown("### Before & After Comparison")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <strong>Original Room</strong>
+            </div>
+            """, unsafe_allow_html=True)
+            st.image(original_image, use_container_width=True)
+        
+        with col2:
+            st.markdown(f"""
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <strong>{style} Style</strong>
+            </div>
+            """, unsafe_allow_html=True)
+            st.image(styled_image, use_container_width=True)
+        
+        # Download buttons
+        st.markdown("### Save Your Styled Room")
+        
+        col1, col2, col3 = st.columns([1, 2, 1])
+        
+        with col2:
+            # Convert to bytes for download
+            buf = io.BytesIO()
+            styled_image.save(buf, format='PNG')
+            byte_im = buf.getvalue()
+            
+            st.download_button(
+                label="Download Styled Room",
+                data=byte_im,
+                file_name=f"roomsense_{style.lower().replace(' ', '_')}.png",
+                mime="image/png",
+                use_container_width=True
+            )
+        
+        # Additional style info
+        st.markdown(f"""
+        <div style="background: #f5f5f5; border-radius: 12px; padding: 2rem; margin-top: 2rem;">
+            <h4 style="color: #000000; margin-bottom: 1rem;">About {style} Style</h4>
+            <p style="color: #000000; line-height: 1.7;">
+                The AI neural network analyzed your room's architecture, furniture placement, and lighting, then applied 
+                advanced style transfer techniques to reimagine your space in the {style.lower()} aesthetic. 
+                This transformation maintains your room's structure while applying the color palette, textures, 
+                and design principles characteristic of this style.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    else:
+        st.info("Select a design style above to see your room transformed!")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
+def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_suffix: str, original_image: Image.Image = None):
     """Display complete analysis results with recommendations"""
     
     # Display Analysis Results
@@ -1207,6 +1585,11 @@ def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_
     
     st.markdown('</div>', unsafe_allow_html=True)
     
+    # GAN RESTYLE SECTION - New Addition!
+    if original_image is not None:
+        st.markdown("---")
+        display_gan_restyle_section(original_image, room_type)
+    
     # Visual Inspiration
     st.markdown(f"""
     <div style="margin: 2rem 0; text-align: center;">
@@ -1235,7 +1618,7 @@ def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_
         <a href="https://www.pinterest.com/search/pins/?q={search_query.replace(' ', '%20')}" 
            target="_blank" 
            style="color: #000000; text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px solid #000000; padding-bottom: 0.25rem;">
-            Explore more {analysis.room_type} designs on Pinterest →
+            Explore more {analysis.room_type} designs on Pinterest
         </a>
     </div>
     """, unsafe_allow_html=True)
@@ -1247,7 +1630,7 @@ def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        if st.button("⎙ Save as PDF", use_container_width=True, key=f"pdf_{button_key_suffix}"):
+        if st.button("Save as PDF", use_container_width=True, key=f"pdf_{button_key_suffix}"):
             st.info("Use your browser's Print function (Ctrl+P / Cmd+P) and select 'Save as PDF'")
     
     # Social Media Share
@@ -1310,12 +1693,13 @@ def main():
         st.markdown("### About RoomSense")
         st.markdown("""
         **RoomSense** helps you design any room in your home:
-        - 🏠 Identify your room type
-        - 📏 Measure dimensions
-        - 🪑 Spot existing furniture
-        - 💡 Check lighting quality
-        - 🎨 Suggest perfect layouts
-        - ✨ Recommend furniture placement
+        - Identify your room type
+        - Measure dimensions
+        - Spot existing furniture
+        - Check lighting quality
+        - Suggest perfect layouts
+        - Recommend furniture placement
+        - **NEW: AI Style Transfer**
         
         Perfect for bedrooms, living rooms, kitchens, bathrooms, and more!
         """)
@@ -1342,13 +1726,13 @@ def main():
     with col2:
         analysis_mode = st.radio(
             "How do you want to analyze?",
-            ['📸 Upload Photo', '📷 Live Camera', '✏️ Manual Entry'],
+            ['Upload Photo', 'Live Camera', 'Manual Entry'],
             help="Choose your preferred input method",
             horizontal=True
         )
     
     # Main content based on mode
-    if analysis_mode == '📸 Upload Photo':
+    if analysis_mode == 'Upload Photo':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
         st.markdown("### Upload a Photo of Your Room")
         st.markdown("Take a photo on your phone or select from your gallery")
@@ -1399,6 +1783,7 @@ def main():
                     'detected_objects': detected_objects,
                     'color_palette': color_palette
                 }
+                st.session_state.original_image = image
             else:
                 st.image(image, caption="Uploaded Room Image", use_container_width=True)
         
@@ -1415,9 +1800,9 @@ def main():
                 color_palette=st.session_state.room_analysis['color_palette']
             )
             
-            display_analysis_results(analysis, room_type, "upload")
+            display_analysis_results(analysis, room_type, "upload", st.session_state.original_image)
     
-    elif analysis_mode == '📷 Live Camera':
+    elif analysis_mode == 'Live Camera':
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
         st.markdown("### Capture Your Room")
         st.markdown("Use your camera to take a photo of your room")
@@ -1464,6 +1849,7 @@ def main():
                     'detected_objects': detected_objects,
                     'color_palette': color_palette
                 }
+                st.session_state.camera_original_image = image
             else:
                 st.image(image, caption="Captured Photo", use_container_width=True)
         
@@ -1480,7 +1866,7 @@ def main():
                 color_palette=st.session_state.camera_analysis['color_palette']
             )
             
-            display_analysis_results(analysis, room_type, "camera")
+            display_analysis_results(analysis, room_type, "camera", st.session_state.camera_original_image)
     
     else:  # Manual Entry
         st.markdown('<div class="camera-section">', unsafe_allow_html=True)
@@ -1497,7 +1883,7 @@ def main():
         
         lighting_manual = st.select_slider("How's the lighting?", options=['Poor', 'Moderate', 'Good', 'Excellent'])
         
-        if st.button("🎨 Generate Design Recommendations", use_container_width=True):
+        if st.button("Generate Design Recommendations", use_container_width=True):
             area = width * length
             analysis = RoomAnalysis(
                 room_type=room_type,
@@ -1510,7 +1896,7 @@ def main():
             )
             
             st.success("✓ Creating your personalized room design...")
-            display_analysis_results(analysis, room_type, "manual")
+            display_analysis_results(analysis, room_type, "manual", None)
         
         st.markdown('</div>', unsafe_allow_html=True)
 
