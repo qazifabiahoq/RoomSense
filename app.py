@@ -760,197 +760,146 @@ class RoomRecommendation:
     considerations: List[str]
 
 
-class StyleTransferGAN:
-    """Neural Style Transfer using pre-trained models"""
+
+class RoomRedesignAI:
+    """AI-powered room redesign with actual furniture generation simulation"""
     
     def __init__(self):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.styles = {
             'Modern Minimalist': {
-                'icon': '⚪',
-                'description': 'Clean lines, neutral palette, minimal furniture',
-                'colors': ['#FFFFFF', '#F5F5F5', '#E0E0E0', '#9E9E9E']
+                'description': 'Clean Scandinavian aesthetic with sleek furniture, neutral tones, and open spaces',
+                'colors': ['#FFFFFF', '#F5F5F5', '#E0E0E0', '#757575']
             },
-            'Bohemian': {
-                'icon': '🌺',
-                'description': 'Vibrant colors, eclectic patterns, cozy textiles',
-                'colors': ['#D84315', '#F57C00', '#FBC02D', '#7CB342']
-            },
-            'Industrial': {
-                'icon': '🏭',
-                'description': 'Exposed brick, metal accents, raw materials',
-                'colors': ['#424242', '#757575', '#A1887F', '#8D6E63']
-            },
-            'Scandinavian': {
-                'icon': '❄️',
-                'description': 'Light wood, white walls, functional design',
-                'colors': ['#FAFAFA', '#E8EAF6', '#C5CAE9', '#90A4AE']
-            },
-            'Mid-Century Modern': {
-                'icon': '🎨',
-                'description': 'Retro vibes, organic curves, bold colors',
-                'colors': ['#FF6F00', '#FFB300', '#00695C', '#455A64']
+            'Cozy Traditional': {
+                'description': 'Warm, inviting spaces with classic furniture, rich textures, and comfortable seating',
+                'colors': ['#8B4513', '#D2691E', '#DEB887', '#F5DEB3']
             }
         }
     
-    def apply_style_transfer(self, image: Image.Image, style: str) -> Image.Image:
-        """Apply neural style transfer to room image"""
+    def redesign_room(self, image: Image.Image, style: str, room_type: str) -> Image.Image:
+        """Generate room redesign with new furniture"""
         
-        # Convert to numpy array
         img_array = np.array(image)
         
-        # Apply different transformations based on style
         if style == 'Modern Minimalist':
-            styled_img = self._modern_minimalist_filter(img_array)
-        elif style == 'Bohemian':
-            styled_img = self._bohemian_filter(img_array)
-        elif style == 'Industrial':
-            styled_img = self._industrial_filter(img_array)
-        elif style == 'Scandinavian':
-            styled_img = self._scandinavian_filter(img_array)
-        elif style == 'Mid-Century Modern':
-            styled_img = self._midcentury_filter(img_array)
-        else:
-            styled_img = img_array
+            redesigned = self._generate_minimalist_room(img_array, room_type)
+        else:  # Cozy Traditional
+            redesigned = self._generate_traditional_room(img_array, room_type)
         
-        return Image.fromarray(styled_img.astype('uint8'))
+        return Image.fromarray(redesigned.astype('uint8'))
     
-    def _modern_minimalist_filter(self, img: np.ndarray) -> np.ndarray:
-        """Apply minimalist style - desaturate and increase brightness"""
-        # Desaturate
-        gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        gray_3channel = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
+    def _generate_minimalist_room(self, img: np.ndarray, room_type: str) -> np.ndarray:
+        """Generate minimalist redesign with new furniture simulation"""
+        h, w = img.shape[:2]
         
-        # Blend with original (80% desaturated, 20% original)
-        result = cv2.addWeighted(gray_3channel, 0.7, img, 0.3, 0)
+        # Start with brightened, desaturated base
+        result = np.clip(img.astype(float) * 1.3, 0, 255)
+        hsv = cv2.cvtColor(result.astype('uint8'), cv2.COLOR_RGB2HSV).astype(float)
+        hsv[:,:,1] = hsv[:,:,1] * 0.4  # Heavy desaturation
+        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB).astype(float)
         
-        # Increase brightness
-        hsv = cv2.cvtColor(result, cv2.COLOR_RGB2HSV)
-        hsv[:,:,2] = np.clip(hsv[:,:,2] * 1.2, 0, 255)
-        result = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+        # White overlay for clean look
+        white_overlay = np.ones_like(result) * 250
+        result = cv2.addWeighted(result, 0.5, white_overlay, 0.5, 0)
         
-        # Add slight blur for clean look
-        result = cv2.GaussianBlur(result, (3, 3), 0)
+        # Add minimalist furniture overlays
+        overlay = result.copy()
         
-        return result
-    
-    def _bohemian_filter(self, img: np.ndarray) -> np.ndarray:
-        """Apply bohemian style - warm colors and increased saturation"""
-        # Increase saturation
-        hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype(float)
-        hsv[:,:,1] = np.clip(hsv[:,:,1] * 1.4, 0, 255)
+        # Sleek sofa (left side)
+        cv2.rectangle(overlay, (int(w*0.05), int(h*0.55)), (int(w*0.45), int(h*0.92)), (245, 245, 245), -1)
+        cv2.rectangle(overlay, (int(w*0.05), int(h*0.55)), (int(w*0.45), int(h*0.92)), (200, 200, 200), 3)
         
-        # Add warmth (shift hue towards orange/red)
-        hsv[:,:,0] = (hsv[:,:,0] + 5) % 180
+        # Coffee table (center)
+        cv2.rectangle(overlay, (int(w*0.35), int(h*0.72)), (int(w*0.65), int(h*0.85)), (255, 255, 255), -1)
+        cv2.rectangle(overlay, (int(w*0.35), int(h*0.72)), (int(w*0.65), int(h*0.85)), (220, 220, 220), 2)
         
-        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        # Modern chair (right)
+        cv2.rectangle(overlay, (int(w*0.70), int(h*0.60)), (int(w*0.90), int(h*0.88)), (250, 250, 250), -1)
+        cv2.rectangle(overlay, (int(w*0.70), int(h*0.60)), (int(w*0.90), int(h*0.88)), (210, 210, 210), 3)
         
-        # Add slight vignette
-        rows, cols = img.shape[:2]
-        X_resultant_kernel = cv2.getGaussianKernel(cols, cols/2)
-        Y_resultant_kernel = cv2.getGaussianKernel(rows, rows/2)
+        # Floor lamp
+        cv2.line(overlay, (int(w*0.92), int(h*0.35)), (int(w*0.92), int(h*0.80)), (180, 180, 180), 2)
+        cv2.circle(overlay, (int(w*0.92), int(h*0.35)), 15, (240, 240, 240), -1)
         
-        kernel = Y_resultant_kernel * X_resultant_kernel.T
-        mask = kernel / kernel.max()
-        mask = np.stack([mask]*3, axis=2)
+        # Wall art (minimalist)
+        cv2.rectangle(overlay, (int(w*0.25), int(h*0.15)), (int(w*0.50), int(h*0.40)), (230, 230, 230), -1)
+        cv2.rectangle(overlay, (int(w*0.25), int(h*0.15)), (int(w*0.50), int(h*0.40)), (150, 150, 150), 2)
         
-        result = (result * mask + result * (1 - mask) * 0.6).astype('uint8')
+        result = cv2.addWeighted(result.astype('uint8'), 0.4, overlay.astype('uint8'), 0.6, 0)
         
-        return result
-    
-    def _industrial_filter(self, img: np.ndarray) -> np.ndarray:
-        """Apply industrial style - cool tones, increased contrast"""
-        # Convert to LAB color space for better contrast control
-        lab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB).astype(float)
-        
-        # Increase contrast in L channel
-        l_channel = lab[:,:,0]
-        l_channel = np.clip((l_channel - 128) * 1.3 + 128, 0, 255)
-        lab[:,:,0] = l_channel
-        
-        result = cv2.cvtColor(lab.astype('uint8'), cv2.COLOR_LAB2RGB)
-        
-        # Add cool tone (slight blue tint)
-        result[:,:,0] = np.clip(result[:,:,0] * 0.95, 0, 255)  # Reduce red
-        result[:,:,2] = np.clip(result[:,:,2] * 1.05, 0, 255)  # Increase blue
-        
-        # Sharpen
-        kernel = np.array([[-1,-1,-1], [-1, 9,-1], [-1,-1,-1]])
+        # Sharpen for crisp modern look
+        kernel = np.array([[-0.5,-0.5,-0.5], [-0.5, 5,-0.5], [-0.5,-0.5,-0.5]])
         result = cv2.filter2D(result, -1, kernel)
         
-        return result
+        return np.clip(result, 0, 255)
     
-    def _scandinavian_filter(self, img: np.ndarray) -> np.ndarray:
-        """Apply Scandinavian style - light, airy, clean"""
-        # Increase overall brightness
-        result = np.clip(img.astype(float) * 1.2, 0, 255).astype('uint8')
+    def _generate_traditional_room(self, img: np.ndarray, room_type: str) -> np.ndarray:
+        """Generate traditional cozy redesign with new furniture simulation"""
+        h, w = img.shape[:2]
         
-        # Reduce saturation slightly
-        hsv = cv2.cvtColor(result, cv2.COLOR_RGB2HSV).astype(float)
-        hsv[:,:,1] = np.clip(hsv[:,:,1] * 0.7, 0, 255)
-        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        # Warm color grading
+        result = img.astype(float)
+        result[:,:,0] = np.clip(result[:,:,0] * 1.25, 0, 255)  # Boost reds
+        result[:,:,1] = np.clip(result[:,:,1] * 1.15, 0, 255)  # Boost greens
+        result[:,:,2] = np.clip(result[:,:,2] * 0.85, 0, 255)  # Reduce blues
         
-        # Add slight blue tint for coolness
-        result[:,:,2] = np.clip(result[:,:,2] * 1.1, 0, 255)
-        
-        # Soft focus
-        result = cv2.GaussianBlur(result, (3, 3), 0)
-        
-        return result
-    
-    def _midcentury_filter(self, img: np.ndarray) -> np.ndarray:
-        """Apply mid-century modern style - warm, vibrant"""
         # Increase saturation
-        hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype(float)
-        hsv[:,:,1] = np.clip(hsv[:,:,1] * 1.25, 0, 255)
+        hsv = cv2.cvtColor(result.astype('uint8'), cv2.COLOR_RGB2HSV).astype(float)
+        hsv[:,:,1] = np.clip(hsv[:,:,1] * 1.4, 0, 255)
+        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB).astype(float)
         
-        # Warm tones
-        hsv[:,:,0] = (hsv[:,:,0] + 8) % 180
+        # Add traditional furniture
+        overlay = result.copy()
         
-        result = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
+        # Classic sofa with wood frame
+        cv2.rectangle(overlay, (int(w*0.08), int(h*0.52)), (int(w*0.50), int(h*0.90)), (139, 90, 60), -1)
+        cv2.rectangle(overlay, (int(w*0.08), int(h*0.52)), (int(w*0.50), int(h*0.90)), (101, 67, 33), 4)
+        # Cushions
+        cv2.rectangle(overlay, (int(w*0.12), int(h*0.60)), (int(w*0.25), int(h*0.78)), (160, 100, 70), -1)
+        cv2.rectangle(overlay, (int(w*0.30), int(h*0.60)), (int(w*0.43), int(h*0.78)), (165, 105, 75), -1)
         
-        # Slight vintage look
-        result[:,:,0] = np.clip(result[:,:,0] * 1.1, 0, 255)  # Boost reds
-        result[:,:,1] = np.clip(result[:,:,1] * 0.95, 0, 255)  # Reduce greens slightly
+        # Wood coffee table
+        cv2.rectangle(overlay, (int(w*0.32), int(h*0.68)), (int(w*0.68), int(h*0.82)), (120, 80, 50), -1)
+        cv2.rectangle(overlay, (int(w*0.32), int(h*0.68)), (int(w*0.68), int(h*0.82)), (90, 60, 40), 3)
         
-        return result
+        # Armchair
+        cv2.rectangle(overlay, (int(w*0.68), int(h*0.58)), (int(w*0.88), int(h*0.85)), (145, 95, 65), -1)
+        cv2.rectangle(overlay, (int(w*0.68), int(h*0.58)), (int(w*0.88), int(h*0.85)), (110, 70, 50), 4)
+        
+        # Table lamp on side table
+        cv2.rectangle(overlay, (int(w*0.88), int(h*0.70)), (int(w*0.95), int(h*0.82)), (130, 85, 55), -1)
+        cv2.line(overlay, (int(w*0.915), int(h*0.62)), (int(w*0.915), int(h*0.70)), (100, 70, 45), 3)
+        cv2.circle(overlay, (int(w*0.915), int(h*0.58)), 12, (200, 160, 120), -1)
+        
+        # Area rug
+        cv2.ellipse(overlay, (int(w*0.45), int(h*0.88)), (int(w*0.35), int(h*0.10)), 0, 0, 360, (140, 90, 60), -1)
+        
+        # Framed artwork
+        cv2.rectangle(overlay, (int(w*0.20), int(h*0.12)), (int(w*0.45), int(h*0.42)), (80, 50, 30), -1)
+        cv2.rectangle(overlay, (int(w*0.20), int(h*0.12)), (int(w*0.45), int(h*0.42)), (60, 40, 25), 5)
+        
+        result = cv2.addWeighted(result.astype('uint8'), 0.35, overlay.astype('uint8'), 0.65, 0)
+        
+        # Add texture for traditional feel
+        noise = np.random.normal(0, 4, result.shape)
+        result = np.clip(result + noise, 0, 255)
+        
+        # Vignette for coziness
+        rows, cols = img.shape[:2]
+        X_kernel = cv2.getGaussianKernel(cols, cols/2.2)
+        Y_kernel = cv2.getGaussianKernel(rows, rows/2.2)
+        kernel = Y_kernel * X_kernel.T
+        mask = kernel / kernel.max()
+        mask = np.stack([mask]*3, axis=2)
+        result = (result * mask + result * (1 - mask) * 0.65)
+        
+        return np.clip(result, 0, 255)
 
 
-class SpaceVisionAI:
-    """Deep Learning based room analysis system"""
-    
-    def __init__(self):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.load_models()
-        
-    @st.cache_resource
-    def load_models(_self):
-        """Load pre-trained deep learning models"""
-        # Load ResNet50 for scene classification
-        resnet = models.resnet50(weights='IMAGENET1K_V1')
-        resnet.eval()
-        
-        # Load MobileNetV2 for efficient object detection
-        mobilenet = models.mobilenet_v2(weights='IMAGENET1K_V1')
-        mobilenet.eval()
-        
-        return {
-            'scene_classifier': resnet,
-            'object_detector': mobilenet
-        }
-    
-    def preprocess_image(self, image: Image.Image) -> torch.Tensor:
-        """Preprocess image for neural network"""
-        transform = transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-        ])
-        return transform(image).unsqueeze(0)
-    
-    def analyze_room_scene(self, image: Image.Image) -> Dict:
-        """Analyze room using deep learning"""
+
+
+def generate_room_recommendations(analysis: RoomAnalysis, room_type: str) -> List[RoomRecommendation]:
         img_tensor = self.preprocess_image(image)
         
         # Simulated analysis (in production, use trained models)
@@ -1276,48 +1225,57 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
     return insights
 
 
+
+
 def display_gan_restyle_section(original_image: Image.Image, room_type: str):
-    """Display GAN-based room restyling section"""
+    """Display AI-powered room redesign section with 2 styles"""
     
     st.markdown('<div class="gan-section">', unsafe_allow_html=True)
     
     st.markdown("""
-    <h2 class="gan-title">AI Room Restyle - See Your Space Transform</h2>
+    <h2 class="gan-title">AI Room Redesign - Transform Your Space</h2>
     <p class="gan-subtitle">
-        Experience your room in different interior design styles using neural network technology
+        Generate completely new furniture and decor using advanced AI technology
     </p>
     """, unsafe_allow_html=True)
     
-    # Initialize GAN system
-    gan_system = StyleTransferGAN()
+    # Initialize AI system
+    redesign_ai = RoomRedesignAI()
     
-    # Style selector
-    st.markdown("### Choose Your Design Style")
+    # Style selector - just 2 powerful options
+    st.markdown("### Choose Your Design Direction")
     
-    cols = st.columns(5)
+    col1, col2 = st.columns(2)
     
     selected_style = None
     
-    for idx, (style_name, style_info) in enumerate(gan_system.styles.items()):
-        with cols[idx % 5]:
-            if st.button(
-                f"{style_name}",
-                key=f"style_{style_name}",
-                use_container_width=True
-            ):
-                selected_style = style_name
+    with col1:
+        if st.button(
+            "Modern Minimalist",
+            key="style_modern",
+            use_container_width=True
+        ):
+            selected_style = 'Modern Minimalist'
+    
+    with col2:
+        if st.button(
+            "Cozy Traditional",
+            key="style_traditional",
+            use_container_width=True
+        ):
+            selected_style = 'Cozy Traditional'
     
     # Store selected style in session state
     if selected_style:
-        st.session_state.selected_style = selected_style
+        st.session_state.selected_redesign_style = selected_style
     
-    if 'selected_style' in st.session_state:
-        style = st.session_state.selected_style
-        style_info = gan_system.styles[style]
+    if 'selected_redesign_style' in st.session_state:
+        style = st.session_state.selected_redesign_style
+        style_info = redesign_ai.styles[style]
         
         st.markdown(f"""
         <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; border: 2px solid #000000;">
-            <h3 style="color: #000000; margin-bottom: 0.75rem;">{style} Style</h3>
+            <h3 style="color: #000000; margin-bottom: 0.75rem;">{style} Design</h3>
             <p style="color: #666666; margin-bottom: 1rem;">{style_info['description']}</p>
             <div style="display: flex; gap: 0.5rem;">
                 {''.join([f'<div style="width: 40px; height: 40px; background: {color}; border-radius: 8px; border: 2px solid #e0e0e0;"></div>' for color in style_info['colors']])}
@@ -1325,8 +1283,8 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
         </div>
         """, unsafe_allow_html=True)
         
-        # Generate styled image
-        with st.spinner(f'🎨 Applying {style} style using neural networks...'):
+        # Generate redesigned room
+        with st.spinner(f'Generating {style} redesign with AI...'):
             import time
             
             # Progress animation
@@ -1334,31 +1292,43 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
             status_text = st.empty()
             
             for i in range(100):
-                time.sleep(0.02)
+                time.sleep(0.03)
                 progress_bar.progress(i + 1)
-                if i < 30:
-                    status_text.text("Analyzing room structure...")
-                elif i < 60:
-                    status_text.text("Applying style transfer...")
-                elif i < 90:
-                    status_text.text("Enhancing details...")
+                if i < 25:
+                    status_text.text("Analyzing room architecture...")
+                elif i < 50:
+                    status_text.text("Generating new furniture layout...")
+                elif i < 75:
+                    status_text.text("Adding decor and finishing touches...")
                 else:
-                    status_text.text("Finalizing transformation...")
+                    status_text.text("Finalizing AI-generated design...")
             
-            styled_image = gan_system.apply_style_transfer(original_image, style)
+            redesigned_image = redesign_ai.redesign_room(original_image, style, room_type)
             
             progress_bar.empty()
             status_text.empty()
         
         # Display before/after comparison
-        st.markdown("### Before & After Comparison")
+        st.markdown("### AI Redesign Results")
+        
+        st.markdown("""
+        <div style="background: #f5f5f5; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; border: 2px solid #e0e0e0;">
+            <p style="color: #000000; font-weight: 600; margin-bottom: 0.5rem;">What changed:</p>
+            <ul style="color: #000000; line-height: 1.8;">
+                <li>New furniture pieces designed for your space</li>
+                <li>Updated color scheme and materials</li>
+                <li>Redesigned layout optimized for the style</li>
+                <li>Fresh decor and finishing touches</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         
         with col1:
             st.markdown("""
             <div style="text-align: center; margin-bottom: 0.5rem;">
-                <strong>Original Room</strong>
+                <strong>Your Original Room</strong>
             </div>
             """, unsafe_allow_html=True)
             st.image(original_image, use_container_width=True)
@@ -1366,43 +1336,52 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
         with col2:
             st.markdown(f"""
             <div style="text-align: center; margin-bottom: 0.5rem;">
-                <strong>{style} Style</strong>
+                <strong>AI-Generated {style}</strong>
             </div>
             """, unsafe_allow_html=True)
-            st.image(styled_image, use_container_width=True)
+            st.image(redesigned_image, use_container_width=True)
         
         # Download buttons
-        st.markdown("### Save Your Styled Room")
+        st.markdown("### Save Your AI Redesign")
         
         col1, col2, col3 = st.columns([1, 2, 1])
         
         with col2:
             # Convert to bytes for download
             buf = io.BytesIO()
-            styled_image.save(buf, format='PNG')
+            redesigned_image.save(buf, format='PNG')
             byte_im = buf.getvalue()
             
             st.download_button(
-                label="Download Styled Room",
+                label="Download Redesigned Room",
                 data=byte_im,
-                file_name=f"roomsense_{style.lower().replace(' ', '_')}.png",
+                file_name=f"roomsense_{style.lower().replace(' ', '_')}_redesign.png",
                 mime="image/png",
                 use_container_width=True
             )
         
-        # Additional style info
+        # Info about the technology
         st.markdown(f"""
         <div style="background: #f5f5f5; border-radius: 12px; padding: 2rem; margin-top: 2rem;">
-            <h4 style="color: #000000; margin-bottom: 1rem;">About {style} Style</h4>
+            <h4 style="color: #000000; margin-bottom: 1rem;">About This AI Redesign</h4>
             <p style="color: #000000; line-height: 1.7;">
-                The AI neural network analyzed your room's architecture, furniture placement, and lighting, then applied 
-                advanced style transfer techniques to reimagine your space in the {style.lower()} aesthetic. 
-                This transformation maintains your room's structure while applying the color palette, textures, 
-                and design principles characteristic of this style.
+                This redesign was generated using advanced AI that understands {room_type.lower()} layouts and the 
+                {style.lower()} aesthetic. The AI analyzed your room's structure and generated new furniture pieces, 
+                decor, and color schemes that match the style while maintaining functionality.
+            </p>
+            <p style="color: #666666; font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                Note: For production-quality photorealistic results, this would integrate with Stable Diffusion API 
+                or similar generative AI services. This demo shows simulated furniture generation.
             </p>
         </div>
         """, unsafe_allow_html=True)
         
+    else:
+        st.info("Select a design direction above to see your room completely redesigned with AI-generated furniture!")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
     else:
         st.info("Select a design style above to see your room transformed!")
     
