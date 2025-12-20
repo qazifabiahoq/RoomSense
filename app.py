@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from typing import List, Dict, Tuple
 from sklearn.cluster import KMeans
 import requests
+import urllib.parse
+import urllib.parse
 
 # Page configuration
 st.set_page_config(
@@ -763,142 +765,87 @@ class RoomRecommendation:
 
 
 
-class FurnitureRecommendationSystem:
-    """Smart furniture recommendation system with visual placement guide"""
+class RoomRedesignAI:
+    """AI-powered room redesign using Pollinations.ai (100% Free)"""
     
     def __init__(self):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.styles = {
             'Modern Minimalist': {
                 'description': 'Clean Scandinavian aesthetic with sleek furniture, neutral tones, and open spaces',
                 'colors': ['#FFFFFF', '#F5F5F5', '#E0E0E0', '#757575'],
-                'furniture_list': [
-                    'White L-shaped sectional sofa (3-seater)',
-                    'Glass coffee table with chrome legs',
-                    'Modern accent chair in light gray',
-                    'Minimalist floor lamp (black metal)',
-                    'Large abstract canvas art (black & white)',
-                    'White floating shelves',
-                    'Light gray area rug'
-                ]
+                'prompt': 'modern minimalist interior design, sleek contemporary furniture, clean white walls, scandinavian style, bright natural light, open space, professional interior photography, 8k uhd',
+                'negative_prompt': 'cluttered, messy, dark, ornate, traditional, busy patterns, low quality, blurry'
             },
             'Cozy Traditional': {
                 'description': 'Warm, inviting spaces with classic furniture, rich textures, and comfortable seating',
                 'colors': ['#8B4513', '#D2691E', '#DEB887', '#F5DEB3'],
-                'furniture_list': [
-                    'Classic brown leather sofa with wood frame',
-                    'Solid wood coffee table with storage',
-                    'Upholstered armchair in beige fabric',
-                    'Traditional table lamp with fabric shade',
-                    'Framed vintage artwork',
-                    'Wooden bookshelf',
-                    'Persian-style area rug in warm tones'
-                ]
+                'prompt': 'cozy traditional interior design, classic comfortable furniture, warm wood tones, soft textiles, warm lighting, inviting atmosphere, professional interior photography, 8k uhd',
+                'negative_prompt': 'modern, minimalist, cold, sterile, empty, stark, low quality, blurry'
             }
         }
     
-    def get_furniture_layout(self, style: str, room_type: str) -> Dict:
-        """Get detailed furniture recommendations with positioning"""
+    def redesign_room(self, image: Image.Image, style: str, room_type: str) -> Image.Image:
+        """Generate room redesign using Pollinations.ai (free API)"""
         
         style_config = self.styles[style]
         
-        if style == 'Modern Minimalist':
-            return {
-                'furniture': style_config['furniture_list'],
-                'layout': [
-                    {'item': 'L-shaped sectional sofa', 'position': 'Left wall, facing center', 'color': '#F5F5F5'},
-                    {'item': 'Glass coffee table', 'position': 'Center, in front of sofa', 'color': '#E0E0E0'},
-                    {'item': 'Accent chair', 'position': 'Right side, angled toward sofa', 'color': '#BDBDBD'},
-                    {'item': 'Floor lamp', 'position': 'Behind accent chair', 'color': '#424242'},
-                    {'item': 'Wall art', 'position': 'Above sofa, centered', 'color': '#9E9E9E'},
-                    {'item': 'Floating shelves', 'position': 'Right wall, eye level', 'color': '#FFFFFF'},
-                    {'item': 'Area rug', 'position': 'Under coffee table', 'color': '#E0E0E0'}
-                ],
-                'color_scheme': 'Whites, light grays, black accents',
-                'lighting': 'Natural light maximized, LED strip lighting, minimal fixtures',
-                'materials': 'Glass, chrome, light wood, smooth fabrics'
-            }
-        else:  # Cozy Traditional
-            return {
-                'furniture': style_config['furniture_list'],
-                'layout': [
-                    {'item': 'Leather sofa', 'position': 'Left wall, facing center', 'color': '#8B4513'},
-                    {'item': 'Wood coffee table', 'position': 'Center, in front of sofa', 'color': '#A0522D'},
-                    {'item': 'Armchair', 'position': 'Right side, angled toward sofa', 'color': '#DEB887'},
-                    {'item': 'Table lamp', 'position': 'On side table near armchair', 'color': '#D2691E'},
-                    {'item': 'Framed artwork', 'position': 'Above sofa, centered', 'color': '#8B4513'},
-                    {'item': 'Bookshelf', 'position': 'Right wall, floor to ceiling', 'color': '#654321'},
-                    {'item': 'Persian rug', 'position': 'Under coffee table and seating', 'color': '#CD853F'}
-                ],
-                'color_scheme': 'Warm browns, beige, cream, burgundy accents',
-                'lighting': 'Warm ambient lighting, table lamps, soft overhead',
-                'materials': 'Leather, solid wood, natural fabrics, brass accents'
-            }
+        try:
+            # Use Pollinations.ai free API
+            return self._generate_with_pollinations(image, style_config, room_type)
+        except Exception as e:
+            st.error(f"Generation failed: {str(e)}")
+            # Return original image with overlay indicating failure
+            return self._create_error_image(image)
     
-    def create_furniture_diagram(self, image: Image.Image, style: str, room_type: str) -> Image.Image:
-        """Create annotated diagram showing furniture placement"""
+    def _generate_with_pollinations(self, image: Image.Image, style_config: Dict, room_type: str) -> Image.Image:
+        """Generate using Pollinations.ai free API"""
         
-        layout_info = self.get_furniture_layout(style, room_type)
-        img_array = np.array(image)
-        h, w = img_array.shape[:2]
+        # Resize image for faster processing
+        max_size = 768
+        img = image.copy()
+        img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
         
-        # Create overlay with furniture positions marked
+        # Convert image to base64
+        buffered = io.BytesIO()
+        img.save(buffered, format="PNG")
+        img_base64 = base64.b64encode(buffered.getvalue()).decode()
+        
+        # Create prompt
+        full_prompt = f"{room_type}, {style_config['prompt']}"
+        
+        # Pollinations.ai API endpoint (FREE - no key needed!)
+        api_url = "https://image.pollinations.ai/prompt/"
+        
+        # Encode prompt for URL
+        encoded_prompt = urllib.parse.quote(full_prompt)
+        
+        # Make request to Pollinations.ai
+        # They support both text-to-image and img2img
+        request_url = f"{api_url}{encoded_prompt}?width=768&height=768&model=flux&nologo=true&enhance=true"
+        
+        response = requests.get(request_url, timeout=60)
+        
+        if response.status_code == 200:
+            # Load generated image
+            generated_image = Image.open(io.BytesIO(response.content))
+            return generated_image
+        else:
+            raise Exception(f"API returned status code {response.status_code}")
+    
+    def _create_error_image(self, original: Image.Image) -> Image.Image:
+        """Create error overlay on original image"""
+        img_array = np.array(original)
         overlay = img_array.copy()
         
-        # Apply style-appropriate color grading
-        if style == 'Modern Minimalist':
-            # Brighten and desaturate
-            overlay = np.clip(overlay.astype(float) * 1.2, 0, 255).astype('uint8')
-            hsv = cv2.cvtColor(overlay, cv2.COLOR_RGB2HSV).astype(float)
-            hsv[:,:,1] = hsv[:,:,1] * 0.5
-            overlay = cv2.cvtColor(hsv.astype('uint8'), cv2.COLOR_HSV2RGB)
-        else:
-            # Warm and saturate
-            overlay = overlay.astype(float)
-            overlay[:,:,0] = np.clip(overlay[:,:,0] * 1.2, 0, 255)
-            overlay[:,:,1] = np.clip(overlay[:,:,1] * 1.1, 0, 255)
-            overlay[:,:,2] = np.clip(overlay[:,:,2] * 0.9, 0, 255)
-            overlay = overlay.astype('uint8')
+        # Add semi-transparent red overlay
+        overlay = cv2.addWeighted(overlay, 0.7, np.ones_like(overlay) * [100, 0, 0], 0.3, 0)
         
-        # Draw furniture placement boxes with labels
+        # Add text
         font = cv2.FONT_HERSHEY_SIMPLEX
+        text = "Generation Failed"
+        cv2.putText(overlay, text, (50, 100), font, 2, (255, 255, 255), 3)
         
-        for i, item in enumerate(layout_info['layout'][:5]):  # Show top 5 items
-            # Calculate position
-            if i == 0:  # Sofa - left
-                x1, y1 = int(w*0.05), int(h*0.55)
-                x2, y2 = int(w*0.40), int(h*0.90)
-            elif i == 1:  # Coffee table - center
-                x1, y1 = int(w*0.35), int(h*0.70)
-                x2, y2 = int(w*0.65), int(h*0.85)
-            elif i == 2:  # Chair - right
-                x1, y1 = int(w*0.70), int(h*0.60)
-                x2, y2 = int(w*0.90), int(h*0.88)
-            elif i == 3:  # Lamp
-                x1, y1 = int(w*0.88), int(h*0.50)
-                x2, y2 = int(w*0.95), int(h*0.80)
-            else:  # Art/shelves
-                x1, y1 = int(w*0.20), int(h*0.15)
-                x2, y2 = int(w*0.45), int(h*0.40)
-            
-            # Convert hex color to RGB
-            hex_color = item['color'].lstrip('#')
-            r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-            
-            # Draw semi-transparent rectangle
-            cv2.rectangle(overlay, (x1, y1), (x2, y2), (r, g, b), -1)
-            cv2.rectangle(overlay, (x1, y1), (x2, y2), (max(0, r-50), max(0, g-50), max(0, b-50)), 3)
-            
-            # Add label
-            label = item['item']
-            label_size = cv2.getTextSize(label, font, 0.5, 1)[0]
-            cv2.rectangle(overlay, (x1, y1-25), (x1+label_size[0]+10, y1), (r, g, b), -1)
-            cv2.putText(overlay, label, (x1+5, y1-8), font, 0.5, (255, 255, 255), 1)
-        
-        # Blend with original
-        result = cv2.addWeighted(img_array, 0.3, overlay, 0.7, 0)
-        
-        return Image.fromarray(result.astype('uint8'))
+        return Image.fromarray(overlay.astype('uint8'))
 
 
 class SpaceVisionAI:
@@ -1263,22 +1210,22 @@ def generate_detailed_insights(analysis: RoomAnalysis) -> List[str]:
 
 
 def display_furniture_recommendations(original_image: Image.Image, room_type: str):
-    """Display smart furniture recommendations with placement visualization"""
+    """Display AI-generated room redesigns using Pollinations.ai"""
     
     st.markdown('<div class="furniture-section">', unsafe_allow_html=True)
     
     st.markdown("""
-    <h2 class="furniture-title">Smart Furniture Recommendations</h2>
+    <h2 class="furniture-title">AI Room Redesign</h2>
     <p class="furniture-subtitle">
-        Get specific furniture pieces and placement guide for your space
+        Transform your space with AI-generated interior designs (100% Free)
     </p>
     """, unsafe_allow_html=True)
     
-    # Initialize recommendation system
-    furniture_system = FurnitureRecommendationSystem()
+    # Initialize AI system
+    redesign_ai = RoomRedesignAI()
     
-    # Style selector - just 2 powerful options
-    st.markdown("### Choose Your Design Direction")
+    # Style selector
+    st.markdown("### Choose Your Design Style")
     
     col1, col2 = st.columns(2)
     
@@ -1300,18 +1247,17 @@ def display_furniture_recommendations(original_image: Image.Image, room_type: st
         ):
             selected_style = 'Cozy Traditional'
     
-    # Store selected style in session state
+    # Store selected style
     if selected_style:
         st.session_state.selected_redesign_style = selected_style
     
     if 'selected_redesign_style' in st.session_state:
         style = st.session_state.selected_redesign_style
-        style_info = furniture_system.styles[style]
-        layout_info = furniture_system.get_furniture_layout(style, room_type)
+        style_info = redesign_ai.styles[style]
         
         st.markdown(f"""
         <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; border: 2px solid #000000;">
-            <h3 style="color: #000000; margin-bottom: 0.75rem;">{style} Design</h3>
+            <h3 style="color: #000000; margin-bottom: 0.75rem;">{style} Style</h3>
             <p style="color: #666666; margin-bottom: 1rem;">{style_info['description']}</p>
             <div style="display: flex; gap: 0.5rem;">
                 {''.join([f'<div style="width: 40px; height: 40px; background: {color}; border-radius: 8px; border: 2px solid #e0e0e0;"></div>' for color in style_info['colors']])}
@@ -1319,56 +1265,42 @@ def display_furniture_recommendations(original_image: Image.Image, room_type: st
         </div>
         """, unsafe_allow_html=True)
         
-        # Show detailed furniture list
-        st.markdown("### Recommended Furniture & Decor")
-        
-        st.markdown("""
-        <div style="background: #f5f5f5; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; border: 2px solid #e0e0e0;">
-            <p style="color: #000000; font-weight: 600; margin-bottom: 1rem;">Complete Furniture List:</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Display furniture in columns
-        col1, col2 = st.columns(2)
-        
-        for i, item in enumerate(layout_info['furniture']):
-            if i % 2 == 0:
-                with col1:
-                    st.markdown(f"**{i+1}.** {item}")
-            else:
-                with col2:
-                    st.markdown(f"**{i+1}.** {item}")
-        
-        # Show layout details
-        st.markdown("### Furniture Placement Guide")
-        
-        for item in layout_info['layout']:
-            st.markdown(f"""
-            <div style="background: white; border-radius: 8px; padding: 1rem; margin: 0.5rem 0; border-left: 4px solid {item['color']};">
-                <strong style="color: #000000;">{item['item']}</strong><br>
-                <span style="color: #666666;">Position: {item['position']}</span>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Show design details
-        st.markdown(f"""
-        <div style="background: #f5f5f5; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0;">
-            <h4 style="color: #000000; margin-bottom: 1rem;">Design Details</h4>
-            <p style="color: #000000; line-height: 1.8;">
-                <strong>Color Scheme:</strong> {layout_info['color_scheme']}<br>
-                <strong>Lighting:</strong> {layout_info['lighting']}<br>
-                <strong>Materials:</strong> {layout_info['materials']}
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Generate and show furniture placement diagram
-        with st.spinner('Creating furniture placement diagram...'):
+        # Generate AI redesign
+        with st.spinner(f'Generating {style} redesign with AI... (this may take 20-30 seconds)'):
             import time
-            time.sleep(1)  # Brief pause for UX
-            diagram_image = furniture_system.create_furniture_diagram(original_image, style, room_type)
+            
+            # Progress bar
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            # Update progress
+            for i in range(30):
+                progress_bar.progress(int((i/30) * 100))
+                status_text.text("Connecting to AI service...")
+                time.sleep(0.1)
+            
+            # Generate image
+            try:
+                redesigned_image = redesign_ai.redesign_room(original_image, style, room_type)
+                
+                for i in range(30, 100):
+                    progress_bar.progress(i + 1)
+                    status_text.text("Finalizing design...")
+                    time.sleep(0.05)
+                
+                progress_bar.empty()
+                status_text.empty()
+                
+                st.success("AI redesign complete!")
+                
+            except Exception as e:
+                progress_bar.empty()
+                status_text.empty()
+                st.error(f"Failed to generate: {str(e)}")
+                redesigned_image = original_image
         
-        st.markdown("### Furniture Placement Visualization")
+        # Display results
+        st.markdown("### Your AI-Generated Redesign")
         
         col1, col2 = st.columns(2)
         
@@ -1383,47 +1315,46 @@ def display_furniture_recommendations(original_image: Image.Image, room_type: st
         with col2:
             st.markdown(f"""
             <div style="text-align: center; margin-bottom: 0.5rem;">
-                <strong>Furniture Layout Diagram</strong>
+                <strong>AI-Generated {style}</strong>
             </div>
             """, unsafe_allow_html=True)
-            st.image(diagram_image, use_container_width=True)
-            st.caption("Colored boxes show suggested furniture placement")
+            st.image(redesigned_image, use_container_width=True)
         
-        # Download button
-        st.markdown("### Save Your Design Plan")
+        # Download option
+        st.markdown("### Save Your Design")
         
         col1, col2, col3 = st.columns([1, 2, 1])
         
         with col2:
-            # Convert to bytes for download
             buf = io.BytesIO()
-            diagram_image.save(buf, format='PNG')
+            redesigned_image.save(buf, format='PNG')
             byte_im = buf.getvalue()
             
             st.download_button(
-                label="Download Furniture Layout",
+                label="Download AI Redesign",
                 data=byte_im,
-                file_name=f"roomsense_{style.lower().replace(' ', '_')}_layout.png",
+                file_name=f"roomsense_{style.lower().replace(' ', '_')}_ai.png",
                 mime="image/png",
                 use_container_width=True
             )
         
-        # Shopping tips
+        # Info
         st.markdown(f"""
         <div style="background: #f5f5f5; border-radius: 12px; padding: 2rem; margin-top: 2rem;">
-            <h4 style="color: #000000; margin-bottom: 1rem;">Ready to Shop?</h4>
+            <h4 style="color: #000000; margin-bottom: 1rem;">About This AI Design</h4>
             <p style="color: #000000; line-height: 1.7;">
-                Use this furniture list when shopping at IKEA, Wayfair, West Elm, or your favorite furniture stores. 
-                The placement diagram shows you exactly where each piece should go in your {room_type.lower()}.
+                This redesign was generated using Pollinations.ai, a free AI service powered by Stable Diffusion. 
+                The AI analyzed your {room_type.lower()} and created a completely new interior design in the 
+                {style.lower()} style with new furniture, colors, and decor.
             </p>
-            <p style="color: #666666; font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
-                Tip: Take measurements of your actual room and compare with furniture dimensions before purchasing!
+            <p style="color: #666666; font-size: 0.9rem; margin-top: 1rem;">
+                ✓ 100% Free • ✓ No signup required • ✓ Real AI generation
             </p>
         </div>
         """, unsafe_allow_html=True)
         
     else:
-        st.info("Select a design direction above to see specific furniture recommendations and placement!")
+        st.info("Select a design style above to generate your AI room redesign!")
     
     st.markdown('</div>', unsafe_allow_html=True)
 
