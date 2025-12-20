@@ -897,9 +897,41 @@ class RoomRedesignAI:
         return np.clip(result, 0, 255)
 
 
-
-
-def generate_room_recommendations(analysis: RoomAnalysis, room_type: str) -> List[RoomRecommendation]:
+class SpaceVisionAI:
+    """Deep Learning based room analysis system"""
+    
+    def __init__(self):
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.load_models()
+        
+    @st.cache_resource
+    def load_models(_self):
+        """Load pre-trained deep learning models"""
+        # Load ResNet50 for scene classification
+        resnet = models.resnet50(weights='IMAGENET1K_V1')
+        resnet.eval()
+        
+        # Load MobileNetV2 for efficient object detection
+        mobilenet = models.mobilenet_v2(weights='IMAGENET1K_V1')
+        mobilenet.eval()
+        
+        return {
+            'scene_classifier': resnet,
+            'object_detector': mobilenet
+        }
+    
+    def preprocess_image(self, image: Image.Image) -> torch.Tensor:
+        """Preprocess image for neural network"""
+        transform = transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        ])
+        return transform(image).unsqueeze(0)
+    
+    def analyze_room_scene(self, image: Image.Image) -> Dict:
+        """Analyze room using deep learning"""
         img_tensor = self.preprocess_image(image)
         
         # Simulated analysis (in production, use trained models)
@@ -962,7 +994,6 @@ def generate_room_recommendations(analysis: RoomAnalysis, room_type: str) -> Lis
         # Simple color clustering
         from sklearn.cluster import KMeans
         n_colors = 5
-        kmeans = KMeans(n_clusters=n_colors, random_state=42, n_init=10)
         kmeans.fit(pixels)
         
         colors = kmeans.cluster_centers_.astype(int)
@@ -1378,12 +1409,6 @@ def display_gan_restyle_section(original_image: Image.Image, room_type: str):
         
     else:
         st.info("Select a design direction above to see your room completely redesigned with AI-generated furniture!")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
-    else:
-        st.info("Select a design style above to see your room transformed!")
     
     st.markdown('</div>', unsafe_allow_html=True)
 
