@@ -9,6 +9,7 @@ import io
 import base64
 from dataclasses import dataclass
 from typing import List, Dict, Tuple
+from sklearn.cluster import KMeans
 
 # Page configuration
 st.set_page_config(
@@ -992,8 +993,8 @@ class SpaceVisionAI:
         pixels = img_array.reshape(-1, 3)
         
         # Simple color clustering
-        from sklearn.cluster import KMeans
         n_colors = 5
+        kmeans = KMeans(n_clusters=n_colors, random_state=42, n_init=10)
         kmeans.fit(pixels)
         
         colors = kmeans.cluster_centers_.astype(int)
