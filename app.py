@@ -405,8 +405,8 @@ st.markdown("""
     
     /* Buttons */
     .stButton > button {
-        background: white !important;
-        color: #000000 !important;
+        background: #000000 !important;
+        color: #ffffff !important;
         border: 2px solid #000000 !important;
         border-radius: 12px !important;
         padding: 1rem 3rem !important;
@@ -425,8 +425,8 @@ st.markdown("""
     .stButton > button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 24px rgba(0,0,0,0.15) !important;
-        background: #000000 !important;
-        color: white !important;
+        background: white !important;
+        color: #000000 !important;
     }
     
     /* Insight box */
