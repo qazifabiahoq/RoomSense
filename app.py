@@ -429,6 +429,35 @@ st.markdown("""
         color: #000000 !important;
     }
     
+    /* Force button text to be white */
+    .stButton > button p {
+        color: #ffffff !important;
+    }
+    
+    .stButton > button:hover p {
+        color: #000000 !important;
+    }
+    
+    /* Download button specific */
+    .stDownloadButton > button {
+        background: #000000 !important;
+        color: #ffffff !important;
+        border: 2px solid #000000 !important;
+    }
+    
+    .stDownloadButton > button p {
+        color: #ffffff !important;
+    }
+    
+    .stDownloadButton > button:hover {
+        background: white !important;
+        color: #000000 !important;
+    }
+    
+    .stDownloadButton > button:hover p {
+        color: #000000 !important;
+    }
+    
     /* Insight box */
     .insight-box {
         background: white;
