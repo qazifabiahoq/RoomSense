@@ -2,16 +2,12 @@ import streamlit as st
 import cv2
 import numpy as np
 from PIL import Image
-import torch
-import torchvision.transforms as transforms
-from torchvision import models
 import io
 import base64
 from dataclasses import dataclass
 from typing import List, Dict, Tuple
 from sklearn.cluster import KMeans
 import requests
-import urllib.parse
 import urllib.parse
 
 # Page configuration
@@ -878,42 +874,10 @@ class RoomRedesignAI:
 
 
 class SpaceVisionAI:
-    """Deep Learning based room analysis system"""
-    
-    def __init__(self):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.load_models()
-        
-    @st.cache_resource
-    def load_models(_self):
-        """Load pre-trained deep learning models"""
-        # Load ResNet50 for scene classification
-        resnet = models.resnet50(weights='IMAGENET1K_V1')
-        resnet.eval()
-        
-        # Load MobileNetV2 for efficient object detection
-        mobilenet = models.mobilenet_v2(weights='IMAGENET1K_V1')
-        mobilenet.eval()
-        
-        return {
-            'scene_classifier': resnet,
-            'object_detector': mobilenet
-        }
-    
-    def preprocess_image(self, image: Image.Image) -> torch.Tensor:
-        """Preprocess image for neural network"""
-        transform = transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-        ])
-        return transform(image).unsqueeze(0)
-    
+    """Room analysis system"""
+
     def analyze_room_scene(self, image: Image.Image) -> Dict:
-        """Analyze room using deep learning"""
-        img_tensor = self.preprocess_image(image)
-        
+        """Analyze room scene"""
         # Simulated analysis (in production, use trained models)
         room_types = ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom', 'Dining Room', 'Home Office', 'Kids Room', 'Laundry Room']
         lighting_types = ['Natural - Excellent', 'Mixed - Good', 'Artificial - Moderate', 'Low Light']
@@ -1618,40 +1582,42 @@ def display_analysis_results(analysis: RoomAnalysis, room_type: str, button_key_
     
     share_text = f"Check out my {analysis.room_type} design from RoomSense!"
     share_url = "https://roomsense.streamlit.app"
-    
+    encoded_text = urllib.parse.quote(share_text)
+    encoded_url = urllib.parse.quote(share_url, safe='')
+
     social_col1, social_col2, social_col3, social_col4 = st.columns(4)
-    
+
     with social_col1:
         st.markdown(f'''
-        <a href="https://www.facebook.com/sharer/sharer.php?u={share_url}" target="_blank" 
-           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+        <a href="https://www.facebook.com/sharer/sharer.php?u={encoded_url}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px;
            text-align: center; text-decoration: none; font-weight: 600;">
            Facebook
         </a>
         ''', unsafe_allow_html=True)
-    
+
     with social_col2:
         st.markdown(f'''
-        <a href="https://twitter.com/intent/tweet?text={share_text}&url={share_url}" target="_blank"
-           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+        <a href="https://twitter.com/intent/tweet?text={encoded_text}&url={encoded_url}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px;
            text-align: center; text-decoration: none; font-weight: 600;">
            Twitter
         </a>
         ''', unsafe_allow_html=True)
-    
+
     with social_col3:
         st.markdown(f'''
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url={share_url}" target="_blank"
-           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={encoded_url}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px;
            text-align: center; text-decoration: none; font-weight: 600;">
            LinkedIn
         </a>
         ''', unsafe_allow_html=True)
-    
+
     with social_col4:
         st.markdown(f'''
-        <a href="https://pinterest.com/pin/create/button/?url={share_url}&description={share_text}" target="_blank"
-           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px; 
+        <a href="https://pinterest.com/pin/create/button/?url={encoded_url}&description={encoded_text}" target="_blank"
+           style="display: block; padding: 0.75rem; background: white; color: #000000 !important; border: 2px solid #000000; border-radius: 8px;
            text-align: center; text-decoration: none; font-weight: 600;">
            Pinterest
         </a>
