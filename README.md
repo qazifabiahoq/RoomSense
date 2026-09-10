@@ -1,119 +1,85 @@
-<div align="center">
-
 # RoomSense
 
-**AI-powered room analysis and redesign, using real computer vision and real generative AI.**
+AI-Powered Room Design. A Full Plan From One Photo.
 
-Upload a photo of a room. RoomSense runs an object-detection model on it to find the actual furniture and fixtures, measures its actual lighting and color palette, hands back professional design recommendations, and generates a real AI redesign in a style you pick.
+Live Demo: [https://room-sense-qazi-fabia-hoqs-projects.vercel.app](https://room-sense-qazi-fabia-hoqs-projects.vercel.app)
 
-### 🔗 [**Live Demo**](https://room-sense-qazi-fabia-hoqs-projects.vercel.app) &nbsp;·&nbsp; [API Health Check](https://roomsense-vision-api.onrender.com/health)
-
-*(Backend is on Render's free tier, so the first request after idle can take about 50 seconds to wake up.)*
-
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
-[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://vercel.com/)
-[![Render](https://img.shields.io/badge/Deployed_on-Render-46E3B7?logo=render&logoColor=white)](https://render.com/)
-
-</div>
+API Health Check: [https://roomsense-vision-api.onrender.com/health](https://roomsense-vision-api.onrender.com/health)
 
 ---
 
-## What it does
+## The Problem
 
-1. **Upload a photo** of any room.
-2. A **PyTorch object-detection model** (SSDLite MobileNetV3, trained on COCO) runs inference on the image and draws real bounding boxes around the furniture and fixtures it finds.
-3. The backend measures the photo's **actual pixel brightness** (lighting quality) and extracts its **actual dominant colors** with K-Means clustering. No placeholders, no random numbers.
-4. The app returns **professional, room-specific design recommendations** (furniture, layout zones, clearances, lighting setup) from a curated interior-design knowledge base.
-5. Pick a style and get a **real AI-generated redesign** of the room (Stable Diffusion via Pollinations.ai), downloadable as an image.
+Redesigning a room usually comes down to two bad options. You hire an interior designer, which is expensive and slow, often weeks of back and forth before you see a single mockup. Or you scroll saved pins and mood boards that look nothing like your actual room, guessing at what might fit your space, your furniture, your lighting.
 
----
+Generic design advice does not know what is already in your room. It does not know whether your light is bright and natural or dim and artificial, whether your walls are already crowded with furniture, or what colors are already dominating the space. Without that, "add a floor lamp here" is just a guess dressed up as advice.
 
-## Key features
-
-- 📸 **Drag-and-drop photo upload** with a live bounding-box overlay on detected objects
-- 🧠 **Real object detection**: not mocked, not random, actual model inference per request
-- 💡 **Real lighting & color analysis** computed from the image's pixels
-- 🛋️ **Room-specific recommendations** for 8 room types (Living Room, Bedroom, Kitchen, Bathroom, Dining Room, Home Office, Kids Room, Laundry Room)
-- 🎨 **AI room redesign** in multiple styles, generated on demand
-- 📱 Fully responsive, clean UI built with Tailwind CSS
-- 🔗 One-click social sharing
+RoomSense was built to remove the guessing. It looks at your actual room and works from there.
 
 ---
 
-## Tech stack
+## What RoomSense Does
 
-| Layer | Technology |
-|---|---|
-| **Frontend** | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS |
-| **Backend / API** | FastAPI (Python), Uvicorn |
-| **Computer Vision** | PyTorch + torchvision: SSDLite MobileNetV3 (COCO-pretrained) for object detection |
-| **Machine Learning** | scikit-learn (K-Means clustering for color palette extraction) |
-| **Generative AI** | Pollinations.ai: free hosted Stable Diffusion (Flux) for room redesigns |
-| **Image Processing** | Pillow, NumPy |
-| **Hosting** | Vercel (frontend and serverless API proxy), Render (Python ML backend) |
+You upload a photo of a room. A computer vision model looks at the image and finds the furniture and fixtures actually in it: sofas, chairs, tables, lamps, whatever is really there. Separately, the system measures how bright the room actually is and extracts the dominant colors from the photo's own pixels, not a generic palette pulled from a room-type template.
+
+With real information about your space in hand, RoomSense returns a design plan: furniture zones, placement guidance, lighting setup, and clearances, written for the room type you selected. From there you can generate a real AI redesign of your room in a chosen style using generative image AI, and download the result.
+
+Nothing about the analysis is invented. If the app reports four items found or shows a color swatch, that came from a model actually looking at your photo, not a placeholder standing in for one.
 
 ---
 
-## Architecture
+## The Vision Pipeline
 
-```mermaid
-flowchart LR
-    A[Browser] --> B[Vercel: Next.js UI]
-    B --> C[Vercel: /api/redesign proxy]
-    B --> D[Render: FastAPI + PyTorch vision service]
-    C --> E[Pollinations.ai: Stable Diffusion]
-    D -- detections, brightness, color palette --> B
-```
+This is the part that does real work on your actual photo, and it runs as three separate steps.
 
-The app is split across two services on purpose:
+**Object detection.** An SSDLite MobileNetV3 model, pretrained on the COCO dataset, runs inference on the uploaded image and returns bounding boxes for whatever furniture and fixtures it recognizes: couches, chairs, beds, dining tables, TVs, and dozens of other household categories. SSDLite MobileNetV3 was chosen deliberately over a heavier detector because it is built for exactly this constraint: real-time inference on modest CPU hardware, which is what a low-cost hosted backend actually has to work with. The detected boxes are drawn directly onto your photo in the interface, so you can see exactly what the model found and how confident it was about each item.
 
-- **`frontend/`** (Vercel): the Next.js UI, the design-recommendation content, and a lightweight serverless route that proxies AI-redesign image requests.
-- **`backend/`** (Render): a FastAPI service running the actual PyTorch object-detection model. This needs a persistent process that keeps a ~300MB model loaded in memory, which is why it runs on Render rather than Vercel's stateless serverless functions.
+**Lighting measurement.** The backend reads the actual pixel brightness of your photo and classifies the lighting into a plain-language rating, from low light to natural and excellent. This is a direct measurement of your image, not an assumption based on room type or time of day.
+
+**Color extraction.** K-Means clustering runs over the photo's real pixels to pull out the room's actual dominant colors as a palette. It is unsupervised learning applied to your specific photo, not a stock palette assigned because you picked "Living Room" from a dropdown.
+
+The room type itself is the one input that is not detected. You select it, because guessing whether a photographed room is a bedroom or a home office is a much harder and lower-value problem than analyzing what is inside it, and there was no reason to fake a prediction there when a dropdown does the job honestly.
 
 ---
 
-## Engineering note: what's real vs. curated
+## Why Two Separate Services
 
-An earlier version of this app faked its "AI analysis" with `np.random`. It doesn't anymore. Every number the app shows is either a real model output or clearly-labeled curated content:
+RoomSense is split into a Next.js frontend on Vercel and a FastAPI backend on Render, deployed and scaled independently.
 
-| Feature | Source | Type |
-|---|---|---|
-| Furniture/fixture detection | SSDLite MobileNetV3 running inference on your image | Real model inference |
-| Lighting rating | Measured pixel brightness of your image | Real computation |
-| Color palette | K-Means clustering over your image's actual pixels | Real computation |
-| Detection confidence | The object detector's own confidence scores | Real, from the model |
-| Room redesign images | Stable Diffusion (Flux) via Pollinations.ai | Real generative AI |
-| Furniture/layout recommendations | Curated interior-design knowledge base | Expert content, not model output |
-| Room type | Selected by the user | User input, not a prediction |
+The reason is the object detection model itself. It is a real PyTorch model that needs to sit loaded in memory across requests, ready to run inference the moment a photo comes in. That is fundamentally a persistent process, not a short-lived function invocation. Vercel's serverless functions are built for exactly the opposite shape of workload: fast, stateless, and cold-started on every call. Trying to force a few hundred megabytes of ML model into that model would mean reloading it on every single request, which is slow, wasteful, and eventually just does not work within serverless memory and time limits.
+
+So the vision pipeline runs on Render as an always-on FastAPI service instead, while Vercel handles the interface, the design recommendation content, and a lightweight serverless route that proxies AI image generation requests. Each half runs on the infrastructure actually suited to it.
 
 ---
 
-## Running locally
+## Honesty About What's Real
 
-**Backend:**
-```bash
-cd backend
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
-```
+An earlier version of this project faked its "AI analysis" with random number generation. Room type, confidence score, detected furniture, all of it was `np.random` dressed up to look like a model's output. It does not do that anymore, and this section exists because that history is worth being upfront about.
 
-**Frontend:**
-```bash
-cd frontend
-npm install
-# point lib/config.ts's API_BASE_URL at http://localhost:8000 for local dev
-npm run dev
-```
+Every field the app shows you now falls into one of two honest categories. It is either a real measurement or model output computed from your actual photo (furniture detection, lighting rating, color palette, and the detector's own confidence scores all fall here), or it is clearly curated content that was never claimed to be AI-generated in the first place (the furniture and layout recommendations come from a hand-built interior design knowledge base, not a model). The one AI-generated visual output, the redesigned room image, is real generative AI, produced by an actual Stable Diffusion model through Pollinations.ai's free hosted API.
+
+Nothing in the current version fabricates a number to look more impressive than what the system actually did.
 
 ---
 
-## License
+## Who This Is Built For
 
-MIT License. Free for personal and commercial use.
+Homeowners and renters who want a real plan for a room before spending money on furniture, without paying for a designer to tell them what they could see for themselves with the right tools. First-time buyers and anyone moving into a new place who want to walk in with a layout already figured out instead of guessing on move-in day. People who just want to see their own room reimagined in a different style before committing to paint, furniture, or a full renovation.
+
+---
+
+## Technical Stack
+
+The frontend is a Next.js 14 application written in TypeScript, styled with Tailwind CSS, and deployed on Vercel. It handles the photo upload interface, renders the live detection overlay on top of your image, hosts the curated design recommendation content, and exposes a serverless API route that proxies AI redesign requests so downloads work cleanly with proper filenames.
+
+The backend is a FastAPI service written in Python and deployed on Render. It loads the SSDLite MobileNetV3 object detection model from PyTorch and torchvision at startup, runs brightness analysis with NumPy and Pillow, and extracts color palettes with scikit-learn's K-Means implementation. It exposes a single analysis endpoint that a photo is posted to and a structured JSON response, containing detections, lighting, and color data, comes back.
+
+The AI room redesign feature calls Pollinations.ai, a free hosted Stable Diffusion endpoint that requires no API key, through the Vercel serverless proxy.
+
+---
+
+## The Bigger Picture
+
+Most "AI-powered" home design tools on the market are either a lookup table wearing an AI label, or a real model bolted onto marketing copy that oversells what it actually does. RoomSense was rebuilt specifically to not be either of those things: the parts that claim to be real computer vision actually run inference on your photo, and the parts that are curated design knowledge are labeled as exactly that instead of dressed up as machine intelligence.
+
+The result is a smaller, more honest set of claims. It just happens that all of them are true.
