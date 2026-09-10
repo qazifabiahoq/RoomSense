@@ -10,9 +10,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "RoomSense — AI Room Design",
+  title: "RoomSense: AI Room Design",
   description:
-    "Upload a photo of your room and get real computer-vision furniture detection, lighting analysis, color palettes, and AI-generated redesigns.",
+    "Upload a photo of your room and get a personalized design plan, with furniture detection, lighting analysis, color palettes, and AI-generated redesigns.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

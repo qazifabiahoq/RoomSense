@@ -4,7 +4,7 @@ import { RoomType } from "@/lib/types";
 
 export default function ShareBar({ roomType }: { roomType: RoomType }) {
   const url = typeof window !== "undefined" ? window.location.href : "https://roomsense.app";
-  const text = `Check out my ${roomType} design from RoomSense!`;
+  const text = `Check out my ${roomType} design from RoomSense`;
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
 
@@ -16,14 +16,14 @@ export default function ShareBar({ roomType }: { roomType: RoomType }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
       {links.map((link) => (
         <a
           key={link.name}
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-lg border-2 border-neutral-900 bg-white py-3 text-center text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
+          className="rounded-lg border border-neutral-200 bg-white py-2.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-50"
         >
           {link.name}
         </a>

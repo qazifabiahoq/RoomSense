@@ -36,29 +36,28 @@ export default function RedesignSection({
   }
 
   return (
-    <div className="rounded-[24px] border-[3px] border-neutral-900 bg-gradient-to-br from-neutral-50 to-white p-6 sm:p-10">
-      <h2 className="font-display mb-1 text-center text-2xl font-bold text-neutral-900 sm:text-3xl">
-        AI Room Redesign
-      </h2>
-      <p className="mb-8 text-center text-neutral-600">
-        Real generative AI (Stable Diffusion via Pollinations.ai) reimagines your space — free, no API key.
+    <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
+      <h2 className="font-display mb-1 text-lg font-semibold text-neutral-900">See it in a new style</h2>
+      <p className="mb-5 text-sm text-neutral-500">
+        Pick a style and we will generate a redesigned version of your room.
       </p>
 
-      <p className="mb-3 text-sm font-semibold text-neutral-900">Choose a style</p>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         {Object.entries(REDESIGN_STYLES).map(([name, style]) => (
           <button
             key={name}
             onClick={() => selectStyle(name)}
-            className={`rounded-2xl border-[3px] p-5 text-left transition-all hover:-translate-y-1 ${
-              selectedStyle === name ? "border-neutral-900 bg-neutral-100 shadow-lg" : "border-neutral-200 bg-white"
+            className={`rounded-lg border p-4 text-left transition-colors ${
+              selectedStyle === name
+                ? "border-neutral-900 bg-neutral-50"
+                : "border-neutral-200 bg-white hover:border-neutral-300"
             }`}
           >
-            <p className="font-display text-lg font-bold text-neutral-900">{name}</p>
-            <p className="mb-3 text-sm text-neutral-600">{style.description}</p>
-            <div className="flex gap-1.5">
+            <p className="font-display text-sm font-semibold text-neutral-900">{name}</p>
+            <p className="mb-2.5 mt-0.5 text-xs text-neutral-500">{style.description}</p>
+            <div className="flex gap-1">
               {style.colors.map((c) => (
-                <span key={c} className="h-6 w-6 rounded-md border border-neutral-200" style={{ backgroundColor: c }} />
+                <span key={c} className="h-4 w-4 rounded-full border border-neutral-200" style={{ backgroundColor: c }} />
               ))}
             </div>
           </button>
@@ -66,34 +65,34 @@ export default function RedesignSection({
       </div>
 
       {selectedStyle && redesignUrl && (
-        <div className="mt-8">
-          <div className="grid gap-4 sm:grid-cols-2">
+        <div className="mt-6">
+          <div className="grid gap-3 sm:grid-cols-2">
             <div>
-              <p className="mb-2 text-center text-sm font-semibold text-neutral-900">Your Original Room</p>
+              <p className="mb-2 text-center text-xs font-medium uppercase tracking-wide text-neutral-400">Before</p>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={originalImageUrl} alt="Original room" className="w-full rounded-xl border-2 border-neutral-200" />
+              <img src={originalImageUrl} alt="Your room" className="w-full rounded-lg border border-neutral-200" />
             </div>
             <div>
-              <p className="mb-2 text-center text-sm font-semibold text-neutral-900">
-                AI-Generated {selectedStyle}
+              <p className="mb-2 text-center text-xs font-medium uppercase tracking-wide text-neutral-400">
+                After: {selectedStyle}
               </p>
-              <div className="relative aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-200 bg-neutral-100">
+              <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                 {status === "loading" && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-neutral-500">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900" />
-                    <p className="animate-shimmer text-xs font-medium">Generating with AI… ~20-30s</p>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-neutral-400">
+                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-600" />
+                    <p className="text-xs">Generating, usually takes 20 to 30 seconds</p>
                   </div>
                 )}
                 {status === "error" && (
                   <div className="absolute inset-0 flex items-center justify-center p-4 text-center text-sm text-red-600">
-                    Generation failed. Try again or pick another style.
+                    Something went wrong. Try again or pick another style.
                   </div>
                 )}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   key={imgKey}
                   src={redesignUrl}
-                  alt={`AI redesigned ${roomType} in ${selectedStyle} style`}
+                  alt={`${roomType} redesigned in ${selectedStyle} style`}
                   className={`h-full w-full object-cover transition-opacity ${status === "ready" ? "opacity-100" : "opacity-0"}`}
                   onLoad={() => setStatus("ready")}
                   onError={() => setStatus("error")}
@@ -103,12 +102,12 @@ export default function RedesignSection({
           </div>
 
           {status === "ready" && downloadUrl && (
-            <div className="mt-6 flex justify-center">
+            <div className="mt-5 flex justify-center">
               <a
                 href={downloadUrl}
-                className="rounded-xl bg-neutral-900 px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition-transform hover:-translate-y-0.5"
+                className="rounded-lg bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
               >
-                Download AI Redesign
+                Download this design
               </a>
             </div>
           )}

@@ -17,11 +17,9 @@ import { buildInsights } from "@/lib/insights";
 import { API_BASE_URL } from "@/lib/config";
 import { AnalyzeResponse, RoomType } from "@/lib/types";
 
-type Mode = "upload" | "manual";
-
 export default function Home() {
   const [roomType, setRoomType] = useState<RoomType>("Living Room");
-  const [mode, setMode] = useState<Mode>("upload");
+  const [skipped, setSkipped] = useState(false);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -31,6 +29,7 @@ export default function Home() {
   async function handleFile(file: File) {
     setError(null);
     setAnalysis(null);
+    setSkipped(false);
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
     setAnalyzing(true);
@@ -56,7 +55,7 @@ export default function Home() {
       const message =
         err instanceof Error
           ? err.name === "TimeoutError" || err.name === "AbortError"
-            ? "The analysis engine is waking up (free hosting sleeps when idle). Please try again in a moment."
+            ? "The analysis service is waking up. This can take up to a minute on the free tier, please try again shortly."
             : err.message
           : "Something went wrong analyzing your photo.";
       setError(message);
@@ -66,99 +65,87 @@ export default function Home() {
   }
 
   const insights = analysis ? buildInsights(analysis) : [];
+  const showRecommendations = skipped || Boolean(analysis);
 
   return (
-    <main className="min-h-screen pb-24">
+    <main className="min-h-screen pb-20">
       <Header />
 
-      <div className="mx-auto mt-8 max-w-5xl space-y-8 px-4 sm:px-6">
-        <div className="rounded-2xl border-2 border-neutral-200 bg-white p-6 sm:p-8">
-          <div className="grid gap-8 sm:grid-cols-2">
-            <RoomPicker value={roomType} onChange={setRoomType} />
-            <div>
-              <p className="mb-3 text-sm font-semibold text-neutral-900">How do you want to start?</p>
-              <div className="flex gap-2">
-                {(["upload", "manual"] as Mode[]).map((m) => (
-                  <button
-                    key={m}
-                    onClick={() => setMode(m)}
-                    className={`flex-1 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition-colors ${
-                      mode === m
-                        ? "border-neutral-900 bg-neutral-900 text-white"
-                        : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-400"
-                    }`}
-                  >
-                    {m === "upload" ? "Upload a Photo" : "Skip — Just Recommendations"}
-                  </button>
-                ))}
-              </div>
+      <div className="mx-auto mt-6 max-w-2xl space-y-6 px-4 sm:mt-10 sm:px-6">
+        <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
+          <RoomPicker
+            value={roomType}
+            onChange={(value) => {
+              setRoomType(value);
+            }}
+          />
+
+          {!previewUrl && (
+            <div className="mt-5">
+              <UploadZone onFileSelected={handleFile} disabled={analyzing} />
+              {!skipped && (
+                <button
+                  onClick={() => setSkipped(true)}
+                  className="mx-auto mt-3 block text-sm text-neutral-400 underline decoration-neutral-300 underline-offset-2 hover:text-neutral-700"
+                >
+                  Continue without a photo
+                </button>
+              )}
             </div>
-          </div>
+          )}
+
+          {previewUrl && (
+            <div className="mt-5 space-y-4">
+              {analysis ? (
+                <DetectionOverlayImage src={previewUrl} detections={analysis.detections} alt="Your room" />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={previewUrl} alt="Your room" className="w-full rounded-xl border border-neutral-200" />
+              )}
+
+              {analyzing && (
+                <div className="flex items-center justify-center gap-2 rounded-lg bg-neutral-50 py-3 text-sm font-medium text-neutral-600">
+                  <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-700" />
+                  Analyzing your room
+                </div>
+              )}
+
+              {error && (
+                <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+              )}
+
+              <button
+                onClick={() => {
+                  setPreviewUrl(null);
+                  setAnalysis(null);
+                  setError(null);
+                }}
+                className="text-sm text-neutral-400 underline decoration-neutral-300 underline-offset-2 hover:text-neutral-700"
+              >
+                Choose a different photo
+              </button>
+            </div>
+          )}
         </div>
 
-        {mode === "upload" && (
-          <div className="rounded-2xl border-2 border-neutral-200 bg-white p-6 sm:p-8">
-            <h2 className="font-display mb-1 text-xl font-bold text-neutral-900">Upload a Photo of Your Room</h2>
-            <p className="mb-5 text-sm text-neutral-600">
-              Our vision model detects real furniture and fixtures, measures lighting, and extracts your room&apos;s
-              actual color palette — no guessing.
-            </p>
-
-            {!previewUrl && <UploadZone onFileSelected={handleFile} disabled={analyzing} />}
-
-            {previewUrl && (
-              <div className="space-y-4">
-                {analysis ? (
-                  <DetectionOverlayImage src={previewUrl} detections={analysis.detections} alt="Analyzed room" />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={previewUrl} alt="Uploaded room" className="w-full rounded-2xl border-2 border-neutral-200" />
-                )}
-
-                {analyzing && (
-                  <div className="flex items-center justify-center gap-2 rounded-xl bg-blue-50 py-3 text-sm font-semibold text-blue-700">
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-300 border-t-blue-700" />
-                    Running real object detection & color analysis…
-                  </div>
-                )}
-
-                {error && (
-                  <div className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700">{error}</div>
-                )}
-
-                <button
-                  onClick={() => {
-                    setPreviewUrl(null);
-                    setAnalysis(null);
-                    setError(null);
-                  }}
-                  className="text-sm font-semibold text-neutral-500 underline hover:text-neutral-900"
-                >
-                  Choose a different photo
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {analysis && mode === "upload" && (
+        {analysis && (
           <>
             <MetricsRow
               items={[
-                { icon: "🎯", label: "Design Focus", value: roomType },
-                { icon: "🪑", label: "Objects Detected", value: String(analysis.detections.length) },
+                { icon: "🛋️", label: "Room type", value: roomType },
+                { icon: "🪑", label: "Items found", value: String(analysis.detections.length) },
                 { icon: "💡", label: "Lighting", value: analysis.lighting },
-                { icon: "✓", label: "Detection Confidence", value: `${Math.round(analysis.avgConfidence * 100)}%` },
+                { icon: "✓", label: "Confidence", value: `${Math.round(analysis.avgConfidence * 100)}%` },
               ]}
             />
 
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="rounded-2xl border-2 border-neutral-200 bg-white p-6">
-                <h3 className="font-display mb-3 text-lg font-bold text-neutral-900">Detected Furniture & Fixtures</h3>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
+                <h3 className="font-display mb-3 text-base font-semibold text-neutral-900">What we found</h3>
                 <DetectedObjects detections={analysis.detections} />
               </div>
-              <div className="rounded-2xl border-2 border-neutral-200 bg-white p-6">
-                <ColorPalette title="Your Room's Actual Colors" colors={analysis.colorPalette} />
+              <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
+                <ColorPalette title="Your color palette" colors={analysis.colorPalette} />
               </div>
             </div>
 
@@ -166,20 +153,18 @@ export default function Home() {
           </>
         )}
 
-        {(mode === "manual" || (mode === "upload" && analysis)) && (
+        {showRecommendations && (
           <>
             <Recommendations roomType={roomType} />
             <PaletteSuggestions roomType={roomType} />
           </>
         )}
 
-        {analysis && previewUrl && mode === "upload" && (
-          <RedesignSection roomType={roomType} originalImageUrl={previewUrl} />
-        )}
+        {analysis && previewUrl && <RedesignSection roomType={roomType} originalImageUrl={previewUrl} />}
 
-        {(mode === "manual" || analysis) && (
-          <div className="rounded-2xl border-2 border-neutral-200 bg-white p-6 text-center sm:p-8">
-            <p className="mb-4 text-sm font-semibold text-neutral-600">Share Your Design</p>
+        {showRecommendations && (
+          <div className="rounded-xl border border-neutral-200 bg-white p-5 text-center shadow-sm sm:p-6">
+            <p className="mb-3 text-sm font-medium text-neutral-500">Share this</p>
             <ShareBar roomType={roomType} />
           </div>
         )}
