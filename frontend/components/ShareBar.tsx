@@ -23,7 +23,7 @@ export default function ShareBar({ roomType }: { roomType: RoomType }) {
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-lg border border-neutral-200 bg-white py-2.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-50"
+          className="rounded-lg border border-neutral-200 bg-white py-2.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:border-brand-300 hover:bg-brand-50"
         >
           {link.name}
         </a>

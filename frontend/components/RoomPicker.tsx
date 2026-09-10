@@ -23,8 +23,8 @@ export default function RoomPicker({
               onClick={() => onChange(room)}
               className={`shrink-0 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors ${
                 active
-                  ? "border-neutral-900 bg-neutral-900 text-white"
-                  : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300 hover:text-neutral-900"
+                  ? "border-brand-500 bg-brand-500 text-white"
+                  : "border-neutral-200 bg-white text-neutral-600 hover:border-brand-300 hover:text-neutral-900"
               }`}
             >
               {room}

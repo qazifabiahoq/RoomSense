@@ -8,9 +8,11 @@ export default function MetricsRow({
       {items.map((item) => (
         <div
           key={item.label}
-          className="flex flex-col items-center justify-center gap-1 rounded-xl border border-neutral-200 bg-white px-3 py-4 text-center shadow-sm"
+          className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-4 text-center shadow-sm"
         >
-          <div className="text-lg">{item.icon}</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-50 text-base">
+            {item.icon}
+          </div>
           <div className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">{item.label}</div>
           <div className="font-display truncate text-sm font-semibold text-neutral-900">{item.value}</div>
         </div>

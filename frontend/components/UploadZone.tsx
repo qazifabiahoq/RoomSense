@@ -36,10 +36,10 @@ export default function UploadZone({
       }}
       onClick={() => !disabled && inputRef.current?.click()}
       className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-12 text-center transition-colors ${
-        dragging ? "border-neutral-400 bg-neutral-50" : "border-neutral-200 bg-neutral-50/50 hover:border-neutral-300"
+        dragging ? "border-brand-400 bg-brand-50" : "border-neutral-200 bg-neutral-50/50 hover:border-brand-300"
       } ${disabled ? "pointer-events-none opacity-60" : ""}`}
     >
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="mb-1 text-neutral-400">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="mb-1 text-brand-500">
         <path d="M12 16V4M12 4L7 9M12 4l5 5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
       </svg>

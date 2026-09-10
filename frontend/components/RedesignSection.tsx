@@ -6,6 +6,11 @@ import { RoomType } from "@/lib/types";
 
 type Status = "idle" | "loading" | "ready" | "error";
 
+const STYLE_PREVIEWS: Record<string, string> = {
+  "Modern Minimalist": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=300&h=200&fit=crop&q=80",
+  "Cozy Traditional": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=300&h=200&fit=crop&q=80",
+};
+
 export default function RedesignSection({
   roomType,
   originalImageUrl,
@@ -47,18 +52,20 @@ export default function RedesignSection({
           <button
             key={name}
             onClick={() => selectStyle(name)}
-            className={`rounded-lg border p-4 text-left transition-colors ${
-              selectedStyle === name
-                ? "border-neutral-900 bg-neutral-50"
-                : "border-neutral-200 bg-white hover:border-neutral-300"
+            className={`overflow-hidden rounded-lg border text-left transition-colors ${
+              selectedStyle === name ? "border-brand-500" : "border-neutral-200 hover:border-brand-300"
             }`}
           >
-            <p className="font-display text-sm font-semibold text-neutral-900">{name}</p>
-            <p className="mb-2.5 mt-0.5 text-xs text-neutral-500">{style.description}</p>
-            <div className="flex gap-1">
-              {style.colors.map((c) => (
-                <span key={c} className="h-4 w-4 rounded-full border border-neutral-200" style={{ backgroundColor: c }} />
-              ))}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={STYLE_PREVIEWS[name]} alt={`${name} example`} className="h-28 w-full object-cover" />
+            <div className="p-3.5">
+              <p className="font-display text-sm font-semibold text-neutral-900">{name}</p>
+              <p className="mb-2.5 mt-0.5 text-xs text-neutral-500">{style.description}</p>
+              <div className="flex gap-1">
+                {style.colors.map((c) => (
+                  <span key={c} className="h-4 w-4 rounded-full border border-neutral-200" style={{ backgroundColor: c }} />
+                ))}
+              </div>
             </div>
           </button>
         ))}
@@ -79,7 +86,7 @@ export default function RedesignSection({
               <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                 {status === "loading" && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-neutral-400">
-                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-600" />
+                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-200 border-t-brand-500" />
                     <p className="text-xs">Generating, usually takes 20 to 30 seconds</p>
                   </div>
                 )}
@@ -105,7 +112,7 @@ export default function RedesignSection({
             <div className="mt-5 flex justify-center">
               <a
                 href={downloadUrl}
-                className="rounded-lg bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
+                className="rounded-lg bg-brand-500 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
               >
                 Download this design
               </a>

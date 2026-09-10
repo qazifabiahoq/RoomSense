@@ -12,6 +12,7 @@ import InsightsList from "@/components/InsightsList";
 import Recommendations from "@/components/Recommendations";
 import PaletteSuggestions from "@/components/PaletteSuggestions";
 import RedesignSection from "@/components/RedesignSection";
+import InspirationGallery from "@/components/InspirationGallery";
 import ShareBar from "@/components/ShareBar";
 import { buildInsights } from "@/lib/insights";
 import { API_BASE_URL } from "@/lib/config";
@@ -105,7 +106,7 @@ export default function Home() {
 
               {analyzing && (
                 <div className="flex items-center justify-center gap-2 rounded-lg bg-neutral-50 py-3 text-sm font-medium text-neutral-600">
-                  <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-700" />
+                  <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-neutral-300 border-t-brand-500" />
                   Analyzing your room
                 </div>
               )}
@@ -157,6 +158,7 @@ export default function Home() {
           <>
             <Recommendations roomType={roomType} />
             <PaletteSuggestions roomType={roomType} />
+            <InspirationGallery roomType={roomType} />
           </>
         )}
 
