@@ -1,4 +1,34 @@
 import { AnalyzeResponse } from "./types";
+import { RoomType } from "./types";
+
+// Only unambiguous furniture signals: a bed strongly implies a bedroom, a
+// toilet a bathroom, and so on. Deliberately does not guess for anything
+// that could reasonably belong to more than one room type (a table, a
+// chair, a lamp), because a wrong guess dressed up as confident is worse
+// than no guess at all.
+const STRONG_ROOM_SIGNALS: Record<string, RoomType> = {
+  Bed: "Bedroom",
+  Toilet: "Bathroom",
+  Sofa: "Living Room",
+  Refrigerator: "Kitchen",
+  Oven: "Kitchen",
+  Microwave: "Kitchen",
+};
+
+export function suggestRoomTypeMismatch(
+  analysis: AnalyzeResponse,
+  selectedRoomType: RoomType
+): RoomType | null {
+  let best: { roomType: RoomType; confidence: number } | null = null;
+  for (const detection of analysis.detections) {
+    const signal = STRONG_ROOM_SIGNALS[detection.label];
+    if (!signal || signal === selectedRoomType) continue;
+    if (!best || detection.confidence > best.confidence) {
+      best = { roomType: signal, confidence: detection.confidence };
+    }
+  }
+  return best ? best.roomType : null;
+}
 
 export function lightingInsight(lighting: string): string {
   if (lighting.includes("Natural") || lighting.includes("Excellent")) {
