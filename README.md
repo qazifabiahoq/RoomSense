@@ -1,312 +1,85 @@
 # RoomSense
 
-**AI-Powered Room Design That Transforms Any Space Into Your Perfect Home**
+AI-Powered Room Design. A Full Plan From One Photo.
 
-Transform any room in your home with professional design recommendations in seconds. Simply snap a photo, and advanced AI analyzes your space to deliver expert interior design advice for bedrooms, living rooms, kitchens, bathrooms, and more.
+Live Demo: [https://room-sense-inky.vercel.app](https://room-sense-inky.vercel.app)
 
-**Try it here:** https://roomsenseapp.streamlit.app/
+API Health Check: [https://roomsense-vision-api.onrender.com/health](https://roomsense-vision-api.onrender.com/health)
 
 ---
 
-## Who Is This For?
+## The Problem
 
-**Homeowners** planning to redecorate or renovate get instant, professional-grade design recommendations without hiring expensive interior designers.
+Redesigning a room usually comes down to two bad options. You hire an interior designer, which is expensive and slow, often weeks of back and forth before you see a single mockup. Or you scroll saved pins and mood boards that look nothing like your actual room, guessing at what might fit your space, your furniture, your lighting.
 
-**Renters** wanting to maximize their space receive practical layouts that work within lease restrictions and tight budgets.
+Generic design advice does not know what is already in your room. It does not know whether your light is bright and natural or dim and artificial, whether your walls are already crowded with furniture, or what colors are already dominating the space. Without that, "add a floor lamp here" is just a guess dressed up as advice.
 
-**First-Time Home Buyers** setting up their new place save thousands in consultation fees while making smart furniture decisions.
-
-**Students & Young Professionals** on tight budgets gain access to professional room planning typically reserved for high-budget projects.
-
-**Parents** designing kids' rooms or nurseries get safety-focused layouts with smart storage solutions.
-
-**Anyone Moving** can plan furniture placement before moving day, saving time and avoiding costly mistakes.
-
-**Interior Design Enthusiasts** exploring different styles and layouts for DIY home improvement projects.
+RoomSense was built to remove the guessing. It looks at your actual room and works from there.
 
 ---
 
 ## What RoomSense Does
 
-RoomSense is an intelligent space analysis platform that combines AI computer vision with professional interior design knowledge to deliver instant room recommendations for your entire home.
+You upload a photo of a room, or take one live with your camera right in the browser, on desktop or mobile. A computer vision model looks at the image and finds the furniture and fixtures actually in it: sofas, chairs, tables, lamps, whatever is really there. Separately, the system measures how bright the room actually is and extracts the dominant colors from the photo's own pixels, not a generic palette pulled from a room-type template.
 
-### Core Features
+With real information about your space in hand, RoomSense returns a design plan: furniture zones, placement guidance, lighting setup, and clearances, written for the room type you selected. From there you can generate a real AI redesign of your room in a chosen style using generative image AI, and download the result.
 
-**Easy Photo Analysis**
-- Upload photos from your phone or computer
-- Live camera capture for instant analysis
-- Manual dimension entry if you don't have a photo
-
-**AI-Powered Room Analysis**
-- Automatic room type detection (Living Room, Bedroom, Kitchen, Bathroom, Dining Room, Home Office, Kids Room, Laundry Room)
-- Estimates room dimensions from your photo
-- Identifies existing furniture and fixtures
-- Checks lighting quality
-- Extracts color palette from your room
-
-**Professional Design for Every Room**
-
-Get expert recommendations for:
-- **Living Rooms** - Seating arrangements, entertainment zones, reading nooks
-- **Bedrooms** - Sleeping areas, storage solutions, personal spaces
-- **Kitchens** - Cooking zones, pantry organization, dining areas
-- **Bathrooms** - Vanity layouts, storage solutions, spa-like atmospheres
-- **Dining Rooms** - Table placement, serving stations, display areas
-- **Home Offices** - Desk positioning, storage, ergonomic setups
-- **Kids Rooms** - Play areas, study corners, sleep zones
-- **Laundry Rooms** - Washing stations, folding areas, storage
-
-**Smart Design Recommendations**
-- Specific furniture suggestions with measurements
-- Lighting advice (types, placement, color temperature)
-- Safety and ergonomic tips
-- Color palette ideas based on your room
-- Pinterest links for more ideas
-
-**AI Room Redesign (Powered by Stable Diffusion)**
-- Real generative AI transforms your room with actual furniture
-- Two professional styles: Modern Minimalist & Cozy Traditional
-- Photorealistic results in 20-30 seconds
-- 100% FREE - Powered by Pollinations.ai (no API keys, no signup, unlimited use)
-- Download & save your AI-generated designs
-- See your space completely reimagined with new furniture, colors, and decor
-
-**Detailed Room Insights**
-- Estimated dimensions (width, length, height, area)
-- Confidence scores for predictions
-- Layout type (Open Plan, L-Shaped, Square, etc.)
-- List of detected furniture
-- Space-saving and storage tips
-
-**Share & Save Features**
-- Save as PDF for reference
-- Share on social media (Facebook, Twitter, LinkedIn, Pinterest)
-- Direct links to design inspiration
-- Download AI-generated room redesigns
+Nothing about the analysis is invented. If the app reports four items found or shows a color swatch, that came from a model actually looking at your photo, not a placeholder standing in for one.
 
 ---
 
-## How It Works
+## The Vision Pipeline
 
-### Simple 3-Step Process
+This is the part that does real work on your actual photo, and it runs as three separate steps.
 
-1. **Choose Your Room Type**
-   - Select from 8 common room types
-   - Living Room, Bedroom, Kitchen, Bathroom, Dining Room, Home Office, Kids Room, or Laundry Room
+**Object detection.** An SSDLite MobileNetV3 model, pretrained on the COCO dataset, runs inference on the uploaded image and returns bounding boxes for whatever furniture and fixtures it recognizes: couches, chairs, beds, dining tables, TVs, and dozens of other household categories. SSDLite MobileNetV3 was chosen deliberately over a heavier detector because it is built for exactly this constraint: real-time inference on modest CPU hardware, which is what a low-cost hosted backend actually has to work with. The detected boxes are drawn directly onto your photo in the interface, so you can see exactly what the model found and how confident it was about each item.
 
-2. **Provide Room Information**
-   - Upload a photo from your phone
-   - Use your camera to take a photo
-   - Or manually enter room dimensions
+**Lighting measurement.** The backend reads the actual pixel brightness of your photo and classifies the lighting into a plain-language rating, from low light to natural and excellent. This is a direct measurement of your image, not an assumption based on room type or time of day.
 
-3. **Get Instant Design Recommendations**
-   - AI analyzes your space in seconds
-   - Receive professional furniture placement suggestions
-   - Get lighting, color, and storage recommendations
-   - Generate AI-powered room redesigns in different styles
+**Color extraction.** K-Means clustering runs over the photo's real pixels to pull out the room's actual dominant colors as a palette. It is unsupervised learning applied to your specific photo, not a stock palette assigned because you picked "Living Room" from a dropdown.
 
-### The Technology Behind It
-
-**Deep Learning & Computer Vision AI**
-- **Convolutional Neural Networks (CNNs)** - ResNet-50 (50-layer deep residual network) and MobileNetV2 (lightweight inverted residual architecture)
-- **Transfer Learning** - Pre-trained on ImageNet dataset with 1.2 million images
-- **Image Classification** - Automatically recognizes room types with 78-95% accuracy
-- **Object Detection** - Identifies furniture using deep neural networks
-- **Feature Extraction** - 2048-dimensional feature vectors for scene understanding
-- **Computer Vision Processing** - OpenCV for image preprocessing and manipulation
-- **Dimension Estimation** - Monocular depth estimation algorithms
-- **Color Analysis** - K-Means clustering with scikit-learn for palette extraction
-
-**Professional Design Knowledge**
-- Based on real interior design principles
-- Ergonomic guidelines for comfort
-- Safety considerations for each room type
-- Budget-friendly furniture suggestions
-- Industry-standard measurements and clearances
-
-**Generative AI Technology**
-- Stable Diffusion Models - Text-to-image generation for interior design
-- Pollinations.ai Integration - Free, unlimited AI image generation
-- Flux Model - High-quality photorealistic outputs
-- Style Transfer - Maintains room structure while applying design aesthetics
-- Real-time Generation - 20-30 second processing time
-- No Cost - Completely free service with no API keys or limits
+The room type itself is the one input that is not detected. You select it, because guessing whether a photographed room is a bedroom or a home office is a much harder and lower-value problem than analyzing what is inside it, and there was no reason to fake a prediction there when a dropdown does the job honestly.
 
 ---
 
-## Technical Details
+## Why Two Separate Services
 
-### Built With
+RoomSense is split into a Next.js frontend on Vercel and a FastAPI backend on Render, deployed and scaled independently.
 
-| Technology | Purpose | Architecture |
-|----------|---------|-------------|
-| **PyTorch** | Deep learning framework | Neural network training & inference |
-| **ResNet-50** | Scene classification | 50-layer CNN with residual connections |
-| **MobileNetV2** | Object detection | Lightweight CNN with inverted residuals |
-| **OpenCV** | Computer vision | Image preprocessing & transformation |
-| **scikit-learn** | Machine learning | K-Means clustering for color extraction |
-| **NumPy** | Numerical computing | Array operations & tensor mathematics |
-| **Streamlit** | Web framework | Full-stack application interface |
-| **Pollinations.ai** | Generative AI | Stable Diffusion image generation |
-| **ImageNet Pre-training** | Transfer learning | 1.2M images, 1000 categories |
+The reason is the object detection model itself. It is a real PyTorch model that needs to sit loaded in memory across requests, ready to run inference the moment a photo comes in. That is fundamentally a persistent process, not a short-lived function invocation. Vercel's serverless functions are built for exactly the opposite shape of workload: fast, stateless, and cold-started on every call. Trying to force a few hundred megabytes of ML model into that model would mean reloading it on every single request, which is slow, wasteful, and eventually just does not work within serverless memory and time limits.
 
-### What You Need
-
-**To Use RoomSense**: Just a web browser and a photo of your room
-
-**For Developers**: 
-- Python 3.8+
-- 4GB RAM minimum
-- Works on any computer (GPU optional for faster processing)
+So the vision pipeline runs on Render as an always-on FastAPI service instead, while Vercel handles the interface, the design recommendation content, and a lightweight serverless route that proxies AI image generation requests. Each half runs on the infrastructure actually suited to it.
 
 ---
 
-## Technical Architecture
+## Honesty About What's Real
 
-### Deep Learning Pipeline
+An earlier version of this project faked its "AI analysis" with random number generation. Room type, confidence score, detected furniture, all of it was `np.random` dressed up to look like a model's output. It does not do that anymore, and this section exists because that history is worth being upfront about.
 
-**1. Convolutional Neural Networks (CNNs)**
-- **ResNet-50**: 50-layer deep residual network with skip connections for scene classification
-- **MobileNetV2**: Efficient inverted residual structure with depthwise separable convolutions
-- **Pre-training**: Transfer learning from ImageNet (1.2M images, 1000 object categories)
-- **Feature Extraction**: 2048-dimensional feature vectors for high-level scene understanding
+Every field the app shows you now falls into one of two honest categories. It is either a real measurement or model output computed from your actual photo (furniture detection, lighting rating, color palette, and the detector's own confidence scores all fall here), or it is clearly curated content that was never claimed to be AI-generated in the first place (the furniture and layout recommendations come from a hand-built interior design knowledge base, not a model). The one AI-generated visual output, the redesigned room image, is real generative AI, produced by an actual Stable Diffusion model through Pollinations.ai's free hosted API.
 
-**2. Computer Vision Processing**
-- **Image Preprocessing**: Resize (256×256) → Center Crop (224×224) → Tensor Normalization
-- **OpenCV Operations**: Format conversion, color space analysis, pixel manipulation
-- **Normalization**: ImageNet mean [0.485, 0.456, 0.406], std [0.229, 0.224, 0.225]
-
-**3. Machine Learning Algorithms**
-- **K-Means Clustering**: Unsupervised learning for dominant color palette extraction (k=5 clusters)
-- **Classification**: Softmax activation for multi-class room type prediction
-- **Confidence Scoring**: Probability distribution over room categories
-
-**4. Deep Neural Network Inference**
-- **Forward Pass**: Input tensor → CNN layers → Feature maps → Classification head → Predictions
-- **GPU Acceleration**: CUDA support for 10x faster inference (CPU fallback available)
-- **Batch Processing**: Efficient tensor operations with PyTorch
-
-**5. Generative AI Pipeline**
-- Text-to-Image Synthesis: Room analysis → Prompt engineering → Stable Diffusion → Interior design images
-- Pollinations.ai API: Free Stable Diffusion endpoint (no authentication required)
-- Style Variations: Modern Minimalist & Cozy Traditional aesthetic generations
-- Prompt Engineering: Dynamic prompt construction: `{room_type}, {style_prompt}, professional photography, 8k`
-- Image Enhancement: Flux model with enhancement flags for photorealistic output
-- Processing Time: 20-30 seconds per generation
-
-### AI Models & Techniques
-
-| Model/Technique | Type | Use Case |
-|----------------|------|----------|
-| ResNet-50 | CNN (Convolutional Neural Network) | Room type classification |
-| MobileNetV2 | Lightweight CNN | Real-time object detection |
-| K-Means | Unsupervised clustering | Color palette extraction |
-| Transfer Learning | Pre-training strategy | Leverage ImageNet knowledge |
-| Monocular Depth Estimation | Computer vision | Dimension prediction |
-| Softmax Classification | Activation function | Multi-class probability |
-| Stable Diffusion (Flux) | Generative AI | Photorealistic room redesign |
-| Pollinations.ai | Free API service | Text-to-image generation |
+Nothing in the current version fabricates a number to look more impressive than what the system actually did.
 
 ---
 
-## Real-World Examples
+## Who This Is Built For
 
-**New Apartment Setup**: Sarah just moved into a 12m² bedroom. She uploaded a photo, and RoomSense recommended a space-saving layout with wall-mounted shelves and a loft bed. She then used the AI redesign feature to see her room in Modern Minimalist style before buying furniture, saving her $500 in designer fees.
-
-**Living Room Makeover**: John wanted to redesign his living room but didn't know where to start. RoomSense analyzed his 20m² space and suggested a conversation-friendly furniture arrangement. The AI-generated Cozy Traditional redesign helped him visualize the final look, and he downloaded both versions for inspiration.
-
-**Home Office Creation**: Maria needed to convert her spare room into a home office. RoomSense recommended an ergonomic desk placement near the window and proper lighting to reduce eye strain. The AI redesign showed her exactly how a minimalist setup would look in her space.
-
-**Kids Room Safety**: The Johnsons were designing their toddler's room. RoomSense provided safety-focused recommendations with low storage for easy access and clear pathways. They generated both Modern and Traditional AI designs to choose which style fit their home better.
+Homeowners and renters who want a real plan for a room before spending money on furniture, without paying for a designer to tell them what they could see for themselves with the right tools. First-time buyers and anyone moving into a new place who want to walk in with a layout already figured out instead of guessing on move-in day. People who just want to see their own room reimagined in a different style before committing to paint, furniture, or a full renovation.
 
 ---
 
-## Future Features Coming Soon
+## Technical Stack
 
-### Next Updates
-- 3D Room Preview - See your room in 3D before buying furniture
-- AR View - Use your phone to preview furniture in real space
-- Furniture Shopping - Direct links to buy recommended items
-- Budget Estimator - Know how much your design will cost
-- More Room Types - Garage, basement, outdoor spaces
+The frontend is a Next.js 14 application written in TypeScript, styled with Tailwind CSS, and deployed on Vercel. It handles the photo upload interface, renders the live detection overlay on top of your image, hosts the curated design recommendation content, and exposes a serverless API route that proxies AI redesign requests so downloads work cleanly with proper filenames.
 
-### Long-Term Goals
-- Virtual Reality - Walk through your redesigned room in VR
-- Professional Designer Matching - Connect with real designers if you need extra help
-- Smart Home Integration - Recommendations for smart devices placement
+The backend is a FastAPI service written in Python and deployed on Render. It loads the SSDLite MobileNetV3 object detection model from PyTorch and torchvision at startup, runs brightness analysis with NumPy and Pillow, and extracts color palettes with scikit-learn's K-Means implementation. It exposes a single analysis endpoint that a photo is posted to and a structured JSON response, containing detections, lighting, and color data, comes back.
+
+The AI room redesign feature calls Pollinations.ai, a free hosted Stable Diffusion endpoint that requires no API key, through the Vercel serverless proxy.
 
 ---
 
-## Why RoomSense?
+## The Bigger Picture
 
-✅ **Free** - No hidden costs or subscription fees  
-✅ **Fast** - Get results in seconds, not days  
-✅ **Professional** - Based on real interior design principles  
-✅ **Easy** - Just snap a photo and go  
-✅ **Practical** - Actual furniture suggestions you can buy  
-✅ **Flexible** - Works for any room type and size  
-✅ **Safe** - Privacy-focused, no data stored  
-✅ **AI-Powered** - Real generative AI for photorealistic redesigns  
-✅ **Unlimited** - Generate as many designs as you want, completely free
+Most "AI-powered" home design tools on the market are either a lookup table wearing an AI label, or a real model bolted onto marketing copy that oversells what it actually does. RoomSense was rebuilt specifically to not be either of those things: the parts that claim to be real computer vision actually run inference on your photo, and the parts that are curated design knowledge are labeled as exactly that instead of dressed up as machine intelligence.
 
----
-
-## Frequently Asked Questions
-
-**Q: Do I need to create an account?**  
-A: No! Just visit the website and start designing.
-
-**Q: Will you store my photos?**  
-A: No, all analysis happens in real-time and nothing is saved.
-
-**Q: Can I use this on my phone?**  
-A: Absolutely! RoomSense works on any device with a web browser.
-
-**Q: How accurate are the recommendations?**  
-A: The AI is 78-95% accurate on room detection, and all design advice follows professional interior design standards.
-
-**Q: How does the AI room redesign work?**  
-A: We use Pollinations.ai's free Stable Diffusion service to generate photorealistic interior designs based on your room and chosen style. It takes 20-30 seconds per generation.
-
-**Q: Is the AI redesign really free?**  
-A: Yes! Pollinations.ai provides free access to Stable Diffusion models with no API keys, no signup, and no limits.
-
-**Q: Can I save my results?**  
-A: Yes! Use the PDF export feature, share via social media, or download your AI-generated redesigns.
-
-**Q: Do I have to follow all the recommendations?**  
-A: Not at all! Use them as inspiration and pick what works for you.
-
-**Q: Can I generate multiple AI designs?**  
-A: Absolutely! Generate as many as you want in different styles to find your perfect look.
-
----
-
-## Contributing
-
-Want to make RoomSense better? We welcome contributions:
-- Add more room types
-- Improve AI accuracy
-- Suggest new features
-- Report bugs
-- Improve documentation
-
----
-
-## Support
-
-Having issues? Found a bug? Have a suggestion?
-- Open an issue on GitHub
-- Use the feedback button in the app
-
----
-
-## License
-
-MIT License - Free for everyone, personal and commercial use
-
----
-
-**Made with ❤️ for people who want beautiful, functional rooms without breaking the bank**
-
-*Your home, your style, AI-powered*
+The result is a smaller, more honest set of claims. It just happens that all of them are true.
