@@ -78,7 +78,7 @@ FURNITURE_LABELS = {
 # Categories that are irrelevant to room design and should be filtered out.
 IGNORED_CATEGORIES = {"person", "N/A", "__background__"}
 
-DETECTION_THRESHOLD = 0.45
+DETECTION_THRESHOLD = 0.3
 MAX_DETECTIONS = 12
 
 
