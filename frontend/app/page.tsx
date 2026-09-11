@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "@/components/Nav";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,7 +16,7 @@ import PaletteSuggestions from "@/components/PaletteSuggestions";
 import RedesignSection from "@/components/RedesignSection";
 import InspirationGallery from "@/components/InspirationGallery";
 import ShareBar from "@/components/ShareBar";
-import { buildInsights, suggestRoomTypeMismatch } from "@/lib/insights";
+import { buildInsights, classifyRoomType } from "@/lib/insights";
 import { API_BASE_URL } from "@/lib/config";
 import { AnalyzeResponse, RoomType } from "@/lib/types";
 
@@ -28,11 +28,20 @@ export default function Home() {
   const [analyzing, setAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<AnalyzeResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [detectedRoomType, setDetectedRoomType] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fire-and-forget: nudge the backend awake the moment someone opens the
+    // page, so it has a head start on the free tier's cold start by the
+    // time they actually pick or take a photo.
+    fetch(`${API_BASE_URL}/health`).catch(() => {});
+  }, []);
 
   async function handleFile(file: File) {
     setError(null);
     setAnalysis(null);
     setSkipped(false);
+    setDetectedRoomType(null);
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
     setAnalyzing(true);
@@ -54,6 +63,14 @@ export default function Home() {
 
       const data: AnalyzeResponse = await res.json();
       setAnalysis(data);
+
+      const classification = classifyRoomType(data);
+      if (classification) {
+        setRoomType(classification.roomType);
+        setDetectedRoomType(
+          `Detected automatically from a ${classification.label.toLowerCase()} in your photo.`
+        );
+      }
     } catch (err) {
       const message =
         err instanceof Error
@@ -69,7 +86,6 @@ export default function Home() {
 
   const insights = analysis ? buildInsights(analysis) : [];
   const showRecommendations = skipped || Boolean(analysis);
-  const roomTypeMismatch = analysis ? suggestRoomTypeMismatch(analysis, roomType) : null;
 
   return (
     <main className="min-h-screen pb-20">
@@ -82,8 +98,14 @@ export default function Home() {
             value={roomType}
             onChange={(value) => {
               setRoomType(value);
+              setDetectedRoomType(null);
             }}
           />
+          {detectedRoomType && (
+            <p className="no-print mt-2 text-xs text-neutral-400">
+              {detectedRoomType} Pick a different room type above if this isn't right.
+            </p>
+          )}
 
           {!previewUrl && (
             <div className="mt-5">
@@ -133,46 +155,52 @@ export default function Home() {
           )}
         </div>
 
-        {analysis && (
-          <>
-            <MetricsRow
-              items={[
-                { label: "Room type", value: roomType },
-                { label: "Items found", value: String(analysis.detections.length) },
-                { label: "Lighting", value: analysis.lighting },
-                { label: "Confidence", value: `${Math.round(analysis.avgConfidence * 100)}%` },
-              ]}
-            />
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-                <h3 className="font-display mb-3 text-base font-semibold text-neutral-900">What we found</h3>
-                <DetectedObjects detections={analysis.detections} />
-              </div>
-              <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-                <ColorPalette title="Your color palette" colors={analysis.colorPalette} />
-              </div>
-            </div>
-
-            <InsightsList insights={insights} />
-
-            {roomTypeMismatch && (
-              <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                Heads up: what we found in this photo looks more like a {roomTypeMismatch.toLowerCase()} than a{" "}
-                {roomType.toLowerCase()}. The plan below is still for {roomType}, switch the room type above if
-                you meant to design a {roomTypeMismatch.toLowerCase()} instead.
-              </div>
-            )}
-          </>
-        )}
-
         {showRecommendations && (
-          <>
-            <Recommendations roomType={roomType} />
-            <PaletteSuggestions roomType={roomType} />
-            <InspirationGallery roomType={roomType} />
-          </>
+          <div className="flex justify-end">
+            <button
+              onClick={() => window.print()}
+              className="rounded-lg border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:border-brand-300 hover:text-brand-600"
+            >
+              Download as PDF
+            </button>
+          </div>
         )}
+
+        <div id="print-report" className="space-y-6">
+          {analysis && (
+            <>
+              <MetricsRow
+                items={[
+                  { label: "Room type", value: roomType },
+                  { label: "Items found", value: String(analysis.detections.length) },
+                  { label: "Lighting", value: analysis.lighting },
+                  { label: "Confidence", value: `${Math.round(analysis.avgConfidence * 100)}%` },
+                ]}
+              />
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
+                  <h3 className="font-display mb-3 text-base font-semibold text-neutral-900">What we found</h3>
+                  <DetectedObjects detections={analysis.detections} />
+                </div>
+                <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
+                  <ColorPalette title="Your color palette" colors={analysis.colorPalette} />
+                </div>
+              </div>
+
+              <InsightsList insights={insights} />
+            </>
+          )}
+
+          {showRecommendations && (
+            <>
+              <Recommendations roomType={roomType} />
+              <PaletteSuggestions roomType={roomType} />
+            </>
+          )}
+        </div>
+
+        {showRecommendations && <InspirationGallery roomType={roomType} />}
 
         {analysis && previewUrl && <RedesignSection roomType={roomType} originalImageUrl={previewUrl} />}
 
