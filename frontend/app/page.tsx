@@ -134,10 +134,10 @@ export default function Home() {
           <>
             <MetricsRow
               items={[
-                { icon: "🛋️", label: "Room type", value: roomType },
-                { icon: "🪑", label: "Items found", value: String(analysis.detections.length) },
-                { icon: "💡", label: "Lighting", value: analysis.lighting },
-                { icon: "✓", label: "Confidence", value: `${Math.round(analysis.avgConfidence * 100)}%` },
+                { label: "Room type", value: roomType },
+                { label: "Items found", value: String(analysis.detections.length) },
+                { label: "Lighting", value: analysis.lighting },
+                { label: "Confidence", value: `${Math.round(analysis.avgConfidence * 100)}%` },
               ]}
             />
 
