@@ -18,3 +18,22 @@ body {
   background: #bc6329;
   color: #ffffff;
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-report,
+  #print-report * {
+    visibility: visible;
+  }
+  #print-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  #print-report .no-print {
+    display: none;
+  }
+}

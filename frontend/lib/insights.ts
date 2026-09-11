@@ -15,19 +15,27 @@ const STRONG_ROOM_SIGNALS: Record<string, RoomType> = {
   Microwave: "Kitchen",
 };
 
-export function suggestRoomTypeMismatch(
-  analysis: AnalyzeResponse,
-  selectedRoomType: RoomType
-): RoomType | null {
-  let best: { roomType: RoomType; confidence: number } | null = null;
+export interface RoomTypeClassification {
+  roomType: RoomType;
+  label: string;
+  confidence: number;
+}
+
+// Classifies room type from the photo's real detections: a bed strongly
+// implies a bedroom, a toilet a bathroom, and so on. Deliberately does not
+// guess for anything that could reasonably belong to more than one room
+// type (a table, a chair, a lamp), because a wrong guess dressed up as
+// confident is worse than admitting there is no signal to go on.
+export function classifyRoomType(analysis: AnalyzeResponse): RoomTypeClassification | null {
+  let best: RoomTypeClassification | null = null;
   for (const detection of analysis.detections) {
     const signal = STRONG_ROOM_SIGNALS[detection.label];
-    if (!signal || signal === selectedRoomType) continue;
+    if (!signal) continue;
     if (!best || detection.confidence > best.confidence) {
-      best = { roomType: signal, confidence: detection.confidence };
+      best = { roomType: signal, label: detection.label, confidence: detection.confidence };
     }
   }
-  return best ? best.roomType : null;
+  return best;
 }
 
 export function lightingInsight(lighting: string): string {
