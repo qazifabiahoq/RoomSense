@@ -2,7 +2,7 @@
 
 AI-Powered Room Design. A Full Plan From One Photo.
 
-Live Demo: [https://room-sense-qazi-fabia-hoqs-projects.vercel.app](https://room-sense-qazi-fabia-hoqs-projects.vercel.app)
+Live Demo: [https://room-sense-inky.vercel.app](https://room-sense-inky.vercel.app)
 
 API Health Check: [https://roomsense-vision-api.onrender.com/health](https://roomsense-vision-api.onrender.com/health)
 
