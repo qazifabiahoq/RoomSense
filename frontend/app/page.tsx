@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Nav from "@/components/Nav";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RoomPicker from "@/components/RoomPicker";
@@ -15,7 +16,7 @@ import PaletteSuggestions from "@/components/PaletteSuggestions";
 import RedesignSection from "@/components/RedesignSection";
 import InspirationGallery from "@/components/InspirationGallery";
 import ShareBar from "@/components/ShareBar";
-import { buildInsights } from "@/lib/insights";
+import { buildInsights, suggestRoomTypeMismatch } from "@/lib/insights";
 import { API_BASE_URL } from "@/lib/config";
 import { AnalyzeResponse, RoomType } from "@/lib/types";
 
@@ -68,9 +69,11 @@ export default function Home() {
 
   const insights = analysis ? buildInsights(analysis) : [];
   const showRecommendations = skipped || Boolean(analysis);
+  const roomTypeMismatch = analysis ? suggestRoomTypeMismatch(analysis, roomType) : null;
 
   return (
     <main className="min-h-screen pb-20">
+      <Nav />
       <Header />
 
       <div className="mx-auto mt-6 max-w-2xl space-y-6 px-4 sm:mt-10 sm:px-6">
@@ -152,6 +155,14 @@ export default function Home() {
             </div>
 
             <InsightsList insights={insights} />
+
+            {roomTypeMismatch && (
+              <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                Heads up: what we found in this photo looks more like a {roomTypeMismatch.toLowerCase()} than a{" "}
+                {roomType.toLowerCase()}. The plan below is still for {roomType}, switch the room type above if
+                you meant to design a {roomTypeMismatch.toLowerCase()} instead.
+              </div>
+            )}
           </>
         )}
 
