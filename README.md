@@ -20,7 +20,7 @@ RoomSense was built to remove the guessing. It looks at your actual room and wor
 
 ## What RoomSense Does
 
-You upload a photo of a room. A computer vision model looks at the image and finds the furniture and fixtures actually in it: sofas, chairs, tables, lamps, whatever is really there. Separately, the system measures how bright the room actually is and extracts the dominant colors from the photo's own pixels, not a generic palette pulled from a room-type template.
+You upload a photo of a room, or take one live with your camera right in the browser, on desktop or mobile. A computer vision model looks at the image and finds the furniture and fixtures actually in it: sofas, chairs, tables, lamps, whatever is really there. Separately, the system measures how bright the room actually is and extracts the dominant colors from the photo's own pixels, not a generic palette pulled from a room-type template.
 
 With real information about your space in hand, RoomSense returns a design plan: furniture zones, placement guidance, lighting setup, and clearances, written for the room type you selected. From there you can generate a real AI redesign of your room in a chosen style using generative image AI, and download the result.
 

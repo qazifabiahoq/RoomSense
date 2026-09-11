@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import RoomPicker from "@/components/RoomPicker";
 import UploadZone from "@/components/UploadZone";
 import DetectionOverlayImage from "@/components/DetectionOverlayImage";
@@ -171,6 +172,8 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      <Footer />
     </main>
   );
 }
